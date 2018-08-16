@@ -1,0 +1,230 @@
+\documentclass{report}
+
+\usepackage[b5paper]{geometry}
+\usepackage[english]{babel}
+\usepackage{array}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{unicode}
+\usepackage[type={CC},modifier={by-nc-sa},imagemodifier={-eu},version={4.0},imagewidth=5em]{doclicense}
+\usepackage{fancyhdr}
+
+\usepackage{algorithmic}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\algsetup{linenodelimiter=.}
+
+\usepackage[pdfusetitle]{hyperref}
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  citecolor=blue!70!black,
+  filecolor=black,
+  linkcolor=red!70!black,
+  urlcolor=blue,
+  pdfstartview={FitH},
+  pdfauthor={Luca De Feo},
+  pdfsubject={Mathematics},
+  pdfkeywords={Cryptography, Number theory, Computer algebra, Elliptic curves, Isogenies, Finite fields},
+}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,matrix,decorations,decorations.text,decorations.pathmorphing,calc}
+\pgfkeys{/triangle/.code=\tikzset{x={(-0.5cm,-0.866cm)},y={(1cm,0cm)}}}
+\pgfkeys{/lattice/.code n args={4}{\tikzset{cm={#1,#2,#3,#4,(0,0)}}}}
+
+\include{preamble}
+
+\title{Habilitation à diriger des recherches}
+\author{Luca De Feo}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\cfoot{\doclicenseThis}
+\lfoot{\LaTeX{} source code available at \url{https://github.com/defeo/hdr/}.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Intro, etc.}
+
+We'll take a journey, from one lonely elliptic curve over a finite
+field to the amazingly rich world of isogeny graphs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Finite fields and elliptic curves}
+
+As short as possible, maybe write after, maybe an appendix.
+
+- projective space, projective varieties,
+- elliptic curves
+- function fields, algebraic maps
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{The neighborhood}
+
+% \begin{verse}
+% You climb out the chimney\\
+% And meet me in the middle\\
+% The middle of the town\\
+% And since there's no one else around,\\
+% We let our hair grow long and forget all we used to know\\
+% Then our skin gets thicker from living out in the snow
+%
+% Arcade Fire, The neighborhood #1 (Tunnels)
+% \end{verse}
+
+
+
+\section{The explicit isogeny problem}
+
+An isogeny is a non-constant algebraic map between elliptic curves,
+preserving the point at infinity. %
+An isogeny is also a surjective group morphism of elliptic curves. %
+It turns out these definitions are equivalent, but, before getting
+these pages drenched in more properties and theorems, let's have a
+look at an example.
+
+The map $φ$ from the elliptic curve $y^2=x^3+x$ to $y^2=x^3-4x$
+defined by
+\begin{equation}
+  \label{eq:isog-example}
+  \begin{aligned}
+    φ(x,y) &= \left(\frac{x^2+1}{x},y\frac{x^2-1}{x^2}\right),\\
+    φ(\O) &= \O
+  \end{aligned}
+\end{equation}
+is an isogeny. %
+As an algebraic map it has degree $2$, which implies that it is a
+two-to-one map, as it can be inferred from the polynomial degrees. %
+Our rational maps are not defined at $x=0$, but this expression should
+really be understood as the projective map
+\begin{equation*}
+  φ(X:Y:Z) = (X(X^2+Z^2):Y(X^2-Z^2):ZX^2),
+\end{equation*}
+showing that the only other point in $\ker φ$, besides $\O$, is
+$(0:0:1)$.
+
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[x=0.03\textwidth,y=0.03\textwidth]
+    \begin{scope}
+      \node[anchor=center] at (0,7) {$E \;:\; y^2 = x^3 + x$};
+
+      \draw[thin,gray] (0,-6) -- (0,6);
+      \draw[thin,gray] (-6,0) -- (6,0);
+
+      \foreach \x/\y in {0/0,5/3,-4/3,-3/5,-2/1,-1/3} {
+        \draw[blue,fill] (\x,\y) circle (0.2) node(E_\x_\y){}
+        (\x,-\y) circle (0.2) node(E_\x_-\y){};
+      }
+    \end{scope}
+
+    \draw[black!10!white,thick] (8,-7) -- +(0,14);
+    
+    \begin{scope}[shift={(16,0)}]
+      \node at (0,7) {$E' \;:\; y^2 = x^3 - 4x$};
+
+      \draw[thin,gray] (0,-6) -- (0,6);
+      \draw[thin,gray] (-6,0) -- (6,0);
+
+      \foreach \x/\y in {0/0,2/0,3/2,4/2,6/4,-2/0,-1/5} {
+        \draw[color=blue,fill] (\x,\y) circle (0.2) node(F_\x_\y){}
+        (\x,-\y) circle (0.2) node(F_\x_-\y){};
+      }
+    \end{scope}
+
+    \begin{scope}[color=red,-latex,dashed]
+        \path
+        (E_5_3) edge (F_3_2)
+        (E_-4_3) edge (F_4_-2)
+        (E_-3_5) edge (F_4_2)
+        (E_-2_1) edge (F_3_-2)
+        (E_-1_3) edge (F_-2_0);
+        \path
+        (E_5_-3) edge (F_3_-2)
+        (E_-4_-3) edge (F_4_2)
+        (E_-3_-5) edge (F_4_-2)
+        (E_-2_-1) edge (F_3_2)
+        (E_-1_-3) edge (F_-2_0);
+    \end{scope}
+  \end{tikzpicture}
+  \caption{The isogeny $(x,y) \mapsto \bigl((x^2+1)/x,\;y(x^2-1)/x^2\bigr)$,
+    as a map between curves defined over $\F_{11}$.}
+  \label{fig:isog-example}
+\end{figure}
+
+
+What does an isogeny ``look like''? %
+Drawing the above one in $\R^2$ would look rather messy, but an
+isogeny defined over the rationals is still an isogeny if we reduce
+modulo a prime $p$. %
+Figure~\ref{fig:isog-example} plots the action of the
+isogeny~\eqref{eq:isog-example} on the image of the curves in
+$\F_{11}$. %
+We observe a symmetry with respect to the $x$-axis, a consequence of
+the fact that $φ$ is a group morphism; and by looking closer we may
+also notice that colinear points are sent to colinear points, also a
+necessity for a group morphism. %
+Something strikes us, though: the map looks by no means surjective! %
+This is because, when we think of isogenies, we think of them as
+geometric objects, acting on the extension of the curves to the
+algebraic closure. %
+This is not dissimilar from the way power-by-$n$ maps act on the
+multiplicative group $k^\times$ of a field $k$: the map $x↦x^2$, for
+example, is a two-to-one map on $\F_{11}$, and those elements that
+have no antecedents, the non-squares, will have exactly two in
+$\F_{11^2}$, and so on. %
+In much the same way, in an algebraic closure $\bar{\F}_{11}$ of
+$\F_{11}$, the isogeny $φ$ becomes surjective and every point gains
+exactly two antecedents. %
+This analogy is more profound that it may seem, and shall bear its
+fruits in Chapter~\ref{cha:fpbar}.
+
+- Isogeny definitions
+
+
+- How to compute an isogeny,
+- Modular polynomials, application to point counting
+
+\section{Curling up}
+
+- Isogeny graphs, Serre trees?
+- Isogeny volcanoes, complex multiplication
+- Supersingular graphs
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Panoptycon}
+\label{cha:fpbar}
+
+- towers of finite fields,
+- isomorphisms, embeddings,
+- Fp-bar
+- lattices
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Crypto and quantum computers}
+
+- Expander graphs
+- HHS, CSIDH
+- SIDH
+- Signatures?
+- Quantum algorithms? Kuperberg?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\clearpage
+\bibliographystyle{plain}
+\bibliography{hdr}
+
+\end{document}
+
+% LocalWords:  isogeny isogenies morphism surjective projective
+% LocalWords:  colinear preimage
