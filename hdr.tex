@@ -32,6 +32,17 @@
 \pgfkeys{/triangle/.code=\tikzset{x={(-0.5cm,-0.866cm)},y={(1cm,0cm)}}}
 \pgfkeys{/lattice/.code n args={4}{\tikzset{cm={#1,#2,#3,#4,(0,0)}}}}
 
+% theorem environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{problem}{Problem}
+
 \include{preamble}
 
 \title{Habilitation à diriger des recherches}
@@ -60,8 +71,8 @@ field to the amazingly rich world of isogeny graphs.
 As short as possible, maybe write after, maybe an appendix.
 
 - projective space, projective varieties,
-- elliptic curves
-- function fields, algebraic maps
+- elliptic curves, torsion
+- function fields, algebraic maps, frobenius, degree
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,9 +90,9 @@ As short as possible, maybe write after, maybe an appendix.
 % Arcade Fire, The neighborhood #1 (Tunnels)
 % \end{verse}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-\section{The explicit isogeny problem}
+\section{Isogenies}
 
 An isogeny is a non-constant algebraic map between elliptic curves,
 preserving the point at infinity. %
@@ -90,24 +101,24 @@ It turns out these definitions are equivalent, but, before getting
 these pages drenched in more properties and theorems, let's have a
 look at an example.
 
-The map $φ$ from the elliptic curve $y^2=x^3+x$ to $y^2=x^3-4x$
+The map $ϕ$ from the elliptic curve $y^2=x^3+x$ to $y^2=x^3-4x$
 defined by
 \begin{equation}
   \label{eq:isog-example}
   \begin{aligned}
-    φ(x,y) &= \left(\frac{x^2+1}{x},y\frac{x^2-1}{x^2}\right),\\
-    φ(\O) &= \O
+    ϕ(x,y) &= \left(\frac{x^2+1}{x},y\frac{x^2-1}{x^2}\right),\\
+    ϕ(\O) &= \O
   \end{aligned}
 \end{equation}
 is an isogeny. %
 As an algebraic map it has degree $2$, which implies that it is a
 two-to-one map, as it can be inferred from the polynomial degrees. %
-Our rational maps are not defined at $x=0$, but this expression should
-really be understood as the projective map
+Our rational maps are not defined at $x=0$, but the first expression
+should really be understood as the projective map
 \begin{equation*}
-  φ(X:Y:Z) = (X(X^2+Z^2):Y(X^2-Z^2):ZX^2),
+  ϕ(X:Y:Z) = \bigl(X(X^2+Z^2):Y(X^2-Z^2):ZX^2\bigr),
 \end{equation*}
-showing that the only other point in $\ker φ$, besides $\O$, is
+showing that the only other point in $\ker ϕ$, besides $\O$, is
 $(0:0:1)$.
 
 
@@ -168,27 +179,169 @@ modulo a prime $p$. %
 Figure~\ref{fig:isog-example} plots the action of the
 isogeny~\eqref{eq:isog-example} on the image of the curves in
 $\F_{11}$. %
+A red arrow indicates that a point of the left curve is sent onto a
+point on the right curve; the action on the point in $(0,0)$, going to
+the point at infinity, is not shown. %
 We observe a symmetry with respect to the $x$-axis, a consequence of
-the fact that $φ$ is a group morphism; and by looking closer we may
-also notice that colinear points are sent to colinear points, also a
+the fact that $ϕ$ is a group morphism; and, by looking closer, we may
+also notice that collinear points are sent to collinear points, also a
 necessity for a group morphism. %
+
 Something strikes us, though: the map looks by no means surjective! %
 This is because, when we think of isogenies, we think of them as
 geometric objects, acting on the extension of the curves to the
 algebraic closure. %
 This is not dissimilar from the way power-by-$n$ maps act on the
 multiplicative group $k^\times$ of a field $k$: the map $x↦x^2$, for
-example, is a two-to-one map on $\F_{11}$, and those elements that
-have no antecedents, the non-squares, will have exactly two in
-$\F_{11^2}$, and so on. %
+example, is a two-to-one (algebraic) group morphism on
+$\F_{11}^\times$, and those elements that have no preimage, the
+non-squares, will have exactly two square roots in $\F_{11^2}$, and so
+on. %
 In much the same way, in an algebraic closure $\bar{\F}_{11}$ of
-$\F_{11}$, the isogeny $φ$ becomes surjective and every point gains
+$\F_{11}$, the isogeny $ϕ$ becomes surjective and every point gains
 exactly two antecedents. %
 This analogy is more profound that it may seem, and shall bear its
 fruits in Chapter~\ref{cha:fpbar}.
 
-- Isogeny definitions
+For elliptic curves defined over a field of characteristic $p>0$,
+there is another kind of isogeny. %
+Let $E:y^2=x^3+ax+b$ be an elliptic curve, let $q$ be a power of $p$, and let
+$E^{(q)}:y^2=x^3+a^qpx+b^q$. %
+The isogeny $π_q:E\to E^{(q)}$ defined by
+\begin{equation}
+  \begin{aligned}
+    π_q(x,y) &= (x^q,y^q),\\
+    π_q(\O) &= \O
+  \end{aligned}
+\end{equation}
+is a \emph{purely inseparable} isogeny of degree $q$. %
+We call $π_q$ a \emph{Frobenius isogeny}. %
+Despite being of degree $q$, Frobenius isogenies have trivial kernel,
+and are one-to-one over finite fields (and other perfect fields). %
 
+% Plotting the action of $π_p$ on the curve of
+% Figure~\ref{fig:isog-example} would not be very telling, since in this
+% case $E^{(p)}=E$ and the map acts like the identity on $\F_{11}$. %
+% However $π_p$ is an important map, called the \emph{Frobenius
+%   endomorphism} of $E$, and often denoted simply by $π$. %
+% It permutes the points of $E/\bar{\F}_{11}$ in a non trivial way,
+% reflecting the action of the Galois group of $\bar{\F}_{11}/\F_{11}$
+% on $E$. %
+
+Any isogeny can be decomposed as a product of a Frobenius isogeny and
+a \emph{separable} isogeny:
+\begin{equation*}
+  \begin{tikzpicture}
+    \node(E) at (0,0) {$E$};
+    \node(Ep) at (2,0) {$E^{(q)}$};
+    \node(E') at (4,0) {$E'$};
+    \draw[->,auto] (E) edge node{\small $π_q$} (Ep)
+    (Ep) edge node{\small $ϕ_s$} (E')
+    (E) edge[bend right=20] node[below]{\small $ϕ$} (E');
+  \end{tikzpicture}
+\end{equation*}
+Computing this decomposition is also easy given rational functions for
+$ϕ$: simply factor out the powers of $p$ from the polynomials. %
+For these reasons we shall be mostly concerned with separable
+isogenies and their computations.
+
+The most unique property of separable isogenies is that they are 
+entirely determined by their kernel. %
+
+\begin{proposition}
+  Let $E$ be an elliptic curve, and let $G$ be a finite subgroup of
+  $E$. %
+  There are a unique elliptic curve $E'$, and a unique separable
+  isogeny $ϕ$, such that $\ker ϕ=G$ and $ϕ:E\to E'$. %
+\end{proposition}
+
+Said otherwise, for any finite subgroup $G⊂E$, we have an exact
+sequence of algebraic groups
+\begin{equation*}
+  0 \to G \to E \overset{ϕ}{\to} E' \to 0,
+\end{equation*}
+which justifies the notation $E/G$ for the image curve $E'$. %
+Conversely, since any non-constant morphism of algebraic curves
+necessarily has finite kernel, we have a canonical bijection between
+the finite subgroups of a curve $E$ and the isogenies with domain
+$E$. %
+This correspondence is rich in consequences: it is an easy exercise to
+prove the following useful facts. %
+
+\begin{corollary}\ 
+  \begin{enumerate}
+  \item Any isogeny can be decomposed as a product of prime degree
+    isogenies.
+  \item Let $E$ be defined over an algebraically closed field $k$, let
+    $ℓ$ be a prime different from the characteristic of $k$, then
+    there are exactly $ℓ+1$ isogenies of degree $ℓ$ with domain $E$.
+  \end{enumerate}
+\end{corollary}
+
+Slightly less more work is required to prove the following,
+fundamental, theorem (the difficulty comes essentially from the
+inseparable part, see~\cite[III.6.1]{silverman:elliptic} for a
+detailed proof).
+
+\begin{theorem}[Dual isogeny theorem]
+  Let $ϕ:E\to E'$ be an isogeny of degree $m$. %
+  There is a unique isogeny $\hat{ϕ}:E'\to E$ such that
+  \[\hat{ϕ}∘ϕ = [m]_E, \quad ϕ∘\hat{ϕ} = [m]_{E'}.\] %
+  $\hat{ϕ}$ is called the \emph{dual isogeny of $ϕ$}; it has the
+  following properties:
+  
+  \begin{enumerate}
+  \item $\hat{ϕ}$ is defined over $k$ if and only if $ϕ$ is;
+  \item $\widehat{ψ∘ϕ} = \hat{ϕ}∘\hat{ψ}$ for any isogeny $ψ:E'\to E''$;
+  \item $\widehat{ψ+ϕ} = \hat{ψ} + \hat{ϕ}$ for any isogeny $ψ:E\to E'$;
+  \item $\deg ϕ = \deg\hat{ϕ}$;
+  \item $\hat{\hat{ϕ}} = ϕ$.
+  \end{enumerate}
+\end{theorem}
+
+
+The computational counterpart to the kernel-isogeny correspondence, is
+given by V\'elu's much celebrated formulas. %
+
+\begin{proposition}[{V\'elu~\cite{velu71}}]
+  \label{th:velu}
+  Let $E:y^2=x^3+ax+b$ be an elliptic curve defined over a field $k$,
+  and let $G⊂E(\bar{k})$ be a finite subgroup. %
+  The separable isogeny $ϕ:E\to E/G$, of kernel $G$, can be written as
+  \begin{equation*}
+    ϕ(P) = \left(
+      x(P) + \sum_{Q∈G\setminus\{\O\}}x(P+Q)-x(Q),
+      y(P) + \sum_{Q∈G\setminus\{\O\}}y(P+Q)-y(Q)
+    \right);
+  \end{equation*} %
+  and the curve $E/G$ has equation $y^2=x^3+a'x+b'$, where
+  \begin{align*}
+    a' &= a - 5\sum_{Q∈G\setminus\{\O\}}(3x(Q)^2+a),\\
+    b' &= b - 7\sum_{Q∈G\setminus\{\O\}}(5x(Q)^3+3ax(Q)+b).
+  \end{align*}
+\end{proposition}
+
+In summary, knowledge of its kernel allows us to compute an isogeny,
+and \emph{vice versa}. %
+This will be crucial when we will study isogeny-based cryptosystems
+in Chapter~\ref{cha:crypto}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The explicit isogeny and other problems}
+
+When it comes to computations, V\'elu's formulas are only part of the
+story. %
+Instead of being given a kernel $G$ and wanting to compute the curve
+$E/G$, we may ask the opposite question. %
+Elkies, while working on point counting~\cite{elkies92,elkies98},
+famously baptized this the \emph{explicitly isogeny problem}.
+
+\begin{problem}[Explicit isogeny problem]
+  Let $E$ and $E'$ be two elliptic curves, and $ℓ$ an integer. %
+  Decide whether there exists an isogeny $ϕ:E\to E'$ of degree $ℓ$,
+  and compute its kernel.
+\end{problem}
 
 - How to compute an isogeny,
 - Modular polynomials, application to point counting
@@ -200,6 +353,8 @@ fruits in Chapter~\ref{cha:fpbar}.
 - Supersingular graphs
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Panoptycon}
 \label{cha:fpbar}
@@ -210,8 +365,11 @@ fruits in Chapter~\ref{cha:fpbar}.
 - lattices
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Crypto and quantum computers}
+\label{cha:crypto}
 
 - Expander graphs
 - HHS, CSIDH
@@ -219,7 +377,10 @@ fruits in Chapter~\ref{cha:fpbar}.
 - Signatures?
 - Quantum algorithms? Kuperberg?
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \clearpage
 \bibliographystyle{plain}
 \bibliography{hdr}
@@ -227,4 +388,4 @@ fruits in Chapter~\ref{cha:fpbar}.
 \end{document}
 
 % LocalWords:  isogeny isogenies morphism surjective projective
-% LocalWords:  colinear preimage
+% LocalWords:  preimage bijection cryptosystems
