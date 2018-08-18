@@ -45,7 +45,8 @@
 
 \include{preamble}
 
-\title{Habilitation à diriger des recherches}
+\title{Promenades in isogeny graphs}
+%\subtitle{Habilitation à diriger des recherches}
 \author{Luca De Feo}
 
 \begin{document}
@@ -251,16 +252,19 @@ entirely determined by their kernel. %
 \begin{proposition}
   Let $E$ be an elliptic curve, and let $G$ be a finite subgroup of
   $E$. %
-  There are a unique elliptic curve $E'$, and a unique separable
-  isogeny $ϕ$, such that $\ker ϕ=G$ and $ϕ:E\to E'$. %
+  There is a curve $E'$, and a separable isogeny $ϕ$, such that
+  $\ker ϕ=G$ and $ϕ:E\to E'$. %
+  Furthermore, $E'$ and $ϕ$ are unique up to composition with an
+  isomorphism $E'≃E''$. %
 \end{proposition}
 
 Said otherwise, for any finite subgroup $G⊂E$, we have an exact
 sequence of algebraic groups
 \begin{equation*}
-  0 \to G \to E \overset{ϕ}{\to} E' \to 0,
+  0 \to G \to E \overset{ϕ}{\to} E' \to 0.
 \end{equation*}
-which justifies the notation $E/G$ for the image curve $E'$. %
+Uniqueness justifies the notation $E/G$ for the image isomorphism
+class of the curve $E'$. %
 Conversely, since any non-constant morphism of algebraic curves
 necessarily has finite kernel, we have a canonical bijection between
 the finite subgroups of a curve $E$ and the isogenies with domain
@@ -274,7 +278,8 @@ prove the following useful facts. %
     isogenies.
   \item Let $E$ be defined over an algebraically closed field $k$, let
     $ℓ$ be a prime different from the characteristic of $k$, then
-    there are exactly $ℓ+1$ isogenies of degree $ℓ$ with domain $E$.
+    there are exactly $ℓ+1$ isogenies of degree $ℓ$ with domain $E$,
+    up to isomorphisms of $E/G$.
   \end{enumerate}
 \end{corollary}
 
@@ -291,6 +296,7 @@ detailed proof).
   following properties:
   
   \begin{enumerate}
+  \item $\hat{ϕ}$ has degree $m$;
   \item $\hat{ϕ}$ is defined over $k$ if and only if $ϕ$ is;
   \item $\widehat{ψ∘ϕ} = \hat{ϕ}∘\hat{ψ}$ for any isogeny $ψ:E'\to E''$;
   \item $\widehat{ψ+ϕ} = \hat{ψ} + \hat{ϕ}$ for any isogeny $ψ:E\to E'$;
@@ -335,13 +341,91 @@ story. %
 Instead of being given a kernel $G$ and wanting to compute the curve
 $E/G$, we may ask the opposite question. %
 Elkies, while working on point counting~\cite{elkies92,elkies98},
-famously baptized this the \emph{explicitly isogeny problem}.
+famously baptized this the \emph{explicit isogeny problem}.
 
 \begin{problem}[Explicit isogeny problem]
   Let $E$ and $E'$ be two elliptic curves, and $ℓ$ an integer. %
   Decide whether there exists an isogeny $ϕ:E\to E'$ of degree $ℓ$,
   and compute its kernel.
 \end{problem}
+
+The explicitly isogeny problem has kept the research community busy
+for more than twenty years, and, with different variations, still does
+today. %
+Let's have a closer look at it. %
+
+For a start, it should be noticed that it is by no means a ``hard''
+problem. %
+Indeed, we have explicit formulas for adding points on a curve $E$,
+from which we can deduce an explicit formula for multiplying points on
+$E$ by any scalar $ℓ∈ℤ$. %
+Said otherwise, we have an explicitly formula for the
+multiplication-by-$ℓ$ isogeny, and, by reading its denominators, we
+can deduce a polynomial $ψ_ℓ(x,y)$ that vanishes precisely on $E[ℓ]$,
+the \emph{$ℓ$-th division polynomial} of $E$
+(see~\cite[III.4]{blake+seroussi+smart} for explicit formulas). %
+
+Let's assume for simplicity that $ℓ$ is prime and different from the
+characteristic, then we know there are at most $ℓ+1$ isogenies of
+degree $ℓ$ from $E$. %
+Factoring $ψ_ℓ$ over the field of definition $k$ of $E$ lets us
+compute all possible kernels of order $ℓ$, and thus all possible
+isogenies. %
+At most $ℓ+1$ applications of V\'elu's formula will then give the
+answer to the explicit isogeny problem. %
+$ψ_ℓ$ can be reduced to a univariate polynomial in $x$, and, since
+$E[ℓ]$ contains $ℓ^2$ points, its degree is bounded by $ℓ^2$, thus
+this algorithm costs no more than factoring a degree $ℓ^2$ polynomial
+in $k[x]$. %
+
+We see that the matter is not solving the explicit isogeny
+problem. The matter is solving it fast!
+
+An interesting case, and the one Elkies was originally interested in,
+is when the curves are defined over a finite field. %
+Let's relax the problem a bit, and see what can be told about it. %
+Decisional versions, first: two elliptic curves are said to be
+\emph{isogenous} if there exists an isogeny connecting them (this is
+an equivalence relation, thanks to the dual isogeny theorem).
+
+\begin{problem}
+  \label{prob:isogenous}
+  Let $E,E'$ be two elliptic curves defined over a finite field
+  $\F_q$, decide whether they are isogenous.
+\end{problem}
+
+Tate~\cite[Th.~1(c)]{Tate} famously showed\footnote{Tate, citing
+  Mumford, also points out that, for the case of elliptic curves, this
+  is an easy consequence of the much celebrated work of
+  Deuring~\cite{deuring41}.} that $E$ and $E'$ are isogenous over
+$\F_q$ if and only if $\#E(\F_q)=\#E'(\F_q)$. %
+Schoof's point counting algorithm~\cite{schoof85,schoof95} completely
+settles the problem by computing the orders of $E$ and $E'$ in
+polynomial time in $\log(q)$. %
+
+Getting back to the decisional version of the explicit isogeny
+problem, the constraint on the isogeny degree makes the problem
+harder, even over finite fields. %
+The \emph{modular polynomial} helps with that. %
+Assuming $ℓ$ is prime, the $ℓ$-th modular polynomial, denoted by
+$Φ_ℓ(X,Y)$, it is a bivariate polynomial with coefficients in $ℤ$,
+symmetric in $X$ and $Y$, of degree $ℓ+1$ in each variable, with the
+following property: two elliptic curves $E,E'$ are $ℓ$-isogenous if
+and only if $Φ_ℓ(j(E),j(E'))=Φ_ℓ(j(E'),j(E))=0$. %
+We stress that this is true over \textbf{any} field, and that the
+definition of $Φ_ℓ$ is independent of the base field. %
+Given that $Φ_ℓ$ has $O(ℓ^2)$ coefficients (and rather large ones),
+using it to decide the explicit isogeny problem is asymptotically
+comparable to factoring the division polynomial; it is however usually
+more efficient in practice, especially when tables of modular
+polynomials are precomputed, as is the case in computer algebra
+systems such as Pari~\cite{Pari}, Magma~\cite{MAGMA}, or
+SageMath~\cite{Sage}. %
+
+- normalized isogenies
+- Elkies
+- Couveignes, Lercier 
+- Schoof
 
 - How to compute an isogeny,
 - Modular polynomials, application to point counting
@@ -388,4 +472,6 @@ famously baptized this the \emph{explicitly isogeny problem}.
 \end{document}
 
 % LocalWords:  isogeny isogenies morphism surjective projective
-% LocalWords:  preimage bijection cryptosystems
+% LocalWords:  preimage bijection cryptosystems univariate Decisional
+% LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
+% LocalWords:  precomputed
