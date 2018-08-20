@@ -74,7 +74,8 @@ As short as possible, maybe write after, maybe an appendix.
 - projective space, projective varieties,
 - elliptic curves, torsion
 - function fields, algebraic maps, frobenius, degree
-
+- differentials? pullbacks?
+- modular polynomial?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -263,12 +264,35 @@ sequence of algebraic groups
 \begin{equation*}
   0 \to G \to E \overset{ϕ}{\to} E' \to 0.
 \end{equation*}
-Uniqueness justifies the notation $E/G$ for the image isomorphism
-class of the curve $E'$. %
+Uniqueness up to isomorphisms justifies the notation $E/G$ for the
+isomorphism class of the image curve $E'$. %
+Now, it would be useful if we could find a way to define a canonical
+representative inside $E/G$. %
+It turns out there is a pretty natural way to define one.
+
+\begin{definition}[Normalized isogeny]
+  Let $E,E'$ be two elliptic curves, $ω_E,ω_E'$ their \emph{invariant
+    differential}, $ϕ:E\to E'$ a separable isogeny and
+  $ϕ^*:Ω_{E'}\to Ω_E$ its \emph{pullback}. %
+  We say that $ϕ$ is \emph{normalized} if its pullback preserves the
+  invariant differentials, i.e., $ϕ^*(ω_{E'})=ω_E$. %
+\end{definition}
+
+Since $ϕ$ is separable, $ϕ^*$ is an isomorphism of vector spaces of
+dimension one. %
+I.e., if $ϕ$ is not normalized, then it is only ``off'' by a
+(non-zero) constant $ϕ^*(ω_{E'})=cω_E$, and we can easily normalize
+$ϕ$ by a change of variables. %
+This also shows that, for fixed $E$ and $\ker ϕ$, the normalized
+isogeny is unique, and justifies abusing the notation $E/G$ to mean
+the image of the normalized isogeny with kernel $G$.\footnote{Note
+  that this convention is not universal in the literature, as there
+  are other useful choices for a canonical representative of $E/G$.}
+
 Conversely, since any non-constant morphism of algebraic curves
 necessarily has finite kernel, we have a canonical bijection between
-the finite subgroups of a curve $E$ and the isogenies with domain
-$E$. %
+the finite subgroups of a curve $E$ and the normalized isogenies with
+domain $E$. %
 This correspondence is rich in consequences: it is an easy exercise to
 prove the following useful facts. %
 
@@ -278,8 +302,8 @@ prove the following useful facts. %
     isogenies.
   \item Let $E$ be defined over an algebraically closed field $k$, let
     $ℓ$ be a prime different from the characteristic of $k$, then
-    there are exactly $ℓ+1$ isogenies of degree $ℓ$ with domain $E$,
-    up to isomorphisms of $E/G$.
+    there are exactly $ℓ+1$ normalized isogenies of degree $ℓ$ with
+    domain $E$.
   \end{enumerate}
 \end{corollary}
 
@@ -305,18 +329,20 @@ detailed proof).
   \end{enumerate}
 \end{theorem}
 
-
+Note that, since $[m]^*(ω)=mω$, if $ϕ$ is normalized $\hat{ϕ}$ almost
+never is. %
 The computational counterpart to the kernel-isogeny correspondence, is
-given by V\'elu's much celebrated formulas. %
+given by Vélu's much celebrated formulas. %
 
-\begin{proposition}[{V\'elu~\cite{velu71}}]
+\begin{proposition}[{Vélu~\cite{velu71}}]
   \label{th:velu}
   Let $E:y^2=x^3+ax+b$ be an elliptic curve defined over a field $k$,
   and let $G⊂E(\bar{k})$ be a finite subgroup. %
-  The separable isogeny $ϕ:E\to E/G$, of kernel $G$, can be written as
+  The normalized separable isogeny $ϕ:E\to E/G$, of kernel $G$, can be
+  written as
   \begin{equation*}
     ϕ(P) = \left(
-      x(P) + \sum_{Q∈G\setminus\{\O\}}x(P+Q)-x(Q),
+      x(P) + \sum_{Q∈G\setminus\{\O\}}x(P+Q)-x(Q),\\
       y(P) + \sum_{Q∈G\setminus\{\O\}}y(P+Q)-y(Q)
     \right);
   \end{equation*} %
@@ -327,35 +353,95 @@ given by V\'elu's much celebrated formulas. %
   \end{align*}
 \end{proposition}
 
-In summary, knowledge of its kernel allows us to compute an isogeny,
-and \emph{vice versa}. %
-This will be crucial when we will study isogeny-based cryptosystems
-in Chapter~\ref{cha:crypto}.
+But how ``good'' are Vélu's formulas from a computational
+perspective? %
+``Pretty good'', is the message we want to convey, but, in order to
+understand the question, we need to discuss \emph{rationality}. %
+Let $E$ be defined over a field $k$, with algebraic closure
+$\bar{k}$. %
+We say that an isogeny $ϕ:E\to E'$ is \emph{defined over $k$}, or
+\emph{$k$-rational}, if $ϕ$ is invariant under the action of the
+Galois group of $\bar{k}/k$. %
+This is equivalent to $ϕ$ being defined by rational maps with
+coefficients in $k$, and also to $\ker ϕ$ being stable under
+$\Gal(\bar{k}/k)$. %
+It implies that $E'$ is defined over $k$, but the converse is not
+true. %
+
+In the rest of this work, when we say ``an isogeny'', we really mean
+``an isogeny defined over the base field'', unless specified
+otherwise. %
+What are the input and output sizes of Vélu's formulas, if we
+restrict to $k$-rational isogenies? %
+
+The output is a pair of rational fractions, and, letting $ℓ=\#G$, it
+is not too difficult to see that they have $O(ℓ)$ coefficients. %
+The input is the kernel $G$, and, since it is finite, it must be
+generated by at most two elements. %
+However $G$ is only stable under $\Gal(\bar{k}/k)$, implying that its
+elements are defined in an (Abelian) extension of degree dividing
+$ℓ$. %
+Thus, in general, $G$ is represented by $\O(\ell)$ coefficients of $k$. %
+
+Now, if we apply mindlessly Vélu's formulas, we need at list $O(ℓ^2)$
+coefficients in $k$ to write down all the elements of $G$. %
+A better approach is to represent $G$ by a polynomial with
+coefficients in $k$ that vanishes on all $P∈G$, for example
+\begin{equation*}
+  h_G(x) = \prod_{P∈G\setminus\{\O\}} (x - x(P)).
+\end{equation*}
+The polynomial $h_G$ is usually called the \emph{kernel polynomial} of
+$G$, and has coefficients in $k$ if and only if $ϕ$ is $k$-rational;
+it can be computed from the generators of $G$ in only $\tildO(ℓ)$
+operations over $k$. %
+Following Kohel~\cite{kohel}, we can rewrite Vélu's formulas in terms
+of $h_G$, then, their evaluation can also be accomplished in
+$\tildO(ℓ)$ operations.
+
+In conclusion, we see that Vélu's formula make the kernel/isogeny
+correspondence explicit, using a quasi-optimal number of operations in
+general. %
+This will be crucial when we will study isogeny-based cryptosystems in
+Chapter~\ref{cha:crypto}, however, we will encounter there some
+examples where the cost of evaluating an isogeny is exponentially
+lower than that of Vélu's formulas. %
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{The explicit isogeny and other problems}
 
-When it comes to computations, V\'elu's formulas are only part of the
-story. %
-Instead of being given a kernel $G$ and wanting to compute the curve
-$E/G$, we may ask the opposite question. %
+When it comes to computations, Vélu's formulas are only part of the
+story: how do we find a rational kernel $G$ in the first place?
 Elkies, while working on point counting~\cite{elkies92,elkies98},
 famously baptized this the \emph{explicit isogeny problem}.
 
 \begin{problem}[Explicit isogeny problem]
+  \label{prob:expl-isog}
+  Let $E$ be an elliptic curve, and let $ℓ$ be an integer. %
+  Find, if they exist, one or all isogenies of degree $ℓ$ with domain
+  $E$.
+\end{problem}
+
+However a slightly modified version of the same problem can be often
+found in the literature.
+
+\begin{problem}
+  \label{prob:expl-isog-2}
   Let $E$ and $E'$ be two elliptic curves, and $ℓ$ an integer. %
   Decide whether there exists an isogeny $ϕ:E\to E'$ of degree $ℓ$,
   and compute its kernel.
 \end{problem}
 
-The explicitly isogeny problem has kept the research community busy
-for more than twenty years, and, with different variations, still does
+The many variants of the explicit isogeny problem have kept the
+research community busy for more than twenty years, and still do
 today. %
 Let's have a closer look at it. %
 
-For a start, it should be noticed that it is by no means a ``hard''
-problem. %
+\subsection{Elkies' algorithm}
+
+For a start, it should be noticed that both variants are by no means
+``hard''. %
 Indeed, we have explicit formulas for adding points on a curve $E$,
 from which we can deduce an explicit formula for multiplying points on
 $E$ by any scalar $ℓ∈ℤ$. %
@@ -366,17 +452,17 @@ the \emph{$ℓ$-th division polynomial} of $E$
 (see~\cite[III.4]{blake+seroussi+smart} for explicit formulas). %
 
 Let's assume for simplicity that $ℓ$ is prime and different from the
-characteristic, then we know there are at most $ℓ+1$ isogenies of
-degree $ℓ$ from $E$. %
+characteristic, then we know there are at most $ℓ+1$ normalized
+isogenies of degree $ℓ$ from $E$. %
 Factoring $ψ_ℓ$ over the field of definition $k$ of $E$ lets us
-compute all possible kernels of order $ℓ$, and thus all possible
-isogenies. %
-At most $ℓ+1$ applications of V\'elu's formula will then give the
-answer to the explicit isogeny problem. %
-$ψ_ℓ$ can be reduced to a univariate polynomial in $x$, and, since
-$E[ℓ]$ contains $ℓ^2$ points, its degree is bounded by $ℓ^2$, thus
-this algorithm costs no more than factoring a degree $ℓ^2$ polynomial
-in $k[x]$. %
+compute all possible kernel polynomials of order $ℓ$, and thus all
+possible isogenies. %
+At most $ℓ+1$ applications of Vélu's formula will then give the answer
+to either of the two variants of the explicit isogeny problem. %
+$ψ_ℓ$ is none else than the kernel polynomial of the
+multiplication-by-$ℓ$ isogeny, and, since $E[ℓ]$ contains $ℓ^2$
+points, its degree is bounded by $ℓ^2$, thus this algorithm costs no
+more than factoring a degree $ℓ^2$ polynomial in $k[x]$. %
 
 We see that the matter is not solving the explicit isogeny
 problem. The matter is solving it fast!
@@ -402,11 +488,16 @@ $\F_q$ if and only if $\#E(\F_q)=\#E'(\F_q)$. %
 Schoof's point counting algorithm~\cite{schoof85,schoof95} completely
 settles the problem by computing the orders of $E$ and $E'$ in
 polynomial time in $\log(q)$. %
+However, when we add a degree constraint, the problem immediately
+becomes harder, even for finite fields. %
 
-Getting back to the decisional version of the explicit isogeny
-problem, the constraint on the isogeny degree makes the problem
-harder, even over finite fields. %
-The \emph{modular polynomial} helps with that. %
+\begin{problem}
+  \label{prob:ell-isogenous}
+  Let $E,E'$ be two elliptic curves, and $ℓ$ be an integer. Decide
+  whether they are $ℓ$-isogenous.
+\end{problem}
+
+The \emph{modular polynomial} helps solve this problem. %
 Assuming $ℓ$ is prime, the $ℓ$-th modular polynomial, denoted by
 $Φ_ℓ(X,Y)$, it is a bivariate polynomial with coefficients in $ℤ$,
 symmetric in $X$ and $Y$, of degree $ℓ+1$ in each variable, with the
@@ -415,20 +506,78 @@ and only if $Φ_ℓ(j(E),j(E'))=Φ_ℓ(j(E'),j(E))=0$. %
 We stress that this is true over \textbf{any} field, and that the
 definition of $Φ_ℓ$ is independent of the base field. %
 Given that $Φ_ℓ$ has $O(ℓ^2)$ coefficients (and rather large ones),
-using it to decide the explicit isogeny problem is asymptotically
-comparable to factoring the division polynomial; it is however usually
-more efficient in practice, especially when tables of modular
-polynomials are precomputed, as is the case in computer algebra
-systems such as Pari~\cite{Pari}, Magma~\cite{MAGMA}, or
-SageMath~\cite{Sage}. %
+using it to decide the explicit isogeny problem is asymptotically only
+slightly better than factoring the division polynomial; it is however
+usually considerably more efficient in practice, especially when
+tables of modular polynomials are precomputed, as is the case in
+computer algebra systems such as Pari~\cite{Pari}, Magma~\cite{MAGMA},
+or SageMath~\cite{Sage}. %
 
-- normalized isogenies
-- Elkies
+The modular polynomial can also be used to produce all isogenous
+elliptic curves, up to isomorphism, to a given curve: simply plug
+$j(E)$ in $Φ_ℓ$, then factor $Φ_ℓ(j(E),Y)$ to find the isogenous
+$j$-invariants. %
+Elkies used this approach to reduce the explicit isogeny problem to
+Problem~\ref{prob:expl-isog-2}, but he managed to extract even more
+information from $Φ_ℓ$: he showed how to obtain a \emph{normalized
+  equation} for the image curve.
+
+\begin{theorem}[{\cite{elkies92,schoof95,elkies98}}]
+  Let $E:y^2=x^3+ax+b$ be an elliptic curve, let $j$ be its
+  $j$-invariant and let $j'$ be such that $Φ_ℓ(j,j')=0$. %
+  Assume that $(∂Φ_ℓ/∂Y)(j,j')≠0$, and define
+  \begin{equation}
+    \label{eq:elkies-modpol}
+    \begin{aligned}
+      λ &= \frac{-18}{ℓ}\frac{b}{a}\frac{\frac{∂Φ_ℓ}{∂X}(j,j')}{\frac{∂Φ_ℓ}{∂Y}(j,j')}j,\\
+      a' &= -\frac{1}{48}\frac{λ^2}{j'(j'-1728)}\frac{1}{ℓ^4},\\
+      b' &= -\frac{1}{864}\frac{λ^3}{(j')^2(j'-1728)}\frac{1}{ℓ^6}.
+    \end{aligned}
+  \end{equation}
+  Then there is a normalized isogeny of degree $ℓ$ from $E$ to
+  $E':y^2=x^3+a'x+b'$.
+\end{theorem}
+
+Elkies' theorem prompts us to define a weaker variant of the explicit
+isogeny problem.
+
+\begin{problem}[Inverse Vélu problem\footnote{The name is ours and
+    not attested in the literature.}]
+  Let $E,E'$ be elliptic curves such that there exists a normalized
+  isogeny $ϕ:E\to E'$ of degree $ℓ$. %
+  Compute the kernel of $ϕ$.
+\end{problem}
+
+Unsurprisingly, Elkies also gave the solution to this problem
+in~\cite{elkies92,elkies98}. %
+He observed that the rational fractions defining $ϕ$ are related by a
+differential equation, involving only the coefficients of $E$ and
+$E'$. %
+Solving the differential equation gives the rational fractions, and
+thus the kernel. %
+This gives a method to solve the inverse Vélu problem in $O(ℓ^2)$
+operations over the base field, or even $\tildO(ℓ)$ using the
+optimizations of Bostan, Morain, Salvy and
+Schost~\cite{bostan+morain+salvy+schost08}. %
+
+We have, essentially, sketched the computation involved in the
+Schoof-Elkies-Atkin point counting algorithm~\cite{schoof95}, for
+those that are called \emph{Elkies primes}. %
+However, the last part of Elkies' algorithm, the solution to the
+inverse Vélu problem, only works when the characteristic is $0$ or
+\emph{large enough}. %
+While this is good enough for counting points of elliptic curves
+defined over a prime field $\F_p$, it fails, for example, over binary
+fields. %
+
+\subsection{Couveignes' algorithm}
+
+
+The first 
+
 - Couveignes, Lercier 
 - Schoof
 
-- How to compute an isogeny,
-- Modular polynomials, application to point counting
 
 \section{Curling up}
 
@@ -474,4 +623,4 @@ SageMath~\cite{Sage}. %
 % LocalWords:  isogeny isogenies morphism surjective projective
 % LocalWords:  preimage bijection cryptosystems univariate Decisional
 % LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
-% LocalWords:  precomputed
+% LocalWords:  precomputed  Abelian Vélu's
