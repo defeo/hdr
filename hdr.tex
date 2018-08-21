@@ -358,7 +358,7 @@ But how ``good'' are Vélu's formulas from a computational
 perspective? %
 ``Pretty good'', is the message we want to convey, but, in order to
 understand the question, we need to discuss \emph{rationality}. %
-Let $E$ be defined over a field $k$, with algebraic closure
+Let $E$ be defined over a field $k$ with algebraic closure
 $\bar{k}$. %
 We say that an isogeny $ϕ:E\to E'$ is \emph{defined over $k$}, or
 \emph{$k$-rational}, if $ϕ$ is invariant under the action of the
@@ -391,15 +391,17 @@ coefficients in $k$ that vanishes on all $P∈G$, for example
 \begin{equation*}
   h_G(x) = \prod_{P∈G\setminus\{\O\}} (x - x(P)).
 \end{equation*}
-The polynomial $h_G$ is usually called the \emph{kernel polynomial} of
-$G$, and has coefficients in $k$ if and only if $ϕ$ is $k$-rational;
-it can be computed from the generators of $G$ in only $\tildO(ℓ)$
-operations over $k$. %
+The polynomial $h_G$ is called the \emph{kernel
+  polynomial}\footnote{Other works prefer defining the kernel
+  polynomial as the square root of $h_G$, however this adds some
+  complications when $\#G$ is even.} of $G$, and has coefficients in
+$k$ if and only if $ϕ$ is $k$-rational; it can be computed from the
+generators of $G$ in only $\tildO(ℓ)$ operations over $k$. %
 Following Kohel~\cite{kohel}, we can rewrite Vélu's formulas in terms
 of $h_G$, then, their evaluation can also be accomplished in
 $\tildO(ℓ)$ operations.
 
-In conclusion, we see that Vélu's formula make the kernel/isogeny
+In conclusion, we see that Vélu's formulas make the kernel/isogeny
 correspondence explicit, using a quasi-optimal number of operations in
 general. %
 This will be crucial when we will study isogeny-based cryptosystems in
@@ -420,12 +422,11 @@ famously baptized this the \emph{explicit isogeny problem}.
 \begin{problem}[Explicit isogeny problem]
   \label{prob:expl-isog}
   Let $E$ be an elliptic curve, and let $ℓ$ be an integer. %
-  Find, if they exist, one or all isogenies of degree $ℓ$ with domain
-  $E$.
+  Find, if it exists, an isogeny of degree $ℓ$ with domain $E$.
 \end{problem}
 
-However a slightly modified version of the same problem can be often
-found in the literature.
+A slightly modified version of the same problem is often found in the
+literature.
 
 \begin{problem}
   \label{prob:expl-isog-2}
@@ -446,24 +447,23 @@ For a start, it should be noticed that both variants are by no means
 Indeed, we have explicit formulas for adding points on a curve $E$,
 from which we can deduce an explicit formula for multiplying points on
 $E$ by any scalar $ℓ∈ℤ$. %
-Said otherwise, we have an explicitly formula for the
+Said otherwise, we have an explicit formula for the
 multiplication-by-$ℓ$ isogeny, and, by reading its denominators, we
-can deduce a polynomial $ψ_ℓ(x,y)$ that vanishes precisely on $E[ℓ]$,
-the \emph{$ℓ$-th division polynomial} of $E$
-(see~\cite[III.4]{blake+seroussi+smart} for explicit formulas). %
+can deduce its kernel polynomial $h_ℓ$.\footnote{Up to a constant,
+  $h_ℓ$ is the square of $ψ_ℓ$, the \emph{$ℓ$-th division polynomial}.
+  See~\cite[III.4]{blake+seroussi+smart} for explicit formulas.} %
 
 Let's assume for simplicity that $ℓ$ is prime and different from the
 characteristic, then we know there are at most $ℓ+1$ normalized
 isogenies of degree $ℓ$ from $E$. %
-Factoring $ψ_ℓ$ over the field of definition $k$ of $E$ lets us
+Factoring $h_ℓ$ over the field of definition $k$ of $E$ lets us
 compute all possible kernel polynomials of order $ℓ$, and thus all
 possible isogenies. %
 At most $ℓ+1$ applications of Vélu's formula will then give the answer
 to either of the two variants of the explicit isogeny problem. %
-$ψ_ℓ$ is none else than the kernel polynomial of the
-multiplication-by-$ℓ$ isogeny, and, since $E[ℓ]$ contains $ℓ^2$
-points, its degree is bounded by $ℓ^2$, thus this algorithm costs no
-more than factoring a degree $ℓ^2$ polynomial in $k[x]$. %
+Since $E[ℓ]≃(ℤ/ℓℤ)^2$ over the algebraic closure, $h_ℓ$ has degree
+$ℓ^2-1$, thus this algorithm costs no more than factoring a degree
+$O(ℓ^2)$ polynomial in $k[x]$. %
 
 We see that the matter is not solving the explicit isogeny
 problem. The matter is solving it fast!
@@ -500,12 +500,12 @@ becomes harder, even for finite fields. %
 
 The \emph{modular polynomial} helps solve this problem. %
 Assuming $ℓ$ is prime, the $ℓ$-th modular polynomial, denoted by
-$Φ_ℓ(X,Y)$, it is a bivariate polynomial with coefficients in $ℤ$,
-symmetric in $X$ and $Y$, of degree $ℓ+1$ in each variable, with the
+$Φ_ℓ(x,y)$, it is a bivariate polynomial with coefficients in $ℤ$,
+symmetric in $x$ and $y$, of degree $ℓ+1$ in each variable, with the
 following property: two elliptic curves $E,E'$ are $ℓ$-isogenous if
 and only if $Φ_ℓ(j(E),j(E'))=Φ_ℓ(j(E'),j(E))=0$. %
-We stress that this is true over \textbf{any} field, and that the
-definition of $Φ_ℓ$ is independent of the base field. %
+We stress that the definition of $Φ_ℓ$ is independent of the base
+field. %
 Given that $Φ_ℓ$ has $O(ℓ^2)$ coefficients (and rather large ones),
 using it to decide the explicit isogeny problem is asymptotically only
 slightly better than factoring the division polynomial; it is however
@@ -516,7 +516,7 @@ or SageMath~\cite{Sage}. %
 
 The modular polynomial can also be used to produce all isogenous
 elliptic curves, up to isomorphism, to a given curve: simply plug
-$j(E)$ in $Φ_ℓ$, then factor $Φ_ℓ(j(E),Y)$ to find the isogenous
+$j(E)$ in $Φ_ℓ$, then factor $Φ_ℓ(j(E),y)$ to find the isogenous
 $j$-invariants. %
 Elkies used this approach to reduce the explicit isogeny problem to
 Problem~\ref{prob:expl-isog-2}, but he managed to extract even more
@@ -526,11 +526,11 @@ information from $Φ_ℓ$: he showed how to obtain a \emph{normalized
 \begin{theorem}[{\cite{elkies92,schoof95,elkies98}}]
   Let $E:y^2=x^3+ax+b$ be an elliptic curve, let $j$ be its
   $j$-invariant and let $j'$ be such that $Φ_ℓ(j,j')=0$. %
-  Assume that $(∂Φ_ℓ/∂Y)(j,j')≠0$, and define
+  Assume that $(∂Φ_ℓ/∂y)(j,j')≠0$, and define
   \begin{equation}
     \label{eq:elkies-modpol}
     \begin{aligned}
-      λ &= \frac{-18}{ℓ}\frac{b}{a}\frac{\frac{∂Φ_ℓ}{∂X}(j,j')}{\frac{∂Φ_ℓ}{∂Y}(j,j')}j,\\
+      λ &= \frac{-18}{ℓ}\frac{b}{a}\frac{\frac{∂Φ_ℓ}{∂x}(j,j')}{\frac{∂Φ_ℓ}{∂y}(j,j')}j,\\
       a' &= -\frac{1}{48}\frac{λ^2}{j'(j'-1728)}\frac{1}{ℓ^4},\\
       b' &= -\frac{1}{864}\frac{λ^3}{(j')^2(j'-1728)}\frac{1}{ℓ^6}.
     \end{aligned}
@@ -557,13 +557,13 @@ $E'$. %
 Solving the differential equation gives the rational fractions, and
 thus the kernel. %
 This gives a method to solve the inverse Vélu problem in $O(ℓ^2)$
-operations over the base field, or even $\tildO(ℓ)$ using the
-optimizations of Bostan, Morain, Salvy and
+operations over the base field, or even $\tildO(ℓ)$ using computer
+algebra techniques as suggested by Bostan, Morain, Salvy and
 Schost~\cite{bostan+morain+salvy+schost08}. %
 
 We have, essentially, sketched the computation involved in the
 Schoof-Elkies-Atkin point counting algorithm~\cite{schoof95}, for
-those that are called \emph{Elkies primes} (more on this later). %
+those that are called \emph{Elkies primes} (more on these later). %
 However, the last part of Elkies' algorithm, the solution to the
 inverse Vélu problem, only works when the characteristic is $0$ or
 \emph{large enough}. %
@@ -590,14 +590,14 @@ preserve Sylow subgroups:
   ϕ(E[r^k]) \subseteq E'[r^k] \quad\text{for any prime $r$ and $k≥0$},
 \end{equation}
 with equality if $r$ does not divide $\deg ϕ$. %
-If $E/\F_p$ is an ordinary curve, $E[p^k]≃ℤ/p^kℤ$ has a particularly
-simple structure. %
+If $E/\F_{p^n}$ is an ordinary curve, $E[p^k]≃ℤ/p^kℤ$ has a
+particularly simple structure. %
 The idea is to compute $E[p^k]$ and $E'[p^k]$ for $k$ large enough
 (precisely, $p^k\sim 4\deg ϕ$), make a guess for the exact image of
 one group into the other, and \emph{interpolate} the isogeny. %
 If the guess was right, the computed isogeny can be verified through
 Vélu's formulas; if not a new guess is made. %
-Given that the $p^k$-torsion groups are cyclic, at most $O(p^k)$
+Given that the $p^k$-torsion groups are cyclic, at most $φ(p^k)$
 different guess must be made. %
 
 Despite its simplicity, Couveignes' algorithm requires some heavy
@@ -607,7 +607,7 @@ operations~\cite{couveignes00,df+schost09,df10}. %
 However, the polynomial dependency in $p$ is a serious handicap,
 quickly making the algorithm unusable as the characteristic grows. %
 Couveignes' other algorithm is affected by the same problem, whereas
-Lercier' algorithm only works when $p=2$.
+Lercier's algorithm only works when $p=2$.
 
 With the introduction of $p$-adic alternatives to Schoof's point
 counting
@@ -630,15 +630,16 @@ my first year as a PhD.\footnote{I can only imagine FM's cold sweats
   when Lercier and Sirvent published their algorithm. I did not
   understand at the time. I do now.}
 
-Nevertheless, Couveignes' algorithm still presents some theoretical
-interest. %
-As we shall see by the end of this chapter, its algebraic nature,
+Nevertheless, Couveignes' algorithm is still a great source of
+inspiration, with many ramifications that we shall explore in the rest
+of this work. %
+By the end of this chapter it will be clear that its algebraic nature,
 deeply related to Tate's isogeny theorem, has more to offer than what
 may appear at first glance. %
 
-\section{Sail on!}
+\section{The neighborhood}
 
-- Schoof
+
 
 
 \section{Curling up}
