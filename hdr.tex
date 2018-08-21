@@ -73,6 +73,7 @@ As short as possible, maybe write after, maybe an appendix.
 
 - projective space, projective varieties,
 - elliptic curves, torsion
+- ordinary, supersingular
 - function fields, algebraic maps, frobenius, degree
 - differentials? pullbacks?
 - modular polynomial?
@@ -562,7 +563,7 @@ Schost~\cite{bostan+morain+salvy+schost08}. %
 
 We have, essentially, sketched the computation involved in the
 Schoof-Elkies-Atkin point counting algorithm~\cite{schoof95}, for
-those that are called \emph{Elkies primes}. %
+those that are called \emph{Elkies primes} (more on this later). %
 However, the last part of Elkies' algorithm, the solution to the
 inverse Vélu problem, only works when the characteristic is $0$ or
 \emph{large enough}. %
@@ -572,10 +573,71 @@ fields. %
 
 \subsection{Couveignes' algorithm}
 
+After Elkies, others set out to solve the explicit isogeny problem in
+small characteristic. %
+While Elkies' method is grounded in complex analysis, and thus
+naturally works in characteristic $0$,
+Couveignes~\cite{couveignes94,couveignes96} and
+Lercier~\cite{lercier96} introduced ``more algebraic'' methods, that
+only work over finite fields. %
 
-The first 
+The one that shall interest us here is Couveignes' second method: a
+strikingly simple idea to solve Problem~\ref{prob:expl-isog-2}
+directly. %
+It is based on the observation that any isogeny $ϕ:E\to E'$ must
+preserve Sylow subgroups:
+\begin{equation}
+  ϕ(E[r^k]) \subseteq E'[r^k] \quad\text{for any prime $r$ and $k≥0$},
+\end{equation}
+with equality if $r$ does not divide $\deg ϕ$. %
+If $E/\F_p$ is an ordinary curve, $E[p^k]≃ℤ/p^kℤ$ has a particularly
+simple structure. %
+The idea is to compute $E[p^k]$ and $E'[p^k]$ for $k$ large enough
+(precisely, $p^k\sim 4\deg ϕ$), make a guess for the exact image of
+one group into the other, and \emph{interpolate} the isogeny. %
+If the guess was right, the computed isogeny can be verified through
+Vélu's formulas; if not a new guess is made. %
+Given that the $p^k$-torsion groups are cyclic, at most $O(p^k)$
+different guess must be made. %
 
-- Couveignes, Lercier 
+Despite its simplicity, Couveignes' algorithm requires some heavy
+computer algebra artillery to achieve a decent complexity, but with
+some effort it can be made to run in $\tildO(ℓ^2p^3)$
+operations~\cite{couveignes00,df+schost09,df10}. %
+However, the polynomial dependency in $p$ is a serious handicap,
+quickly making the algorithm unusable as the characteristic grows. %
+Couveignes' other algorithm is affected by the same problem, whereas
+Lercier' algorithm only works when $p=2$.
+
+With the introduction of $p$-adic alternatives to Schoof's point
+counting
+algorithm~\cite{satoh00,kedlaya01,kedlaya04,lauder04,10.2307/24522768},
+interest in solutions to the explicit isogeny problem limited to such
+small characteristic started to fade. %
+Later, Lercier and Sirvent~\cite{lercier+sirvent08} explained how to
+extend Elkies' algorithm to finite fields of any characteristic, by
+lifting the explicit isogeny problem to a $p$-adic field. %
+Their algorithm only has a logarithmic dependency in the
+characteristic, and gracefully degrades to Elkies' algorithm when $p$
+becomes large enough. %
+Said otherwise, Lercier and Sirvent effectively rendered all previous
+algorithms obsolete! %
+
+Incidentally, this coincides with the beginning of my career in
+research, one that started off by desperately trying to beat the
+cycles out of an algorithm that would be obsoleted before the end of
+my first year as a PhD.\footnote{I can only imagine FM's cold sweats
+  when Lercier and Sirvent published their algorithm. I did not
+  understand at the time. I do now.}
+
+Nevertheless, Couveignes' algorithm still presents some theoretical
+interest. %
+As we shall see by the end of this chapter, its algebraic nature,
+deeply related to Tate's isogeny theorem, has more to offer than what
+may appear at first glance. %
+
+\section{Sail on!}
+
 - Schoof
 
 
@@ -610,6 +672,8 @@ The first
 - Signatures?
 - Quantum algorithms? Kuperberg?
 
+- use our couveignes to break CSIDH
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -623,4 +687,5 @@ The first
 % LocalWords:  isogeny isogenies morphism surjective projective
 % LocalWords:  preimage bijection cryptosystems univariate Decisional
 % LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
-% LocalWords:  precomputed  Abelian Vélu's
+% LocalWords:  precomputed  Abelian Vélu's Elkies Couveignes Lercier
+% LocalWords:  Schoof
