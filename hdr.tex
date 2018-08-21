@@ -74,6 +74,7 @@ As short as possible, maybe write after, maybe an appendix.
 - projective space, projective varieties,
 - elliptic curves, torsion
 - ordinary, supersingular
+- endomorphism ring
 - function fields, algebraic maps, frobenius, degree
 - differentials? pullbacks?
 - modular polynomial?
@@ -210,7 +211,7 @@ For elliptic curves defined over a field of characteristic $p>0$,
 there is another kind of isogeny. %
 Let $E:y^2=x^3+ax+b$ be an elliptic curve, let $q$ be a power of $p$, and let
 $E^{(q)}:y^2=x^3+a^qpx+b^q$. %
-The isogeny $π_q:E\to E^{(q)}$ defined by
+The isogeny $π_q:E→ E^{(q)}$ defined by
 \begin{equation}
   \begin{aligned}
     π_q(x,y) &= (x^q,y^q),\\
@@ -255,7 +256,7 @@ entirely determined by their kernel. %
   Let $E$ be an elliptic curve, and let $G$ be a finite subgroup of
   $E$. %
   There is a curve $E'$, and a separable isogeny $ϕ$, such that
-  $\ker ϕ=G$ and $ϕ:E\to E'$. %
+  $\ker ϕ=G$ and $ϕ:E→ E'$. %
   Furthermore, $E'$ and $ϕ$ are unique up to composition with an
   isomorphism $E'≃E''$. %
 \end{proposition}
@@ -263,7 +264,7 @@ entirely determined by their kernel. %
 Said otherwise, for any finite subgroup $G⊂E$, we have an exact
 sequence of algebraic groups
 \begin{equation*}
-  0 \to G \to E \overset{ϕ}{\to} E' \to 0.
+  0 → G → E \overset{ϕ}{→} E' → 0.
 \end{equation*}
 Uniqueness up to isomorphisms justifies the notation $E/G$ for the
 isomorphism class of the image curve $E'$. %
@@ -273,8 +274,8 @@ It turns out there is a pretty natural way to define one.
 
 \begin{definition}[Normalized isogeny]
   Let $E,E'$ be two elliptic curves, $ω_E,ω_E'$ their \emph{invariant
-    differential}, $ϕ:E\to E'$ a separable isogeny and
-  $ϕ^*:Ω_{E'}\to Ω_E$ its \emph{pullback}. %
+    differential}, $ϕ:E→ E'$ a separable isogeny and
+  $ϕ^*:Ω_{E'}→ Ω_E$ its \emph{pullback}. %
   We say that $ϕ$ is \emph{normalized} if its pullback preserves the
   invariant differentials, i.e., $ϕ^*(ω_{E'})=ω_E$. %
 \end{definition}
@@ -314,8 +315,8 @@ inseparable part, see~\cite[III.6.1]{silverman:elliptic} for a
 detailed proof).
 
 \begin{theorem}[Dual isogeny theorem]
-  Let $ϕ:E\to E'$ be an isogeny of degree $m$. %
-  There is a unique isogeny $\hat{ϕ}:E'\to E$ such that
+  Let $ϕ:E→ E'$ be an isogeny of degree $m$. %
+  There is a unique isogeny $\hat{ϕ}:E'→ E$ such that
   \[\hat{ϕ}∘ϕ = [m]_E, \quad ϕ∘\hat{ϕ} = [m]_{E'}.\] %
   $\hat{ϕ}$ is called the \emph{dual isogeny of $ϕ$}; it has the
   following properties:
@@ -323,8 +324,8 @@ detailed proof).
   \begin{enumerate}
   \item $\hat{ϕ}$ has degree $m$;
   \item $\hat{ϕ}$ is defined over $k$ if and only if $ϕ$ is;
-  \item $\widehat{ψ∘ϕ} = \hat{ϕ}∘\hat{ψ}$ for any isogeny $ψ:E'\to E''$;
-  \item $\widehat{ψ+ϕ} = \hat{ψ} + \hat{ϕ}$ for any isogeny $ψ:E\to E'$;
+  \item $\widehat{ψ∘ϕ} = \hat{ϕ}∘\hat{ψ}$ for any isogeny $ψ:E'→ E''$;
+  \item $\widehat{ψ+ϕ} = \hat{ψ} + \hat{ϕ}$ for any isogeny $ψ:E→ E'$;
   \item $\deg ϕ = \deg\hat{ϕ}$;
   \item $\hat{\hat{ϕ}} = ϕ$.
   \end{enumerate}
@@ -339,7 +340,7 @@ given by Vélu's much celebrated formulas. %
   \label{th:velu}
   Let $E:y^2=x^3+ax+b$ be an elliptic curve defined over a field $k$,
   and let $G⊂E(\bar{k})$ be a finite subgroup. %
-  The normalized separable isogeny $ϕ:E\to E/G$, of kernel $G$, can be
+  The normalized separable isogeny $ϕ:E→ E/G$, of kernel $G$, can be
   written as
   \begin{equation*}
     ϕ(P) = \left(
@@ -360,12 +361,12 @@ perspective? %
 understand the question, we need to discuss \emph{rationality}. %
 Let $E$ be defined over a field $k$ with algebraic closure
 $\bar{k}$. %
-We say that an isogeny $ϕ:E\to E'$ is \emph{defined over $k$}, or
+We say that an isogeny $ϕ:E→ E'$ is \emph{defined over $k$}, or
 \emph{$k$-rational}, if $ϕ$ is invariant under the action of the
 Galois group of $\bar{k}/k$. %
 This is equivalent to $ϕ$ being defined by rational maps with
-coefficients in $k$, and also to $\ker ϕ$ being stable under
-$\Gal(\bar{k}/k)$. %
+coefficients in $k$, and implies\footnote{The converse is only true up
+  to \emph{twist}} that $\ker ϕ$ is stable under $\Gal(\bar{k}/k)$. %
 It implies that $E'$ is defined over $k$, but the converse is not
 true. %
 
@@ -431,7 +432,7 @@ literature.
 \begin{problem}
   \label{prob:expl-isog-2}
   Let $E$ and $E'$ be two elliptic curves, and $ℓ$ an integer. %
-  Decide whether there exists an isogeny $ϕ:E\to E'$ of degree $ℓ$,
+  Decide whether there exists an isogeny $ϕ:E→ E'$ of degree $ℓ$,
   and compute its kernel.
 \end{problem}
 
@@ -545,7 +546,7 @@ isogeny problem.
 \begin{problem}[Inverse Vélu problem\footnote{The name is ours and
     not attested in the literature.}]
   Let $E,E'$ be elliptic curves such that there exists a normalized
-  isogeny $ϕ:E\to E'$ of degree $ℓ$. %
+  isogeny $ϕ:E→ E'$ of degree $ℓ$. %
   Compute the kernel of $ϕ$.
 \end{problem}
 
@@ -584,7 +585,7 @@ only work over finite fields. %
 The one that shall interest us here is Couveignes' second method: a
 strikingly simple idea to solve Problem~\ref{prob:expl-isog-2}
 directly. %
-It is based on the observation that any isogeny $ϕ:E\to E'$ must
+It is based on the observation that any isogeny $ϕ:E→ E'$ must
 preserve Sylow subgroups:
 \begin{equation}
   ϕ(E[r^k]) \subseteq E'[r^k] \quad\text{for any prime $r$ and $k≥0$},
@@ -637,9 +638,92 @@ By the end of this chapter it will be clear that its algebraic nature,
 deeply related to Tate's isogeny theorem, has more to offer than what
 may appear at first glance. %
 
+
 \section{The neighborhood}
 
+From now on, $\F_q$ will be a finite field of characteristic $p$, and
+all elliptic curves and isogenies will be defined over it, unless
+stated otherwise. %
 
+We want to explore the ``neighborhood'' of $E/\F_q$, i.e., given a
+prime $ℓ$, how many $ℓ$-isogenous curves to $E$ are there? What
+properties do they have?
+
+Fortunately, we have a Swiss-army-knife to answer these questions. %
+The \emph{Frobenius endomorphism} is the map
+\begin{equation*}
+  \begin{aligned}
+    π : E &→ E,\\
+    (x,y) &↦ (x^q,y^q).
+  \end{aligned}
+\end{equation*}
+Hasse's well known theorem states that $π$, as an element of the
+endomorphism ring $\End(E)$, satisfies a quadratic equation with
+integer coefficients $π^2 + q = tπ$, where $t$ is called the
+\emph{trace} of $π$. %
+Hasse also proved that $Δ_π=t^2-4q≤0$, with equality happening only if
+$E$ is supersingular. %
+$Δ_π$ is called the \emph{discriminant of $π$}, or, by a slight abuse,
+the discriminant of $E$. %
+
+An isogeny $ϕ:E→E/G$ is $\F_q$-rational if and only if $π(G)=G$, which
+suggests looking at the restriction of $π$ to $E[ℓ]$. %
+Assume $ℓ≠p$, then $E[ℓ]$ is a group of rank $2$ and $π$ acts on it
+like an element of $\GL_2(\F_ℓ)$, up to conjugation. %
+Clearly, the order of $π$ in $\GL_2(\F_ℓ)$ is the degree of the
+smallest extension of $\F_q$ where all $ℓ$-isogenies of $E$ are
+defined. %
+But we can tell even more by diagonalizing the matrix: $π$ must have
+between $0$ and $2$ eigenvalues, and the corresponding eigenvectors
+define kernels of rational isogenies. %
+We thus are in one of the following four possibilities:
+\begin{itemize}
+\item[(0)] $π$ is not diagonalizable in $\F_ℓ$, then $E$ has no
+  $ℓ$-isogenies.
+\item[(1.1)] $π$ has one eigenvalue of (geometric) multiplicity one,
+  i.e., it is conjugate to a non-diagonal matrix
+  $\left(\begin{smallmatrix}λ&*\\0&λ\end{smallmatrix}\right)$; then
+  $E$ has one $ℓ$-isogeny.
+\item[(1.2)] $π$ has one eigenvalue of multiplicity two, i.e., it acts
+  like a scalar matrix
+  $\left(\begin{smallmatrix}λ&0\\0&λ\end{smallmatrix}\right)$; then
+  $E$ has $ℓ+1$ isogenies of degree $ℓ$.
+\item[(2)] $π$ has two distinct eigenvalues, i.e., it is conjugate to
+  a diagonal matrix
+  $\left(\begin{smallmatrix}λ&0\\0&μ\end{smallmatrix}\right)$ with
+  $\lambda\neq\mu$; then $E$ has two $\ell$-isogenies.
+\end{itemize}
+
+Naturally, the number of eigenvalues of $π$ depends the factorization
+of the polynomial $x^2-tx+q$ over $\F_ℓ$, or equivalently on the
+Legendre symbol $\leg{Δ_π}{ℓ}$; the correspondence is summarized in
+Table~\ref{todo}. %
+The four cases can also be read in the way the modular polynomial
+$Φ_ℓ(j(E),y)$ factors over $\F_q$; this is at the heart of Atkin's
+improvement to Schoof's point counting
+algorithm~\cite{atkin91,atkin92}. %
+
+However, not all isogenies are born equal, and the Frobenius
+endomorphism can reveal even more of their properties.
+
+If $E$ is ordinary, $ℚ[π]$ is an imaginary quadratic extension of the
+rationals, and it contains $\End(E)$ as an order:
+\[ℤ[π] ⊂ \End(E) ⊂ \O_K.\]
+The situation is richer for supersingular curves, and we shall come
+back to it in Chapter~\ref{cha:crypto}.
+
+- frobenius
+- 
+
+\begin{table}
+  \centering
+  \begin{tabular}{}
+    
+  \end{tabular}
+  \caption{Number and types of $ℓ$-isogenies, according to curve
+    discriminant.}
+  \label{tab:periodic-table}
+\end{table}
 
 
 \section{Curling up}
@@ -647,6 +731,13 @@ may appear at first glance. %
 - Isogeny graphs, Serre trees?
 - Isogeny volcanoes, complex multiplication
 - Supersingular graphs
+
+\section{Explicit isogenies in quadratic time}
+
+\section{Perspectives}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -685,8 +776,9 @@ may appear at first glance. %
 
 \end{document}
 
-% LocalWords:  isogeny isogenies morphism surjective projective
+% LocalWords:  isogeny isogenies morphism surjective projective Hasse
 % LocalWords:  preimage bijection cryptosystems univariate Decisional
 % LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
 % LocalWords:  precomputed  Abelian Vélu's Elkies Couveignes Lercier
-% LocalWords:  Schoof
+% LocalWords:  Schoof endomorphism Frobenius supersingular
+% LocalWords:  diagonalizing diagonalizable diagonalization
