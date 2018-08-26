@@ -28,7 +28,7 @@
 }
 
 \usepackage{tikz}
-\usetikzlibrary{arrows,matrix,decorations,decorations.text,decorations.pathmorphing,calc}
+\usetikzlibrary{arrows,trees,matrix,decorations,decorations.text,decorations.pathmorphing,calc}
 \pgfkeys{/triangle/.code=\tikzset{x={(-0.5cm,-0.866cm)},y={(1cm,0cm)}}}
 \pgfkeys{/lattice/.code n args={4}{\tikzset{cm={#1,#2,#3,#4,(0,0)}}}}
 
@@ -73,7 +73,7 @@ As short as possible, maybe write after, maybe an appendix.
 
 - projective space, projective varieties,
 - elliptic curves, torsion
-- ordinary, supersingular
+- ordinary, supersingular (how many?)
 - endomorphism ring
 - function fields, algebraic maps, frobenius, degree
 - differentials? pullbacks?
@@ -454,7 +454,7 @@ can deduce its kernel polynomial $h_ℓ$.\footnote{Up to a constant,
   $h_ℓ$ is the square of $ψ_ℓ$, the \emph{$ℓ$-th division polynomial}.
   See~\cite[III.4]{blake+seroussi+smart} for explicit formulas.} %
 
-Let's assume for simplicity that $ℓ$ is prime and different from the
+Let us assume for simplicity that $ℓ$ is prime and different from the
 characteristic, then we know there are at most $ℓ+1$ normalized
 isogenies of degree $ℓ$ from $E$. %
 Factoring $h_ℓ$ over the field of definition $k$ of $E$ lets us
@@ -471,7 +471,7 @@ problem. The matter is solving it fast!
 
 An interesting case, and the one Elkies was originally interested in,
 is when the curves are defined over a finite field. %
-Let's relax the problem a bit, and see what can be told about it. %
+Let us relax the problem a bit, and see what can be told about it. %
 Decisional versions, first: two elliptic curves are said to be
 \emph{isogenous} if there exists an isogeny connecting them (this is
 an equivalence relation, thanks to the dual isogeny theorem).
@@ -663,8 +663,7 @@ integer coefficients $π^2 + q = tπ$, where $t$ is called the
 \emph{trace} of $π$. %
 Hasse also proved that $Δ_π=t^2-4q≤0$, with equality happening only if
 $E$ is supersingular. %
-$Δ_π$ is called the \emph{discriminant of $π$}, or, by a slight abuse,
-the discriminant of $E$. %
+$Δ_π$ is called the \emph{discriminant of $π$}. %
 
 An isogeny $ϕ:E→E/G$ is $\F_q$-rational if and only if $π(G)=G$, which
 suggests looking at the restriction of $π$ to $E[ℓ]$. %
@@ -676,48 +675,315 @@ defined. %
 But we can tell even more by diagonalizing the matrix: $π$ must have
 between $0$ and $2$ eigenvalues, and the corresponding eigenvectors
 define kernels of rational isogenies. %
-We thus are in one of the following four possibilities:
+We thus are in one of the following four cases:
 \begin{itemize}
 \item[(0)] $π$ is not diagonalizable in $\F_ℓ$, then $E$ has no
   $ℓ$-isogenies.
 \item[(1.1)] $π$ has one eigenvalue of (geometric) multiplicity one,
   i.e., it is conjugate to a non-diagonal matrix
-  $\left(\begin{smallmatrix}λ&*\\0&λ\end{smallmatrix}\right)$; then
+  $\mat{λ&*\\0&λ}$; then
   $E$ has one $ℓ$-isogeny.
 \item[(1.2)] $π$ has one eigenvalue of multiplicity two, i.e., it acts
   like a scalar matrix
-  $\left(\begin{smallmatrix}λ&0\\0&λ\end{smallmatrix}\right)$; then
+  $\mat{λ&0\\0&λ}$; then
   $E$ has $ℓ+1$ isogenies of degree $ℓ$.
 \item[(2)] $π$ has two distinct eigenvalues, i.e., it is conjugate to
   a diagonal matrix
-  $\left(\begin{smallmatrix}λ&0\\0&μ\end{smallmatrix}\right)$ with
+  $\mat{λ&0\\0&μ}$ with
   $\lambda\neq\mu$; then $E$ has two $\ell$-isogenies.
 \end{itemize}
 
-Naturally, the number of eigenvalues of $π$ depends the factorization
-of the polynomial $x^2-tx+q$ over $\F_ℓ$, or equivalently on the
-Legendre symbol $\leg{Δ_π}{ℓ}$; the correspondence is summarized in
-Table~\ref{todo}. %
-The four cases can also be read in the way the modular polynomial
-$Φ_ℓ(j(E),y)$ factors over $\F_q$; this is at the heart of Atkin's
-improvement to Schoof's point counting
-algorithm~\cite{atkin91,atkin92}. %
+Naturally, the number of eigenvalues of $π$ depends on the
+factorization of the polynomial $x^2-tx+q$ over $\F_ℓ$, or
+equivalently on the Kronecker symbol $\leg{Δ_π}{ℓ}$; the correspondence
+is summarized in Table~\ref{tab:periodic-table}. %
 
-However, not all isogenies are born equal, and the Frobenius
-endomorphism can reveal even more of their properties.
+Each of the four cases also corresponds to a different factorization
+pattern of the modular polynomial. %
+The following proposition is at the heart of Atkin's improvement to
+Schoof's point counting algorithm. %
 
-If $E$ is ordinary, $ℚ[π]$ is an imaginary quadratic extension of the
-rationals, and it contains $\End(E)$ as an order:
-\[ℤ[π] ⊂ \End(E) ⊂ \O_K.\]
-The situation is richer for supersingular curves, and we shall come
-back to it in Chapter~\ref{cha:crypto}.
+\begin{proposition}[Atkin~\cite{atkin91,atkin92}]
+  Let $E/\F_q$ be a curve with $j(E)≠0,1728$. %
+  Let $ℓ$ be a prime different from the characteristic, and let $Φ_ℓ$
+  be the $ℓ$-th modular polynomial. %
+  The number of distinct $\F_q$-rational normalized $ℓ$-isogenies of
+  $E$ is equal to the number of linear factors of $Φ_ℓ(j(E),y)$ over
+  $\F_q$; furthermore, the factorization degree pattern of
+  $Φ_ℓ(j(E),y)$ falls into one of these four categories:
+  \begin{itemize}
+  \item[(0)] $r,\dots,r$ for some $r$ dividing $ℓ+1$;
+  \item[(1.1)] $1,ℓ$;
+  \item[(1.2)] $1,\cdots,1$;
+  \item[(2)] $1,1,r,\cdots,r$ for some $r$ dividing $ℓ-1$.
+  \end{itemize}
+\end{proposition}
 
-- frobenius
-- 
+For ordinary elliptic curves, Kohel~\cite{kohel} showed that this
+classification can be further refined by introducing a notion of
+``depth'' of an elliptic curve. %
+Let $K=ℚ[π]$ be an imaginary quadratic number field where we identify
+the Frobenius $π$ to one root of $x^2-tx+q$. %
+Let $\O_K$ be the ring of integers of $K$ then $\End(E)$ is isomorphic
+to an order $\O$
+\[ℤ[π] ⊂ \O ⊂ \O_K.\] %
+We have already seen that two elliptic curves are isogenous over
+$\F_q$ if and only if they have the same number of points;
+equivalently, they are isogenous if and only if $ℚ[π_E]≃ℚ[π_{E'}]$. %
+Kohel refined Tate's theorem as follows.
 
+\begin{proposition}[{Kohel~\cite[Prop.~21]{kohel}}]
+  Let $E,E'$ be elliptic curves defined over a finite field, and let
+  $\O,\O'$ be their respective endomorphism ring. %
+  Suppose that there exists an isogeny $ϕ:E→E'$ of prime degree $ℓ$,
+  then $\O$ contains $\O'$ or $\O'$ contains $\O$, and the index of
+  one in the other divides $ℓ$.
+\end{proposition}
+
+For a fixed prime $ℓ$, Kohel defines a curve $E$ to be \emph{at the
+  surface} if $v_ℓ([\O_K:\End(E)])=0$, where $v_ℓ$ is the $ℓ$-adic
+valuation. %
+$E$ is said to be \emph{at depth $d$} if $v_ℓ([\O_K:\End(E)])=d$; the
+maximal depth being $d_{\max}=v_ℓ([\O_K:ℤ[π]])$, curves at depth
+$d_{\max}$ are said to be \emph{at the floor (of rationality)}, and
+$d_{\max}$ is called the \emph{height} of the graph of $E$. %
+Kohel calls then an $ℓ$-isogeny \emph{horizontal} if it goes to a
+curve at the same depth, \emph{descending} if it goes to a curve at
+greater depth, \emph{ascending} if it goes to a curve at lesser
+depth. %
+
+But how many horizontal and vertical $ℓ$-isogenies does a given curve
+have? %
+Typically this question is answered by the theory of complex
+multiplication, but we shall use another strategy that better serves
+our purpose. %
+So far, the Frobenius endomorphism has only given us a ``local'' view
+on the neighboring curves. %
+We need to ``elevate'' our point of view and look further away, in
+order to gain a global view on the whole isogeny class. %
+
+
+\section{How isogeny graphs fold}
+
+An \emph{isogeny graph} is a connected graph whose vertices are
+elliptic curves up to isomorphism, and whose edges are isogenies under
+some restrictions. %
+In this chapter we are only interested in graphs of $ℓ$-isogenies, for
+some fixed prime $ℓ$; other types of isogeny graphs will appear in
+Chapter~\ref{cha:crypto}. %
+Because of the dual isogeny theorem, these isogeny graphs are
+undirected; technically we should be more properly speaking of
+directed multi-graphs, since multiple edges and self-loops are
+possible, but these cases are rare enough that we can deal with them
+explicitly. %
+
+As a first example, let us start with elliptic curves over the complex
+numbers. %
+We know every such curve has exactly $ℓ+1$ isogenies, thus the isogeny
+graph is $ℓ+1$ regular. %
+If we let $E/ℂ$ be a curve \emph{without complex multiplication},
+i.e., such that $\End(E)=ℤ$, then its connected component cannot have
+loops, otherwise that would provide a non-trivial endomorphism of
+$E$. %
+Hence, the isogeny graph of $E$ is an infinite $(ℓ+1)$-tree, as
+pictured in Figure~\ref{fig:infinite-tree}. %
+Despite the nice drawing, this graph is, algebraically, ``boring'': it
+looks the same from every vertex, there is not much we can say on it
+that is not already contained in the statement ``infinite tree'';
+contrary to what the figure suggests, this graph has no ``origin''.
+
+\begin{figure}
+  \centering
+    \begin{tikzpicture}[scale=0.6]
+      \def\levels{6}
+      \draw[fill] (0:0) circle (2pt);
+      \foreach \i in {1,...,\levels} {
+        \pgfmathparse{3*2^\i}
+        \let\nodes\pgfmathresult
+        \foreach \j in {1,3,...,\nodes} {
+          \pgfmathparse{\j + (-1)^div(\j,2)}
+          \let\lower\pgfmathresult
+          \ifthenelse{\i = \levels}{
+            \draw[dotted] (360/\nodes*\j : \i) --
+            (360/\nodes*\lower : \i - 1);
+          }{
+            \draw[fill] (360/\nodes*\j : \i) circle (2pt) --
+            (360/\nodes*\lower : \i - 1);
+          }
+        }
+      }
+    \end{tikzpicture}
+  
+    \caption{Infinite $2$-isogeny graph of elliptic curves without
+      complex multiplication.}
+  \label{fig:infinite-tree}
+\end{figure}
+
+Going back to finite fields, the picture gets more interesting. %
+For one, there is only a finite number of elliptic curves, so these
+graphs are finite. %
+Extending scalars to the algebraic closure adds vertices to these
+graphs, and makes them $ℓ+1$ regular; but will they look the same as
+Figure~\ref{fig:infinite-tree}? %
+Interestingly, no. %
+
+For the case of supersingular curves, we know that there is only a
+finite number of them, up to isomorphism; so supersingular isogeny
+graphs are $(ℓ+1)$-regular and finite! %
+We will say more on them in Chapter~\ref{cha:crypto}. %
+
+For the case of ordinary curves, we have already discussed the notion
+of ``depth'', we thus know that, as we travel along a path of
+descending isogenies, there is an algebraic invariant that tells us
+how far we are from the surface. %
+Said otherwise, unlike the graph of $E/ℂ$ without complex
+multiplication, that of $E/\F_q$ has one, or more, ``origins''. %
+
+What about horizontal isogenies? %
+Can we construct indefinitely long walks entirely made of them? %
+Here is a spoiler: no! %
+The theory of complex multiplication tells us that there is only a
+finite number of elliptic curves defined over $\bar{\F}_q$, up to
+isomorphism, with endomorphism ring isomorphic to a given order. %
+But let's pretend we do not know complex multiplication, and slowly
+work our way towards classifying horizontal isogenies. %
+
+Here is an intuition. %
+In the same way the action of $π$ on $E[ℓ]$ allowed us to ``see'' the
+neighbors of $E$ in the $ℓ$-isogeny graph, ``climbing'' to $π|E[ℓ^n]$
+will give us a view on the ball of radius $n$ around $E$. %
+If we ``elevate'' our point of view ``high enough'', we shall be able
+to see enough of the graph to understand how it ``folds'' inside
+$\F_q$. %
+As long as we are not doing computations, the simplest way to go high
+enough is to go ``infinitely high'', i.e., study the restriction of
+$π$ to the Tate module $T_ℓ(E)$. %
+
+The \emph{Tate module} $T_ℓ(E)$ is the \emph{projective limit}
+\begin{equation*}
+  T_ℓ(E) = \varprojlim E[ℓ^n]
+\end{equation*}
+given by the natural projections
+\begin{equation*}
+  E[ℓ^n]\overset{[ℓ]}{→}E[ℓ^{n-1}].  
+\end{equation*}
+Since the $E[ℓ^n]$ are $ℤ/ℓ^nℤ$-modules, $T_ℓ(E)$ has a $ℤ_ℓ$-module
+structure, where $ℤ_ℓ$ denotes the $ℓ$-adic integers. %
+Tate's isogeny theorem states that, for finite fields, studying
+morphisms of $T_ℓ(E)$ is the same as studying isogenies of $E$.
+
+\begin{theorem}[{Tate~\cite{Tate}}]
+  Let $\F_q$ be a finite field of characteristic $p$, and let $ℓ≠p$ be
+  a prime. %
+  Let $E,E'$ be elliptic curves defined over $\F_q$, the canonical
+  map %
+  \begin{equation*}
+    \Hom_{\F_q}(E,E')⊗ℤ_ℓ → \Hom_{\F_q}(T_ℓ(E),T_ℓ(E'))
+  \end{equation*}
+  is an isomorphism of $ℤ_ℓ$-modules.
+\end{theorem}
+
+Tate's theorem has many important consequences. %
+Among those, we have already mentioned that $E$ and $E'$ are isogenous
+if and only if $\#E(\F_q)=\#E'(\F_q)$. %
+Furthermore, the action of $π$ on $T_ℓ(E)$ provides a $2$-dimensional
+representation of $\Gal(\bar{\F}_q/\F_q)$, and Tate's theorem states
+that $E$ and $E'$ are isogenous over $\F_q$ if and only if $T_ℓ(E)$
+and $T_ℓ(E')$ are isomorphic as $ℚ_ℓ$-representations. %
+Explicitly computing this representation gives us another mean of, in
+Kohel's words, ``probing the depth''. %
+
+\begin{proposition}[{D., Hugounenq, Plût~\cite{defeo2016explicit}}]
+  Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
+  endomorphism~$π$. %
+  Assume that the characteristic polynomial of~$π$ has two distinct
+  roots~$λ, μ$ in~$ℤ_ℓ$, and let $h=v_ℓ(λ-μ)$. %
+  Then there exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
+  conjugate, over~$ℤ_ℓ$, to the matrix $\mat{λ&ℓ^e\\0&μ}$. %
+  
+  Moreover, $h=v_ℓ([\End(E):ℤ[π]])$ is the height of the graph of $E$:
+  if~$E$ lies at the surface, $e = h$ and $π|T_ℓ(E)$ is also conjugate
+  over~$ℤ_ℓ$ to $\mat{λ&0\\0&μ}$; otherwise $h - e$~is the depth
+  of~$E$.
+\end{proposition}
+
+\begin{proposition}
+  TODO: similar statement for Atkin and ramified primes. Conjecture:
+  about the same, but only true modulo $ℓ^h$.
+\end{proposition}
+
+We thus have an effective \emph{bathymeter} to navigate the isogeny
+graph: it is indeed sufficient to compute $π|T_ℓ(E)$ up to precision
+$ℓ^h$, i.e., $π|E[ℓ^h]$, in order to determine the depth of $E$. %
+This generalizes previous partial results of Miret et
+al.~\cite{MiretMSTV06,MIRET200867} and Ionica and
+Joux~\cite{ionica+joux13}. %
+
+But the propositions also give us an effective way to characterize
+horizontal isogenies. %
+Indeed, if $ϕ:E→E'$ is an $\F_q$-rational $ℓ$-isogeny, $ϕ_ℓ$ its
+restriction to $T_ℓ(E)$, and we let $π,π'$ be the Frobenius
+endomorphisms of $E,E'$, then $π' = ϕ_ℓπϕ_ℓ^{-1}$ (where we have
+tensored by $ℚ_ℓ$ to make sense of $ϕ_ℓ^{-1}$). %
+Up to change of basis of $T_ℓ(E')$, the $ℓ+1$ isogenies of degree $ℓ$
+are represented by the matrices $\mat{1&0\\0&ℓ}$ and $\mat{ℓ&a\\0&1}$
+for $0≤a<ℓ$, describing the neighborhood of $E$. %
+If we now look at the matrices isogenies of degree $ℓ^n$, quotienting
+out scalar multiplications, we obtain the tree structure\footnote{I am
+  grateful to J. Plût for explaining this to me, and providing the
+  TikZ code for Figure~\ref{fig:serre-tree}} on
+$\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$ shown in Figure~\ref{fig:serre-tree}, a
+structure that Serre~\cite[II]{SL2} calls the tree of $\SL_2$ over
+$ℤ_ℓ$. %
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[grow cyclic,level distance=8ex]
+    \tikzstyle{level 1}=[sibling angle=120]
+    \tikzstyle{level 2}=[sibling angle=90]
+    \tikzstyle{level 3}=[sibling angle=70]
+    \node{$\mat{1&0\\0&1}$}
+    child{ node{$\mat{2&0\\0&1}$}
+      child { node {$\mat{4&0\\0&1}$}
+        child { node {$\mat{8&0\\0&1}$} }
+        child { node {$\mat{8&4\\0&1}$} }
+      }
+      child { node {$\mat{4&2\\0&1}$}
+        child { node {$\mat{8&2\\0&1}$} }
+        child { node {$\mat{8&6\\0&1}$} }
+      }
+    }
+    child{ node{$\mat{2&1\\0&1}$}
+      child { node {$\mat{4&1\\0&1}$}
+        child { node {$\mat{8&1\\0&1}$} }
+        child { node {$\mat{8&5\\0&1}$} }
+      }
+      child { node {$\mat{4&3\\0&1}$}
+        child { node {$\mat{8&3\\0&1}$} }
+        child { node {$\mat{8&7\\0&1}$} }
+      }
+    }
+    child{ node{$\mat{1&0\\0&2}$}
+      child { node {$\mat{2&1\\0&2}$}
+        child { node {$\mat{4&3\\0&2}$} }
+        child { node {$\mat{4&1\\0&2}$} }
+      }
+      child { node {$\mat{1&0\\0&4}$}
+        child { node {$\mat{2&1\\0&4}$} }
+        child { node {$\mat{1&0\\0&8}$} }
+      }
+    }
+    ;
+  \end{tikzpicture}
+  \caption{$ℓ$-adic Serre tree, representing isogenies of degree $ℓ^n$
+    on $T_ℓ(E)$.}
+  \label{fig:serre-tree}
+\end{figure}
+
+Which path in the tree is horizontal?
 \begin{table}
   \centering
-  \begin{tabular}{}
+  \begin{tabular}{l}
     
   \end{tabular}
   \caption{Number and types of $ℓ$-isogenies, according to curve
@@ -725,8 +991,6 @@ back to it in Chapter~\ref{cha:crypto}.
   \label{tab:periodic-table}
 \end{table}
 
-
-\section{Curling up}
 
 - Isogeny graphs, Serre trees?
 - Isogeny volcanoes, complex multiplication
@@ -780,5 +1044,7 @@ back to it in Chapter~\ref{cha:crypto}.
 % LocalWords:  preimage bijection cryptosystems univariate Decisional
 % LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
 % LocalWords:  precomputed  Abelian Vélu's Elkies Couveignes Lercier
-% LocalWords:  Schoof endomorphism Frobenius supersingular
-% LocalWords:  diagonalizing diagonalizable diagonalization
+% LocalWords:  Schoof endomorphism Frobenius supersingular Kohel
+% LocalWords:  diagonalizing diagonalizable diagonalization morphisms
+% LocalWords:  undirected bathymeter endomorphisms tensored
+% LocalWords:  quotienting
