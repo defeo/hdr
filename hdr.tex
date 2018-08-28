@@ -675,7 +675,9 @@ defined. %
 But we can tell even more by diagonalizing the matrix: $π$ must have
 between $0$ and $2$ eigenvalues, and the corresponding eigenvectors
 define kernels of rational isogenies. %
-We thus are in one of the following four cases:
+We thus are in one of the following four cases\footnote{In the point
+  counting literature, Case~(0) is known as the \emph{Atkin case}, and
+  Case~(2) as the \emph{Elkies case}}:
 \begin{itemize}
 \item[(0)] $π$ is not diagonalizable in $\F_ℓ$, then $E$ has no
   $ℓ$-isogenies.
@@ -790,7 +792,7 @@ pictured in Figure~\ref{fig:infinite-tree}. %
 Despite the nice drawing, this graph is, algebraically, ``boring'': it
 looks the same from every vertex, there is not much we can say on it
 that is not already contained in the statement ``infinite tree'';
-contrary to what the figure suggests, this graph has no ``origin''.
+contrary to what the drawing suggests, this graph has no ``origin''.
 
 \begin{figure}
   \centering
@@ -823,9 +825,8 @@ Going back to finite fields, the picture gets more interesting. %
 For one, there is only a finite number of elliptic curves, so these
 graphs are finite. %
 Extending scalars to the algebraic closure adds vertices to these
-graphs, and makes them $ℓ+1$ regular; but will they look the same as
-Figure~\ref{fig:infinite-tree}? %
-Interestingly, no. %
+graphs, and makes them $ℓ+1$ regular; but how are these regular graphs
+going to ``fold'' inside the finite subfields of $\bar{\F}_q$? %
 
 For the case of supersingular curves, we know that there is only a
 finite number of them, up to isomorphism; so supersingular isogeny
@@ -857,7 +858,7 @@ to see enough of the graph to understand how it ``folds'' inside
 $\F_q$. %
 As long as we are not doing computations, the simplest way to go high
 enough is to go ``infinitely high'', i.e., study the restriction of
-$π$ to the Tate module $T_ℓ(E)$. %
+$π$ to the \emph{Tate module} $T_ℓ(E)$. %
 
 The \emph{Tate module} $T_ℓ(E)$ is the \emph{projective limit}
 \begin{equation*}
@@ -894,6 +895,7 @@ Explicitly computing this representation gives us another mean of, in
 Kohel's words, ``probing the depth''. %
 
 \begin{proposition}[{D., Hugounenq, Plût~\cite{defeo2016explicit}}]
+  \label{th:tate-matrix-elkies}
   Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
   endomorphism~$π$. %
   Assume that the characteristic polynomial of~$π$ has two distinct
@@ -908,9 +910,14 @@ Kohel's words, ``probing the depth''. %
 \end{proposition}
 
 \begin{proposition}
+  \label{th:tate-matrix-atkin}
   TODO: similar statement for Atkin and ramified primes. Conjecture:
   about the same, but only true modulo $ℓ^h$.
 \end{proposition}
+
+Note that the number of roots of the characteristic polynomial of $π$
+in $ℤ_ℓ$ is effectively computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
+the \emph{fundamental discriminant} of the polynomial. %
 
 We thus have an effective \emph{bathymeter} to navigate the isogeny
 graph: it is indeed sufficient to compute $π|T_ℓ(E)$ up to precision
@@ -925,16 +932,30 @@ Indeed, if $ϕ:E→E'$ is an $\F_q$-rational $ℓ$-isogeny, $ϕ_ℓ$ its
 restriction to $T_ℓ(E)$, and we let $π,π'$ be the Frobenius
 endomorphisms of $E,E'$, then $π' = ϕ_ℓπϕ_ℓ^{-1}$ (where we have
 tensored by $ℚ_ℓ$ to make sense of $ϕ_ℓ^{-1}$). %
+% TODO: experiments give me π' = ϕ^-1 π ϕ
 Up to change of basis of $T_ℓ(E')$, the $ℓ+1$ isogenies of degree $ℓ$
 are represented by the matrices $\mat{1&0\\0&ℓ}$ and $\mat{ℓ&a\\0&1}$
-for $0≤a<ℓ$, describing the neighborhood of $E$. %
-If we now look at the matrices isogenies of degree $ℓ^n$, quotienting
-out scalar multiplications, we obtain the tree structure\footnote{I am
-  grateful to J. Plût for explaining this to me, and providing the
-  TikZ code for Figure~\ref{fig:serre-tree}} on
-$\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$ shown in Figure~\ref{fig:serre-tree}, a
-structure that Serre~\cite[II]{SL2} calls the tree of $\SL_2$ over
-$ℤ_ℓ$. %
+for $0≤a<ℓ$; if we have an explicit $\GL_2(ℤ_ℓ)$ representation for
+$π|T_ℓ(E)$, we can compute the representations of $π'|T_ℓ(E')$ for
+each of these isogenies, and use
+Propositions~\ref{th:tate-matrix-elkies}
+and~\ref{th:tate-matrix-atkin} to recognize those that are
+horizontal. %
+
+We can go even further and look at $ℓ^n$-isogenies, represented by
+multiplying the elementary matrices of the $ℓ$-isogenies, and
+quotienting out scalar multiplications. %
+We obtain the tree structure\footnote{Serre~\cite[II]{SL2} calls this
+  the tree of $\SL_2$ over $ℤ_ℓ$. %
+  I am grateful to J. Plût for explaining this to me, and providing
+  the Ti\emph{k}Z code for Figure~\ref{fig:serre-tree}} %
+on $\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$ shown in Figure~\ref{fig:serre-tree},
+where matrices at distance $n$ from $\mat{1&0\\0&1}$ represent
+isogenies of degree $ℓ^n$. %
+A path in the tree corresponds to a path in the isogeny graph;
+conjugating $π$ by the corresponding node we obtain the Frobenius
+matrix of the end curve, and we may thus identify paths that
+correspond to, e.g., horizontal walks. %
 
 \begin{figure}
   \centering
@@ -980,21 +1001,147 @@ $ℤ_ℓ$. %
   \label{fig:serre-tree}
 \end{figure}
 
-Which path in the tree is horizontal?
+For example, assume that the characteristic polynomial of $π$ has two
+distinct roots, so that we are in the setting of
+Proposition~\ref{th:tate-matrix-elkies}. %
+If $π$ diagonalizes as $\mat{λ&0\\0&μ}$, the two isogenies
+$\mat{1&0\\0&ℓ}$ and $\mat{ℓ&0\\0&1}$ do not change the matrix of $π$,
+thus they are both horizontal, whereas all other isogenies are
+descending. %
+On the other hand, if $π$ can only be put in the form
+$\mat{λ&ℓ^e\\0&μ}$, we see that the isogeny $\mat{1&0\\0&ℓ}$ is
+ascending, whereas all others are descending. %
+Finally, if $π$ is of the form $\mat{λ&1\\0&μ}$, then we have one
+ascending isogeny as before, however no descending isogeny is
+rational. %
+
+By applying the same methods to $\leg{Δ_K}{ℓ}=-1,0$, we can prove a
+complete classification of rational isogenies. %
+This is summarized in Table~\ref{tab:periodic-table}. %
+
+\begin{theorem}[{Kohel~\cite{kohel}}]
+  \label{prop:isogeny-count}
+  Let~$E/\F_q$ be an ordinary elliptic curve, $π$ its Frobenius
+  endomorphism, and $Δ_K$ the fundamental discriminant of $ℚ[π]$. %
+  \begin{enumerate}
+  \item If $E$ is not at the floor, there are $ℓ+1$ isogenies of
+    degree $ℓ$ from~$E$, in total.
+  \item If $E$ is at the floor, there are no descending $ℓ$-isogenies
+    from~$E$.
+  \item If $E$ is at the surface, then there are
+    $\left(\frac{Δ_K}{ℓ}\right)+1$~horizontal $ℓ$-isogenies from~$E$
+    (and no ascending $ℓ$-isogenies).
+  \item If $E$ is not at the surface, there are no horizontal
+    $ℓ$-isogenies from~$E$, and one ascending $ℓ$-isogeny.
+  \end{enumerate}
+\end{theorem}
+
 \begin{table}
   \centering
-  \begin{tabular}{l}
-    
+  \def\arraystretch{1.3}
+  \begin{tabular}{c | c | c | c c c}
+    \multicolumn{3}{c|}{} & \multicolumn{3}{c}{Isogeny types}\\
+    \multicolumn{3}{c|}{} & $→$ & $↑$ & $↓$\\
+    \hline
+    $\leg{Δ_π}{ℓ}≠0$ & $ℓ\nmid[\O_K:\O]]$ & $ℓ\nmid[\O:ℤ[π]]$ & $1+\leg{Δ_K}{ℓ}$& &\\
+    \hline
+    & $ℓ\nmid[\O_K:\O]]$ & $ℓ\mid[\O:ℤ[π]]$ &$1+\leg{Δ_K}{ℓ}$& &$ℓ-\leg{Δ_K}{ℓ}$\\
+    $\leg{Δ_π}{ℓ}=0$ & $ℓ\mid[\O_K:\O]]$ & $ℓ\mid[\O:ℤ[π]]$ &  &$1$&$ℓ$\\
+    & $ℓ\mid[\O_K:\O]]$ & $ℓ\nmid[\O:ℤ[π]]$ & &$1$& 
   \end{tabular}
-  \caption{Number and types of $ℓ$-isogenies, according to curve
-    discriminant.}
+  \caption{Number and types of $ℓ$-isogenies, according to splitting
+    type of the characteristic polynomial of $π$.}
   \label{tab:periodic-table}
 \end{table}
 
+This theorem shows that, away from the surface, isogeny graphs just
+look like $ℓ$-regular complete trees of bounded height, with $ℓ$
+descending isogenies at every level except the floor. %
+However, the surface has a more varied structure:
+\begin{itemize}
+\item[(0)] If $\leg{Δ_K}{ℓ}=-1$, there are no horizontal isogenies: the
+  isogeny graph is just a complete tree of degree $ℓ+1$ at the surface
+  and degree $ℓ$ at all other levels. %
+  We call this the \emph{Atkin case}, as it is an extension of the
+  Atkin case in the SEA point counting algorithm.
+\item[(1)] If $\leg{Δ_K}{ℓ}=0$, there is exactly one horizontal
+  isogeny $ϕ:E→E'$ at the surface. %
+  Since $E'$ also has one horizontal isogeny, it necessarily is
+  $\hat{ϕ}$, so the surface only contains two elliptic curves, each
+  the root of an $ℓ$-regular complete tree. %
+  We call this the \emph{ramified case}.
+\item[(2)] The case $\leg{Δ_K}{ℓ}=1$, is arguably the most interesting
+  one. %
+  Each curve at the surface has exactly two horizontal isogenies, thus
+  the subgraph made by curves on the surface is two-regular and
+  finite, i.e., a cycle. %
+  The eigenvalue $λ$ (resp. $μ$) of $π$ defines an eigenspace, that
+  projects onto a cyclic subgroup of $E[ℓ^n]$, which is the kernel of
+  an $ℓ^n$-isogeny represented by the matrix $\mat{ℓ^n&0\\0&1}$
+  (resp. $\mat{1&0\\0&ℓ^n}$). %
+  Hence, $λ$ and $μ$ define two opposite directions on the cycle,
+  independent of the starting point, and dual to one another. %
 
-- Isogeny graphs, Serre trees?
-- Isogeny volcanoes, complex multiplication
-- Supersingular graphs
+  Below each curve of the surface there are $ℓ-1$ curves, each the
+  root of an $ℓ$-regular tree. %
+  We call this the \emph{Elkies case}, again by extension of point
+  counting. %
+\end{itemize}
+
+\begin{figure}[h]
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}
+      \draw[fill] (0,0) circle (2pt)
+      -- (-1,-1) circle (2pt)
+      (0,0) -- (0,-1) circle (2pt)
+      (0,0) -- (1,-1) circle (2pt);
+      \node at (0,-2) {Atkin: $\left(\frac{Δ_K}{ℓ}\right) = -1$};
+    \end{scope}    
+
+    \begin{scope}[xshift=3.5cm]
+      \draw[fill] (0,0) circle (2pt)
+      -- (-0.5,-1) circle (2pt)
+      (0,0) -- (0.5,-1) circle (2pt)
+      (0,0) -- (2,0) circle (2pt)
+      -- (1.5,-1) circle (2pt)
+      (2,0) -- (2.5,-1) circle (2pt);
+      \node at (1,-2) {ramified: $\left(\frac{Δ_K}{ℓ}\right) = 0$};
+    \end{scope}
+    
+    \begin{scope}[xshift=9cm]
+      \draw[fill] (-0.8,0) node[coordinate] (A) {} circle (2pt)
+      -- +(0,-1) circle (2pt)
+      (0,-0.3) node[coordinate] (B) {} circle (2pt)
+      -- +(0,-1) circle (2pt)
+      (0.8,0) node[coordinate] (C) {} circle (2pt)
+      -- +(0,-1) circle (2pt);
+      \draw[bend right=20]
+      (A) edge (B)
+      (B) edge (C)
+      (C) edge[dashed,bend right=90] (A);
+      \node at (0,-2) {Elkies: $\left(\frac{Δ_K}{ℓ}\right) = +1$};
+    \end{scope}
+  \end{tikzpicture}
+  \caption{The three shapes of volcanoes of $2$-isogenies }
+  \label{fig:volcanology}
+\end{figure}
+
+The three cases are summarized in Figure~\ref{fig:volcanology}. %
+The shapes of the graphs, in particular the Elkies case, suggest a
+geological metaphor: Fouquet and Morain~\cite{fouquet+morain02}
+famously called them \emph{isogeny volcanoes}. %
+Adhering to this metaphor, from now on we shall call \emph{crater} the
+cycle at the surface of an Elkies volcano, but we shall refrain from
+using this name for the surface of other types of volcanoes.%
+\footnote{The literature, including my own
+  works~\cite{defeo2016explicit}, is inconsistent on the use of the
+  word ``crater'' for non-Elkies volcanoes.} %
+Of course, to reconcile Kohel's metaphors with Fouquet and Morain's,
+we shall assume isogeny volcanoes are underwater, with the crater just
+touching the sea surface.
+
+
 
 \section{Explicit isogenies in quadratic time}
 
@@ -1046,5 +1193,5 @@ Which path in the tree is horizontal?
 % LocalWords:  precomputed  Abelian Vélu's Elkies Couveignes Lercier
 % LocalWords:  Schoof endomorphism Frobenius supersingular Kohel
 % LocalWords:  diagonalizing diagonalizable diagonalization morphisms
-% LocalWords:  undirected bathymeter endomorphisms tensored
-% LocalWords:  quotienting
+% LocalWords:  undirected bathymeter endomorphisms tensored subgraph
+% LocalWords:  quotienting eigenspace
