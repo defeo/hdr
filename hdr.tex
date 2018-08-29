@@ -916,7 +916,7 @@ Kohel's words, ``probing the depth''. %
 \end{proposition}
 
 Note that the number of roots of the characteristic polynomial of $π$
-in $ℤ_ℓ$ is effectively computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
+in $ℤ_ℓ$ is conveniently computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
 the \emph{fundamental discriminant} of the polynomial. %
 
 We thus have an effective \emph{bathymeter} to navigate the isogeny
@@ -942,20 +942,20 @@ Propositions~\ref{th:tate-matrix-elkies}
 and~\ref{th:tate-matrix-atkin} to recognize those that are
 horizontal. %
 
-We can go even further and look at $ℓ^n$-isogenies, represented by
-multiplying the elementary matrices of the $ℓ$-isogenies, and
-quotienting out scalar multiplications. %
-We obtain the tree structure\footnote{Serre~\cite[II]{SL2} calls this
-  the tree of $\SL_2$ over $ℤ_ℓ$. %
-  I am grateful to J. Plût for explaining this to me, and providing
-  the Ti\emph{k}Z code for Figure~\ref{fig:serre-tree}} %
+By multiplying the elementary matrices above, and quotienting out
+scalar multiplications, we can extend the same technique to isogenies
+of degree $ℓ^n$: we obtain the tree
+structure\footnote{Serre~\cite[II]{SL2} calls this the tree of $\SL_2$
+  over $ℤ_ℓ$. %
+  I am grateful to J. Plût for explaining this to me, and for
+  providing the Ti\emph{k}Z code for Figure~\ref{fig:serre-tree}} %
 on $\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$ shown in Figure~\ref{fig:serre-tree},
 where matrices at distance $n$ from $\mat{1&0\\0&1}$ represent
 isogenies of degree $ℓ^n$. %
 A path in the tree corresponds to a path in the isogeny graph;
-conjugating $π$ by the corresponding node we obtain the Frobenius
-matrix of the end curve, and we may thus identify paths that
-correspond to, e.g., horizontal walks. %
+conjugating $π$ by the end node we obtain the Frobenius matrix of the
+corresponding curve, and we may thus identify paths that correspond
+to, e.g., horizontal walks. %
 
 \begin{figure}
   \centering
@@ -1079,8 +1079,8 @@ However, the surface has a more varied structure:
   projects onto a cyclic subgroup of $E[ℓ^n]$, which is the kernel of
   an $ℓ^n$-isogeny represented by the matrix $\mat{ℓ^n&0\\0&1}$
   (resp. $\mat{1&0\\0&ℓ^n}$). %
-  Hence, $λ$ and $μ$ define two opposite directions on the cycle,
-  independent of the starting point, and dual to one another. %
+  Hence, $λ$ and $μ$ define two opposite \emph{directions} on the
+  cycle, independent of the starting point, and dual to one another. %
 
   Below each curve of the surface there are $ℓ-1$ curves, each the
   root of an $ℓ$-regular tree. %
@@ -1128,6 +1128,12 @@ However, the surface has a more varied structure:
 \end{figure}
 
 The three cases are summarized in Figure~\ref{fig:volcanology}. %
+Tate's theorem only allows us to tell as much; to know more on the
+number and sizes of isogeny graphs, we shall need the theory of
+\emph{complex multiplication}, however we delay this to
+Chapter~\ref{cha:crypto}, where it will be used to construct
+``cryptographic'' isogeny graphs. %
+
 The shapes of the graphs, in particular the Elkies case, suggest a
 geological metaphor: Fouquet and Morain~\cite{fouquet+morain02}
 famously called them \emph{isogeny volcanoes}. %
@@ -1137,16 +1143,154 @@ using this name for the surface of other types of volcanoes.%
 \footnote{The literature, including my own
   works~\cite{defeo2016explicit}, is inconsistent on the use of the
   word ``crater'' for non-Elkies volcanoes.} %
-Of course, to reconcile Kohel's metaphors with Fouquet and Morain's,
-we shall assume isogeny volcanoes are underwater, with the crater just
-touching the sea surface.
-
+Of course, to reconcile Kohel's maritime metaphors with Fouquet and
+Morain's, we shall assume that isogeny volcanoes are underwater, with
+the crater just touching the sea surface.
 
 
 \section{Explicit isogenies in quadratic time}
 
+Armed with our new knowledge on isogeny volcanoes, we can now come
+back to the explicit isogeny problem. %
+
+Recall Couveignes' algorithm: it \emph{interpolates} an isogeny
+$ϕ:E→E'$ of degree $r$ over the $p^k$-torsion subgroups, for $k$ large
+enough. %
+Its main disadvantage is the polynomial dependency in $p$, the
+characteristic of the base field; in practice, Couveignes' algorithm
+is hardly practical for $p>3$. %
+
+To get rid of the bad dependency in $p$, the obvious idea is to
+replace $E[p^k]$ with $E[ℓ^k]$ for some small prime $ℓ$ coprime to
+$r$, say $ℓ=2$. %
+However, a naive algorithm based on this would have a much worse
+complexity than Couveignes' original. %
+Indeed $E[p^k]$ is cyclic, thus there are only $φ(p^k)$ possible
+morphisms $E[p^k]→E'[p^k]$ to test; if each tests takes $p^{k+O(1)}$
+operations, the whole algorithm takes $p^{2k+O(1)}=r^2p^{O(1)}$. %
+On the other hand, $E[ℓ^k]$ is of rank $2$, thus the group of
+morphisms $E[ℓ^k]→E'[ℓ^k]$ is isomorphic to $\GL_2(ℤ/ℓ^kℤ)$ and has
+size $O(ℓ^{4k})$; if each interpolation test takes $ℓ^{2k+O(1)}$
+operations, the whole algorithm takes $ℓ^{6k+O(1)}=r^3ℓ^{O(1)}$. %
+
+But we are not interested in \emph{any} isogeny: we are explicitly
+looking for a \emph{rational} isogeny, thus we can use all that we
+have learned in the previous section. %
+Indeed, we are just applying Tate's theorem: trying to identify, among
+all matrices in $\Hom(T_ℓ(E),T_ℓ(E'))$ (truncated to precision $ℓ^k$),
+the one that corresponds to the isogeny $ϕ$. %
+Since $ℓ$ does not divide $\deg ϕ$, the curves $E$ and $E'$ have the
+same depth in their respective volcanoes (which may or may not be
+distinct); and since $ϕ$ is rational, its matrix must commute with
+$π$. %
+Thus, even though $\Hom(T_ℓ(E),T_ℓ(E'))$ has dimension $4$ as a
+$ℤ_ℓ$-module, we can focus on the, potentially smaller, submodule of
+matrices that leave $π$ stable. %
+
+Concretely, assume that the characteristic polynomial of $π$ has two
+distinct roots, and suppose that $E$ is on the crater. %
+Then we can find bases for $E[ℓ^k]$ and $E'[ℓ^k]$ such that the
+respective Frobenius endomorphisms act like $\mat{λ&0\\0&μ}$ on
+each. %
+Since $ϕ$ is rational, it must map the eigenspace of $λ$ in $E[ℓ^k]$
+into the eigenspace of $λ$ in $E'[ℓ^k]$, and similarly for $μ$. %
+Said otherwise, $ϕ$ must be represented by a diagonal matrix, thus the
+search space is reduced to a dimension $2$ submodule, i.e.,
+$O(ℓ^{2k})$ different possibilities to try, for an overall complexity
+of only $O(r^2ℓ^{O(1)})$ operations. %
+
+What we just described is the gist of the algorithm presented in
+``Explicit isogenies in quadratic time in any characteristic'' written
+with C.~Hugounenq and J.~Plût, and included in the appendix to this
+document~\cite{defeo2016explicit}. %
+Although I must admit that the title cheats in two ways:
+\begin{itemize}
+\item The algorithm solves Problem~\ref{prob:expl-isog-2} in quadratic
+  time, i.e., not exactly the ``explicit isogeny problem'' as we have
+  stated it, and thus does not improve the complexity of the SEA point
+  counting algorithm;
+\item The algorithm only achieves quadratic complexity for
+  \emph{almost all} prime powers $q$ and \emph{almost all} pairs of
+  isogenous curves $E,E'$ defined over $\F_q$.
+\end{itemize}
+
+In my defense, artificial as Problem~\ref{prob:expl-isog-2} may seem,
+ours is the only algorithm the achieves quadratic complexity in the
+isogeny degree, beating even Lercier and Sirvent's algorithm. %
+Although its impact is purely theoretical, the techniques employed are
+of independent interest\footnote{As, I hope, I managed to convince the
+  reader so far.} and may find useful applications in other
+contexts. %
+
+Concerning the second problem, the difficulty comes from the fact that
+our techniques only work when the characteristic polynomial of $π$
+splits over $ℤ_ℓ$, i.e., if $ℓ$ is an Elkies prime for $E$. %
+However, it may happen that no small prime is an Elkies prime for $E$,
+and indeed curves such that none of the first $O(\log q)$ primes is
+Elkies do exist, although they are ``rare''.%
+\footnote{Interestingly, we will look at the opposite problem in
+  Chapter~\ref{cha:crypto}: construct curves such that a lot of small
+  primes are Elkies.} %
+
+Before we close this chapter, let us summarize the steps of our
+``ℓ-adic Couveignes' algorithm''. %
+Note that to run the algorithm we need an Elkies prime $ℓ$ for $E$. %
+It would be easy to find one if we knew the order of $E$, but this
+would be cheating, since one of the goals of Couveignes' algorithm is
+to help count the points of $E$. %
+Instead we show that the number of roots of $π$ in $ℤ_ℓ$ can be
+``discovered'' as we proceed in the steps below. %
+We are also going to assume that $E$ and $E'$ are on the craters of
+the respective volcanoes, otherwise we can reduce to this situation
+using Proposition~\ref{th:tate-matrix-elkies}. %
+\begin{enumerate}
+\item For a given prime $ℓ$, construct torsion bases $E[ℓ^k]$ and
+  $E'[ℓ^k]$, where $k$ is chosen so that $ℓ^{2k}\sim 4r$.
+\item Perform a change of basis so that $π$ acts on $E[ℓ^k]=〈P,Q〉$
+  like a triangular matrix $\mat{λ&0\\0&μ}$, with $ℓ≠μ$; do the same
+  for $E'[ℓ^k]=〈P',Q'〉$. %
+  If this is not possible, either $ℓ$ is not an Elkies prime, or we
+  have computed $T_ℓ(E)$ to too low a precision (i.e., we need to
+  choose a larger $k$). %
+  In either case, we can decide to change prime $ℓ$ and start again,
+  or to increase $k$ up to an acceptable bound.
+\item For each diagonal matrix $M$ in $\GL_2(ℤ/ℓ^kℤ)$, interpolate the
+  isogeny that maps $(P,Q)^t$ to $M(P',Q')^t$. %
+  If this results in a rational isogeny of degree $r$, return it and
+  stop.
+\end{enumerate}
+
+Pretty simple, huh? %
+Well, now it is time to see what we swept under the rug. %
+So far we have spoken of ``constructing $E[ℓ^k]$'' as if this was an
+easy thing to do. %
+However the attentive reader will have noticed that $E[ℓ^k]$ may be
+not (entirely) contained in $E(\F_q)$, and indeed it will almost never
+be in the context of our algorithm. %
+This, to compute $E[ℓ^k]$, we first need to compute the smallest field
+extension of $\F_q$ where this is going to be defined. %
+We ``climb'' level by level: first computing $E[ℓ]$, then $E[ℓ^2]$,
+and so on until we reach $E[ℓ^k]$. %
+Each step will require factoring some polynomials, in order to invert
+multiplication by $ℓ$. %
+But for the first step, these polynomials will have degree $ℓ$,
+leading to the construction of a \emph{tower} of degree $ℓ$ field
+extensions on top of $\F_q$. %
+Performing computations in towers of field extensions in optimal time
+is a delicate task, requiring a great deal of computer algebra
+techniques that we shall explore in the next chapter.
+
+
 \section{Perspectives}
 
+
+Lifting the restriction on Elkies primes would make our algorithm work
+for any elliptic curve, and C.~Hugounenq has started doing this in his
+PhD thesis~\cite{hugounenq:tel-01635463}.
+
+
+linear time, many primes, dna, supersingular
+End(e), higher genus, modpols
 
 
 
@@ -1194,4 +1338,4 @@ touching the sea surface.
 % LocalWords:  Schoof endomorphism Frobenius supersingular Kohel
 % LocalWords:  diagonalizing diagonalizable diagonalization morphisms
 % LocalWords:  undirected bathymeter endomorphisms tensored subgraph
-% LocalWords:  quotienting eigenspace
+% LocalWords:  quotienting eigenspace coprime submodule
