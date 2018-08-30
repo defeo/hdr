@@ -60,28 +60,15 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Intro, etc.}
+\section*{Introduction}
 
 We'll take a journey, from one lonely elliptic curve over a finite
 field to the amazingly rich world of isogeny graphs.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Finite fields and elliptic curves}
-
-As short as possible, maybe write after, maybe an appendix.
-
-- projective space, projective varieties,
-- elliptic curves, torsion
-- ordinary, supersingular (how many?)
-- endomorphism ring
-- function fields, algebraic maps, frobenius, degree
-- differentials? pullbacks?
-- modular polynomial?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{The neighborhood}
+\chapter{Diving}
 
 % \begin{verse}
 % You climb out the chimney\\
@@ -563,8 +550,9 @@ algebra techniques as suggested by Bostan, Morain, Salvy and
 Schost~\cite{bostan+morain+salvy+schost08}. %
 
 We have, essentially, sketched the computation involved in the
-Schoof-Elkies-Atkin point counting algorithm~\cite{schoof95}, for
-those that are called \emph{Elkies primes} (more on these later). %
+Schoof-Elkies-Atkin (SEA) point counting algorithm~\cite{schoof95},
+for those that are called \emph{Elkies primes} (more on these
+later). %
 However, the last part of Elkies' algorithm, the solution to the
 inverse Vélu problem, only works when the characteristic is $0$ or
 \emph{large enough}. %
@@ -638,6 +626,7 @@ By the end of this chapter it will be clear that its algebraic nature,
 deeply related to Tate's isogeny theorem, has more to offer than what
 may appear at first glance. %
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{The neighborhood}
 
@@ -764,6 +753,7 @@ on the neighboring curves. %
 We need to ``elevate'' our point of view and look further away, in
 order to gain a global view on the whole isogeny class. %
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{How isogeny graphs fold}
 
@@ -912,7 +902,7 @@ Kohel's words, ``probing the depth''. %
 \begin{proposition}
   \label{th:tate-matrix-atkin}
   TODO: similar statement for Atkin and ramified primes. Conjecture:
-  about the same, but only true modulo $ℓ^h$.
+  about the same, but only true modulo $ℓ^h$. See Cyril's thesis.
 \end{proposition}
 
 Note that the number of roots of the characteristic polynomial of $π$
@@ -1147,6 +1137,7 @@ Of course, to reconcile Kohel's maritime metaphors with Fouquet and
 Morain's, we shall assume that isogeny volcanoes are underwater, with
 the crater just touching the sea surface.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Explicit isogenies in quadratic time}
 
@@ -1168,14 +1159,14 @@ complexity than Couveignes' original. %
 Indeed $E[p^k]$ is cyclic, thus there are only $φ(p^k)$ possible
 morphisms $E[p^k]→E'[p^k]$ to test; if each tests takes $p^{k+O(1)}$
 operations, the whole algorithm takes $p^{2k+O(1)}=r^2p^{O(1)}$. %
-On the other hand, $E[ℓ^k]$ is of rank $2$, thus the group of
-morphisms $E[ℓ^k]→E'[ℓ^k]$ is isomorphic to $\GL_2(ℤ/ℓ^kℤ)$ and has
-size $O(ℓ^{4k})$; if each interpolation test takes $ℓ^{2k+O(1)}$
+On the other hand, $E[ℓ^k]$ is of rank $2$, thus
+$\Hom(E[ℓ^k],E'[ℓ^k])$ is isomorphic to $\GL_2(ℤ/ℓ^kℤ)$ and has size
+$O(ℓ^{4k})$; if each interpolation test takes $ℓ^{2k+O(1)}$
 operations, the whole algorithm takes $ℓ^{6k+O(1)}=r^3ℓ^{O(1)}$. %
 
 But we are not interested in \emph{any} isogeny: we are explicitly
 looking for a \emph{rational} isogeny, thus we can use all that we
-have learned in the previous section. %
+have learned so far. %
 Indeed, we are just applying Tate's theorem: trying to identify, among
 all matrices in $\Hom(T_ℓ(E),T_ℓ(E'))$ (truncated to precision $ℓ^k$),
 the one that corresponds to the isogeny $ϕ$. %
@@ -1195,14 +1186,14 @@ each. %
 Since $ϕ$ is rational, it must map the eigenspace of $λ$ in $E[ℓ^k]$
 into the eigenspace of $λ$ in $E'[ℓ^k]$, and similarly for $μ$. %
 Said otherwise, $ϕ$ must be represented by a diagonal matrix, thus the
-search space is reduced to a dimension $2$ submodule, i.e.,
+search space is reduced to a dimension $2$ submodule, that is
 $O(ℓ^{2k})$ different possibilities to try, for an overall complexity
-of only $O(r^2ℓ^{O(1)})$ operations. %
+of only $r^2ℓ^{O(1)}$ operations. %
 
 What we just described is the gist of the algorithm presented in
 ``Explicit isogenies in quadratic time in any characteristic'' written
-with C.~Hugounenq and J.~Plût, and included in the appendix to this
-document~\cite{defeo2016explicit}. %
+with C.~Hugounenq and J.~Plût~\cite{defeo2016explicit}, and included
+in the appendix to this document. %
 Although I must admit that the title cheats in two ways:
 \begin{itemize}
 \item The algorithm solves Problem~\ref{prob:expl-isog-2} in quadratic
@@ -1211,7 +1202,7 @@ Although I must admit that the title cheats in two ways:
   counting algorithm;
 \item The algorithm only achieves quadratic complexity for
   \emph{almost all} prime powers $q$ and \emph{almost all} pairs of
-  isogenous curves $E,E'$ defined over $\F_q$.
+  isogenous curves $E,E'$ defined over $\F_q$. %
 \end{itemize}
 
 In my defense, artificial as Problem~\ref{prob:expl-isog-2} may seem,
@@ -1224,10 +1215,10 @@ contexts. %
 
 Concerning the second problem, the difficulty comes from the fact that
 our techniques only work when the characteristic polynomial of $π$
-splits over $ℤ_ℓ$, i.e., if $ℓ$ is an Elkies prime for $E$. %
-However, it may happen that no small prime is an Elkies prime for $E$,
-and indeed curves such that none of the first $O(\log q)$ primes is
-Elkies do exist, although they are ``rare''.%
+splits over $ℤ_ℓ$, i.e., when $ℓ$ is an Elkies prime for $E$. %
+However, it may happen that no small prime is Elkies for $E$, and
+indeed curves such that none of the first $O(\log q)$ primes is Elkies
+do exist, although they are ``rare''.%
 \footnote{Interestingly, we will look at the opposite problem in
   Chapter~\ref{cha:crypto}: construct curves such that a lot of small
   primes are Elkies.} %
@@ -1240,15 +1231,16 @@ would be cheating, since one of the goals of Couveignes' algorithm is
 to help count the points of $E$. %
 Instead we show that the number of roots of $π$ in $ℤ_ℓ$ can be
 ``discovered'' as we proceed in the steps below. %
-We are also going to assume that $E$ and $E'$ are on the craters of
-the respective volcanoes, otherwise we can reduce to this situation
-using Proposition~\ref{th:tate-matrix-elkies}. %
+For simplicity, we are also going to assume that $E$ and $E'$ are on
+the craters of the respective volcanoes; note that we can always
+reduce to this situation using
+Proposition~\ref{th:tate-matrix-elkies}. %
 \begin{enumerate}
 \item For a given prime $ℓ$, construct torsion bases $E[ℓ^k]$ and
-  $E'[ℓ^k]$, where $k$ is chosen so that $ℓ^{2k}\sim 4r$.
+  $E'[ℓ^k]$, where $k$ is chosen so that $ℓ^{2k}> 4r$.
 \item Perform a change of basis so that $π$ acts on $E[ℓ^k]=〈P,Q〉$
-  like a triangular matrix $\mat{λ&0\\0&μ}$, with $ℓ≠μ$; do the same
-  for $E'[ℓ^k]=〈P',Q'〉$. %
+  like a diagonal matrix $\mat{λ&0\\0&μ}$, with $λ≠μ$; do the same for
+  $E'[ℓ^k]=〈P',Q'〉$. %
   If this is not possible, either $ℓ$ is not an Elkies prime, or we
   have computed $T_ℓ(E)$ to too low a precision (i.e., we need to
   choose a larger $k$). %
@@ -1261,36 +1253,151 @@ using Proposition~\ref{th:tate-matrix-elkies}. %
 \end{enumerate}
 
 Pretty simple, huh? %
-Well, now it is time to see what we swept under the rug. %
+Well, now it is time to look at what we swept under the rug. %
 So far we have spoken of ``constructing $E[ℓ^k]$'' as if this was an
 easy thing to do. %
 However the attentive reader will have noticed that $E[ℓ^k]$ may be
 not (entirely) contained in $E(\F_q)$, and indeed it will almost never
 be in the context of our algorithm. %
-This, to compute $E[ℓ^k]$, we first need to compute the smallest field
-extension of $\F_q$ where this is going to be defined. %
+Thus, we first need to compute the smallest field extension of $\F_q$
+where $E[ℓ^k]$ is going to be defined. %
 We ``climb'' level by level: first computing $E[ℓ]$, then $E[ℓ^2]$,
 and so on until we reach $E[ℓ^k]$. %
-Each step will require factoring some polynomials, in order to invert
-multiplication by $ℓ$. %
-But for the first step, these polynomials will have degree $ℓ$,
-leading to the construction of a \emph{tower} of degree $ℓ$ field
-extensions on top of $\F_q$. %
+Each step will require factoring some polynomials, in general of
+degree $ℓ$, leading to the construction of a \emph{tower of
+  extensions} on top of $\F_q$. %
 Performing computations in towers of field extensions in optimal time
 is a delicate task, requiring a great deal of computer algebra
 techniques that we shall explore in the next chapter.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Perspectives}
 
+\paragraph{Point counting.}
+The \emph{raison d'être} of the explicit isogeny problem lies in
+improving Schoof's point counting algorithm. %
+In this chapter, we have not succeeded in improving its complexity,
+and, to be completely honest, we have not even tried: any solution to
+the explicit isogeny problem wanting to improve upon the
+Elkies-Lercier-Sirvent algorithm needs to get rid of the modular
+polynomial first. %
+Indeed, even assuming an optimal algorithm%
+\footnote{Quasi-optimal algorithms for computing modular polynomials
+  do exist, see~\cite{enge09,sutherland10:modpol}} %
+to compute $Φ_ℓ$, simply storing its coefficients requires $O(ℓ^3)$
+bits, that become $O(ℓ^2\log p)$ after reducing modulo $p$. %
 
-Lifting the restriction on Elkies primes would make our algorithm work
-for any elliptic curve, and C.~Hugounenq has started doing this in his
-PhD thesis~\cite{hugounenq:tel-01635463}.
+A possible way around would be an algorithm to compute $Φ_ℓ\mod p$
+directly, without computing its integer coefficients first; however
+the best algorithm for this~\cite{sutherland10:modpol}, a
+multi-modular approach exploiting the structure of isogeny volcanoes,
+only achieves quasi-optimal storage, but still requires $\tildO(ℓ^3)$
+binary operations. %
+Even better, one could compute $Φ_ℓ(j(E), X)$ directly, as Sutherland
+does~\cite{sutherland2013evaluation}, however even for this problem we
+only have an algorithm with quasi-optimal storage, but the same cubic
+complexity. %
 
+The same problem is felt, even more strongly, for curves of higher
+genus. %
+Indeed, even for the case of genus two curves, modular polynomials are
+% TODO: cite something: Marco? Andreas? Drew?
+so unwieldy that they do not allow improving upon the basic
+Schoof-Pila algorithm~\cite{pila90}. %
 
-linear time, many primes, dna, supersingular
-End(e), higher genus, modpols
+To the present day, the only known techniques to enumerate isogenous
+curves of a fixed degree are based on factoring the division
+polynomial or the modular polynomial. %
+The techniques of this chapter do not seem to help, in some sense
+because we lack the equivalent of Vélu's formulas for $T_ℓ(E)$. %
+I am personally rather pessimistic on the possibility of improving the
+SEA algorithm using Tate's isogeny theorem alone, however it is
+certainly interesting to try to combine it with other ideas, in the
+hope of getting a breakthrough in point counting, especially for
+higher genus curves.
+
+\paragraph{Couveignes' algorithm.}
+Moving to Problem~\ref{prob:expl-isog-2} and to the ``$ℓ$-adic
+Couveignes' algorithm'' presented in the previous section, even though
+we know that it does not improve the asymptotic complexity of point
+counting, it would still be interesting to know for which parameters
+it improves SEA in practice, and by how much. %
+
+Related to this, a goal that looks realistic would be to lift the
+restriction to Elkies primes in the algorithm; hopefully having it run
+in quadratic time for any elliptic curve. %
+To be more precise, our paper uses~\cite{Shparlinski2014} to show that
+one can find an Elkies prime $ℓ=O(\log q)$ for almost all finite
+fields $\F_q$ and curve $E/\F_q$. %
+In his PhD thesis~\cite{hugounenq:tel-01635463}, C.~Hugounenq
+partially solves this problem by giving a quadratic time algorithm
+when $\leg{Δ_π}{ℓ}=-1$, i.e. when $ℓ$ is an Atkin prime and the
+corresponding volcano has height zero. %
+This allows him to prove the existence of a quadratic algorithm for
+any elliptic curve, however it does not improve upon the bound
+$ℓ=O(\log q)$. %
+A quadratic algorithm working with any $ℓ$ would considerably improve
+the complexity in $\log q$, and would also be much more practical and
+easy to implement. %
+
+It is tempting to look for a variant of Couveignes' algorithm with
+sub-quadratic complexity, possibly even quasi-linear. %
+The techniques developed in this chapter do not seem capable of
+breaking the quadratic barrier, and this looks somehow intrinsic to
+Tate's theorem. %
+My guess is that, if it was possible to obtain a sub-quadratic variant
+of Couveignes' algorithm, bad things would start happening for the
+cryptosystems presented in Chapter~\ref{cha:crypto}, at least those
+based on complex multiplication. %
+
+Computing isogenies of supersingular curves would be another obvious
+extension of Couveignes' algorithm. %
+Couveignes' original algorithm simply does not apply to supersingular
+curves, because $p^k$-torsion groups are trivial. %
+Our $ℓ$-adic algorithm is easily adapted to trace zero curves, but
+does not achieve the desired complexity for other supersingular
+curves. %
+This is deeply related to the differences between the CSIDH and SIDH
+protocols presented in Chapter~\ref{cha:crypto}, and their security.
+
+\paragraph{Computing endomorphism rings.}
+Kohel's original motivation for defining depth and direction was to
+compute the endomorphism ring of an ordinary curve $E/\F_q$, a problem
+strictly harder than point counting. %
+Indeed, knowing $\#E$ determines $π$, which in turn determines $ℚ[π]$;
+the only thing that is left to know, then, is the depth of $E$ in each
+of the $ℓ$-volcanoes, for $ℓ^2$ dividing $Δ_π$. %
+The problem with this is that $ℓ$ is potentially as large as
+$O(\sqrt{q})$, and thus any algorithm computing $ℓ$-isogenies is bound
+to have exponential complexity. %
+An alternative approach using isogenies of smooth degree, due to
+Bisson and Sutherland~\cite{bisson+sutherland11}, achieves
+sub-exponential complexity. %
+
+The effective versions of Tate's theorem give an alternative way to
+determine the depth of an elliptic curve, one that potentially has
+polynomial complexity in $\log q$. %
+However, the methods proposed in this chapter to compute $π|T_ℓ(E)$
+involve computing the $ℓ$-torsion, and thus have polynomial complexity
+in $ℓ$. %
+
+I find it unlikely that the techniques of this chapter could improve
+significantly the computation of endomorphism rings, but let's be
+optimistic and imagine a sci-fi scenario. %
+In the same way that Schoof's algorithm computes the trace of $π$
+modulo many small primes to find its value in $ℤ$, one may hope that
+there is some sort of ``global'' description of $π|\prod_ℓT_ℓ(E)$ that
+can be reconstructed from $π|T_{ℓ'}(E)$ for many small primes $ℓ'$. %
+If this description could be computed in polynomial time, then we
+would have a polynomial time algorithm for the endomorphism ring. %
+
+Besides science-fiction, the way isogeny volcanoes interact for
+different primes has received very little attention so far, the only
+work I am aware of being~\cite{MOODY20125249}. %
+I believe that some interesting algorithmic ideas could derive from
+studying how the knowledge of $π|T_ℓ(E)$ affects the computation of
+$π|T_{ℓ'}(E)$.
 
 
 
@@ -1298,7 +1405,7 @@ End(e), higher genus, modpols
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Panoptycon}
+\chapter{Climbing}
 \label{cha:fpbar}
 
 - towers of finite fields,
@@ -1310,16 +1417,35 @@ End(e), higher genus, modpols
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Crypto and quantum computers}
+\chapter{Walking}
 \label{cha:crypto}
 
-- Expander graphs
-- HHS, CSIDH
-- SIDH
+\section{Complex multiplication}
+
+
+
 - Signatures?
 - Quantum algorithms? Kuperberg?
 
-- use our couveignes to break CSIDH
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+\chapter{Finite fields and elliptic curves}
+
+As short as possible. Necessary?
+
+- projective space, projective varieties,
+- elliptic curves, torsion
+- ordinary, supersingular (how many?)
+- endomorphism ring
+- function fields, algebraic maps, frobenius, degree
+- differentials? pullbacks?
+- modular polynomial?
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
