@@ -69,6 +69,7 @@ field to the amazingly rich world of isogeny graphs.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Diving}
+\label{cha:tate}
 
 % \begin{verse}
 % You climb out the chimney\\
@@ -713,14 +714,14 @@ Schoof's point counting algorithm. %
 For ordinary elliptic curves, Kohel~\cite{kohel} showed that this
 classification can be further refined by introducing a notion of
 ``depth'' of an elliptic curve. %
-Let $K=ℚ[π]$ be an imaginary quadratic number field where we identify
+Let $K=ℚ(π)$ be an imaginary quadratic number field where we identify
 the Frobenius $π$ to one root of $x^2-tx+q$. %
 Let $\O_K$ be the ring of integers of $K$ then $\End(E)$ is isomorphic
 to an order $\O$
 \[ℤ[π] ⊂ \O ⊂ \O_K.\] %
 We have already seen that two elliptic curves are isogenous over
 $\F_q$ if and only if they have the same number of points;
-equivalently, they are isogenous if and only if $ℚ[π_E]≃ℚ[π_{E'}]$. %
+equivalently, they are isogenous if and only if $ℚ(π_E)≃ℚ(π_{E'})$. %
 Kohel refined Tate's theorem as follows.
 
 \begin{proposition}[{Kohel~\cite[Prop.~21]{kohel}}]
@@ -1012,7 +1013,7 @@ This is summarized in Table~\ref{tab:periodic-table}. %
 \begin{theorem}[{Kohel~\cite{kohel}}]
   \label{prop:isogeny-count}
   Let~$E/\F_q$ be an ordinary elliptic curve, $π$ its Frobenius
-  endomorphism, and $Δ_K$ the fundamental discriminant of $ℚ[π]$. %
+  endomorphism, and $Δ_K$ the fundamental discriminant of $ℚ(π)$. %
   \begin{enumerate}
   \item If $E$ is not at the floor, there are $ℓ+1$ isogenies of
     degree $ℓ$ from~$E$, in total.
@@ -1365,7 +1366,7 @@ protocols presented in Chapter~\ref{cha:crypto}, and their security.
 Kohel's original motivation for defining depth and direction was to
 compute the endomorphism ring of an ordinary curve $E/\F_q$, a problem
 strictly harder than point counting. %
-Indeed, knowing $\#E$ determines $π$, which in turn determines $ℚ[π]$;
+Indeed, knowing $\#E$ determines $π$, which in turn determines $ℚ(π)$;
 the only thing that is left to know, then, is the depth of $E$ in each
 of the $ℓ$-volcanoes, for $ℓ^2$ dividing $Δ_π$. %
 The problem with this is that $ℓ$ is potentially as large as
@@ -1420,9 +1421,240 @@ $π|T_{ℓ'}(E)$.
 \chapter{Walking}
 \label{cha:crypto}
 
+In Chapter~\ref{cha:tate} we learned how to classify isogenies over
+finite fields. %
+For ordinary curves, we defined the depth of $E/\F_q$ as the valuation
+of the conductor $[\O_K:\End(E)]$ at some prime $ℓ$. %
+We saw how to effectively compute the depth, and how to recognize
+ascending, descending, and horizontal isogenies. %
+The structure theorems revealed that there are three possible shapes
+of $ℓ$-isogeny graphs, only differing in the structure of the surface:
+a single curve in the Atkin case, a pair of curves in the ramified
+case, and a \emph{crater} (a cycle) in the Elkies case. %
+
+However, we left two questions unanswered: for a given curve $E/\F_q$
+and a prime $ℓ$, how many vertices does its $ℓ$-isogeny graph
+contain? %
+And, for a given quadratic imaginary field $ℚ(π)$ and a prime $ℓ$, how
+many distinct $ℓ$-isogeny graphs are there?
+
+The first question is easy to answer for the Atkin and the ramified
+case: we know indeed that isogeny volcanoes have height
+$h=v_ℓ(Δ_π/Δ_K)/2$, therefore an Atkin volcano contains
+$((ℓ+1)^{h+1}-1)/ℓ$ curves, whereas a ramified volcano contains
+$2(ℓ+1)^h$ curves. %
+In order to determine the size of the crater in the Elkies case, and
+to answer the second question, we will have to resort to the theory of
+\emph{complex multiplication}. %
+We will then learn that, while heights tend to be ``small'' (i.e.,
+logarithmic in $q$), craters tend to be ``big'' (polynomial in $q$). %
+
+At this point, we will begin studying large isogeny graphs containing
+isogenies of mixed degree. %
+We will be faced with a new problem that is finding a ``short''
+isogeny path between two curves in a graph, and upon this problem we
+will build a new cryptographic primitive. %
+We will then turn our attention to supersingular isogeny graphs. %
+The unique properties of the Frobenius endomorphism of supersingular
+curves will allow us to build a much more efficient cryptographic
+primitive, known by the name of CSIDH. %
+Finally, by pushing the study of supersingular graphs further, we will
+get to the primitive known as SIDH, the building block of SIKE, one of
+the candidates to the NIST call for post-quantum public key
+encryption. %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
 \section{Complex multiplication}
 
+Let $\O$ be an order in a quadratic imaginary field $K=ℚ(\sqrt{-D})$,
+we say that an elliptic curve $E$ has \emph{complex multiplication by
+  $\O$} if $\End(E)≃\O$. %
+We have already seen that all ordinary elliptic curves over finite
+fields have complex multiplication, with $K=ℚ(π)$. %
 
+Trace zero supersingular curves have the similar property
+$\End_{\F_q}(E)≃\O⊂ℚ(\sqrt{-q})$, whenever $q$ is an odd power of
+$p$. %
+Strictly speaking, no supersingular curve should be said to have
+complex multiplication, because the ring of endomorphisms defined over
+the algebraic closure is larger (more on this later); we will
+nevertheless use the name for the special case of trace zero curves.
+
+We now present a group action on the set of all curves having complex
+multiplication by a fixed order $\O$. %
+We will denote by $\Ell_q(\O)$ the set of isomorphism classes over
+$\bar{\F}_q$ of curves with complex multiplication by $\O$, and we
+will assume that it is non-empty. %
+
+Let $\a$ be an invertible ideal in $\End(E)≃\O$, and define the
+\emph{${\a}$-torsion} subgroup of $E$ as
+\begin{equation*}
+  \label{eq:a-torsion}
+  E[\a] = \{P ∈ E(\bar{\F}_q) \mid σ(P) = 0
+  \text{ for all } σ ∈ \a \}.
+\end{equation*}
+This subgroup is the kernel of an isogeny $\phi_{\a}:E→E/E[\a]$; it
+can be proven that $\phi_{\a}$ is horizontal, and that its degree is
+the \emph{norm} of $\a$ as an ideal of $\End(E)$. %
+
+We will write $\a·E$ for the isomorphism class of $E/E[\a]$; it is
+easy to extend this to an action
+$·:\mathcal{I}(\O)×\Ell_q(\O)→\Ell_q(\O)$ of the group of invertible
+ideals of $\O$ on $\Ell_q(\O)$. %
+It is then apparent that endomorphisms of $E$ correspond to principal
+ideals in $\O$, and act trivially on $\Ell_q$. %
+Recall that the \emph{class group} $\Cl(O)$ is defined as the quotient
+of $\mathcal{I}(\O)$ by the subgroup $\mathcal{P}(\O)$ of principal
+ideals; since the above action factors through $\mathcal{P}(\O)$, it
+natural to consider the induced action of $\Cl(\O)$ on $\Ell_q(\O)$. %
+The main theorem of complex multiplication states that this action is
+\emph{simply transitive}. %
+
+\begin{theorem}[Complex multiplication]
+  Let $\F_q$ be a finite field, $\O⊂ℚ(\sqrt{-D})$ an order in a
+  quadratic imaginary field, and $\Ell_q(\O)$ the set of
+  $\bar{\F}_q$-isomorphism classes of curves with complex
+  multiplication by $\O$. %
+
+  Assume $\Ell_q(\O)$ is non-empty, then it is a \emph{principal
+    homogeneous space} for the class group $\Cl(\O)$, under the action
+  \begin{align*}
+    \Cl(\O) × \Ell_q(\O) &→ \Ell_q(\O),\\
+    \a·E  &↦ E/E[\a]
+  \end{align*}
+  defined above.
+\end{theorem}
+
+Being a principal homogeneous space means that, for any fixed base
+point $E∈\Ell_q(\O)$, there is a bijection
+\[
+\begin{aligned}
+\Cl(\O) &\longrightarrow \Ell_q(\O) \\
+\text{Ideal class of }\a &\longmapsto \text{Isomorphism class of }\a\cdot E.
+\end{aligned}
+\]
+Recall that $\Cl(\O)$ is Abelian and finite, and that its order is
+called the \emph{class number} of $\O$, and denoted by $h(\O)$. %
+We have just proven that $\#\Ell_q(\O)=h(\O)$, and we also have
+answered both questions we had asked at the beginning of the chapter.
+
+\begin{corollary}
+  Let $\O$ be a quadratic imaginary order, and assume that
+  $\Ell_q(\O)$ is non-empty. %
+  Let $ℓ$ be a prime such that $\O$ is $ℓ$-maximal, i.e., such that
+  $ℓ$ does not divide the conductor of $\O$. %
+  All $ℓ$-isogeny volcanoes of curves in $\Ell_q(\O)$ are
+  isomorphic. %
+  Furthermore, one of the following is true.
+  \begin{enumerate}
+  \item[(0)] If the ideal $(ℓ)$ is prime in $\O$, then there are
+    $h(\O)$ distinct $ℓ$-isogeny volcanoes of Atkin type, with surface
+    in $\Ell_q(\O)$.
+  \item[(1)] If $(ℓ)$ is ramified in $\O$, i.e., if it decomposes as a
+    square $\frak l^2$, then there are $h(\O)/2$ distinct $ℓ$-isogeny
+    volcanoes of ramified type, with surface in $\Ell_q(\O)$.
+  \item[(2)] If $(ℓ)$ splits as a product $\frak l·\hat{\frak l}$ of
+    two distinct prime ideals, then there are $h(\O)/n$ distinct
+    $ℓ$-isogeny volcanoes of Elkies type, with craters in $\Ell_q(\O)$
+    of size $n$, where $n$ is the order of $\frak l$ in $\Cl(\O)$.
+  \end{enumerate}
+\end{corollary}
+
+Like in Chapter~\ref{cha:tate}, we are mostly interested in Elkies
+volcanoes. %
+We already saw that if $π|T_ℓ(E)$ diagonalizes as $\mat{λ&0\\0&μ}$
+with $λ≠μ$, to each eigenvalue we can associate a direction on the
+crater of the $ℓ$-volcano. %
+The same phenomenon can be observed through complex multiplication:
+associate to $λ$ and $μ$ the prime ideals $\a=(π-λ,ℓ)$ and
+$\hat{\a}=(π-μ,ℓ)$, both of norm $ℓ$; then $E[\a]$ is the eigenspace
+of $λ$, and $E[\hat{\a}]$ that of $μ$. %
+Because $\a\hat{\a} = \hat{\a}\a = (ℓ)$, the ideal classes $\a$ and
+$\hat{\a}$ are the inverse of one another in $\Cl(\O)$, therefore the
+isogenies $ϕ_{\a}:E→\a·E$ and $ϕ_{\hat{\a}}:\a·E→E$ are dual to one
+another (up to isomorphism). %
+
+We see, once again, that the eigenvalues $λ$ and $μ$ define two
+opposite directions on the $\ell$-isogeny crater, independent of the
+starting curve, as shown in Figure~\ref{fig:cycle}. %
+The size of the crater is the order of $(π-λ,ℓ)$ in $\Cl(\O)$, and the
+set $\Ell_q(\O)$ is partitioned into craters of equal size.
+
+\begin{figure}[t]
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \def\crater{7}
+      \foreach \i in {1,...,\crater} {
+        \begin{scope}[shorten >=0.1cm,->]
+          \draw[blue!60!black] (360/\crater*\i : 1.95cm) -- (360/\crater*\i+360/\crater : 1.95cm);
+          \draw[blue!60!white] (360/\crater*\i+360/\crater : 2.05cm) -- (360/\crater*\i : 2.05cm);
+        \end{scope}
+        \draw[blue!60!black] (360/\crater*\i+180/\crater:1.6cm) node {\small$λ$};
+        \draw[blue!60!white] (360/\crater*\i+180/\crater:2cm) node {\small$μ$};
+      }
+      \foreach \i in {1,...,\crater} {
+        \draw[fill] (360/\crater*\i:2cm) circle (2pt);
+      }
+    \end{tikzpicture}
+    \caption{An isogeny cycle for an Elkies prime $ℓ$, with edge directions
+      associated with the Frobenius eigenvalues $λ$ and $μ$.}
+    \label{fig:cycle}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.45\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \def\crater{12}
+      \def\jumpa{-8}
+      \def\jumpb{9}
+      \def\diam{2cm}
+
+      \foreach \i in {1,...,\crater} {
+        \draw[blue] (360/\crater*\i : \diam) to[bend right] (360/\crater*\i+360/\crater : \diam);
+        \draw[red] (360/\crater*\i : \diam) to[bend right] (360/\crater*\i+\jumpa*360/\crater : \diam);
+        \draw[green] (360/\crater*\i : \diam) to[bend right=50] (360/\crater*\i+\jumpb*360/\crater : \diam);
+      }
+      \foreach \i in {1,...,\crater} {
+        \pgfmathparse{int(mod(2^\i,13))}
+        \let\exp\pgfmathresult
+        \draw[fill] (360/\crater*\i: \diam) circle (2pt) +(360/\crater*\i: 0.4) node{$x^{\exp}$};
+      }
+    \end{tikzpicture}
+    \caption{Undirected Schreier graph on $〈x〉\setminus\{1\}$ where $x^{13} = 1$,
+			acted upon by $(ℤ/13ℤ)^*$, generated by $S=\{2,3,5\}$ (resp.
+      blue, red and green edges).}
+    \label{fig:cayley}
+  \end{minipage}
+\end{figure}
+
+For the rest of the chapter, we will focus mostly on craters of
+isogeny volcanoes, with horizontal isogenies. %
+In some cases, we will also assume that volcanoes have height zero, so
+that the crater is the whole graph; for obvious reasons, these are
+also called \emph{isogeny cycles} in the
+literature~\cite{couveignes+morain94}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Expander graphs from isogenies}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Key exchange from complex multiplication graphs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Key exchange from supersingular graphs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Other protocols, crypto}
 
 - Signatures?
 - Quantum algorithms? Kuperberg?
@@ -1441,7 +1673,7 @@ As short as possible. Necessary?
 - projective space, projective varieties,
 - elliptic curves, torsion
 - ordinary, supersingular (how many?)
-- endomorphism ring
+- endomorphism ring, quadratic fields
 - function fields, algebraic maps, frobenius, degree
 - differentials? pullbacks?
 - modular polynomial?
@@ -1464,4 +1696,5 @@ As short as possible. Necessary?
 % LocalWords:  Schoof endomorphism Frobenius supersingular Kohel
 % LocalWords:  diagonalizing diagonalizable diagonalization morphisms
 % LocalWords:  undirected bathymeter endomorphisms tensored subgraph
-% LocalWords:  quotienting eigenspace coprime submodule
+% LocalWords:  quotienting eigenspace coprime submodule Atkin
+% LocalWords:  cryptographic codomain invertible diagonalizes
