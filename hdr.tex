@@ -1,6 +1,6 @@
 \documentclass{report}
 
-\usepackage[b5paper]{geometry}
+\usepackage[a4paper]{geometry}
 \usepackage[english]{babel}
 \usepackage{array}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
@@ -45,8 +45,8 @@
 
 \include{preamble}
 
-\title{Promenades in isogeny graphs}
-%\subtitle{Habilitation à diriger des recherches}
+\title{Exploring Isogeny Graphs}
+%\subtitle{Around the volcano in $2^{80}$ days}
 \author{Luca De Feo}
 
 \begin{document}
@@ -62,25 +62,46 @@
 
 \section*{Introduction}
 
-We'll take a journey, from one lonely elliptic curve over a finite
-field to the amazingly rich world of isogeny graphs.
+% If you are reading this on a computer screen, chances are that you got
+% to it by browsing the web. %
+% You probably went to a search engine, or maybe received a link via
+% email, or social media. %
+% You followed the link, landing on some scientific repository, and
+% downloaded the pdf. %
+
+% Two to three hops, each triggering dozens of connections to search
+% servers, CDNs for static assets, targeted advertisement services, and
+% trackers of all sorts. %
+% All over HTTPS. %
+
+% In the lapse of a few seconds, your CPU has chosen some standardized
+% elliptic curves, drawn dozens of random integers, multiplied some
+% default generators by them, and sent around projective points over the
+% wire. %
+% Hell! Maybe it's even the year 2050, and, as we've all moved to
+% Siberia to escape the effects of global warming, your Megacorp branded
+% browser is now offering perfect forward secrecy through ephemeral
+% supersingular isogeny key exchange.
+
+% Yes. \emph{Supersingular isogeny key exchange}. %
+% I know this sounds straight out of a William Gibson novel, but it
+% actually is a real thing. %
+% And you don't even need to wait for Netherlands to be under water to
+% use it: Microsoft has released a fork of OpenVPN containing it.%
+% \footnote{https://github.com/Microsoft/PQCrypto-VPN.} %
+
+
+
+% We'll take a journey, from one lonely elliptic curve over a finite
+% field to the amazingly rich world of isogeny graphs.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Diving}
+\chapter{Bathymetry}
 \label{cha:tate}
 
-% \begin{verse}
-% You climb out the chimney\\
-% And meet me in the middle\\
-% The middle of the town\\
-% And since there's no one else around,\\
-% We let our hair grow long and forget all we used to know\\
-% Then our skin gets thicker from living out in the snow
-%
-% Arcade Fire, The neighborhood #1 (Tunnels)
-% \end{verse}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1407,19 +1428,46 @@ $π|T_{ℓ'}(E)$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Climbing}
+\chapter{Altimetry}
 \label{cha:fpbar}
 
-- towers of finite fields,
-- isomorphisms, embeddings,
-- Fp-bar
-- lattices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Extensions of finite fields}
+
+- Representing extensions: multivariate, univariate, triangular sets,
+change of order, rur, etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Isomorphisms of finite fields}
+
+- Lenstra/Allombert
+- Rains
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{$\bar{\F_p}$}
+- towers, composita
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Lattices of finite fields}
+
+- Conway polynomials,
+- Bosma et al.
+- work in progress, implementations?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Perspectives}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Walking}
+\chapter{Telemetry}
 \label{cha:crypto}
 
 In Chapter~\ref{cha:tate} we learned how to classify isogenies over
@@ -1460,9 +1508,9 @@ The unique properties of the Frobenius endomorphism of supersingular
 curves will allow us to build a much more efficient cryptographic
 primitive, known by the name of CSIDH. %
 Finally, by pushing the study of supersingular graphs further, we will
-get to the primitive known as SIDH, the building block of SIKE, one of
-the candidates to the NIST call for post-quantum public key
-encryption. %
+get to the primitive known as SIDH, the building block of
+SIKE~\cite{SIKE}, one of the candidates to the NIST call for
+post-quantum public key encryption. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -1645,6 +1693,8 @@ literature~\cite{couveignes+morain94}.
 
 \section{Quaternion algebras}
 
+% TODO
+%
 % We have already seen that any supersingular curve over $\bar{\F}_p$ is isomorphic to
 % a curve defined over $\F_{p^2}$, and that all isogenies are defined
 % over $\bar{\F}_{p^2}$, thus the 
@@ -1953,9 +2003,10 @@ sampled and the group action evaluated. %
 We have a set $S$ of prime ideals of $\O$, represented as $(π-λ,ℓ)$
 for some eigenvalue $λ$ modulo a prime $ℓ$. %
 A secret key corresponds to a product of ideals in $S$:
-\begin{equation*}
+\begin{equation}
+  \label{eq:iso-walk}
   \frak s = \prod_{\a_i∈S}\a_i^{e_i}.
-\end{equation*}
+\end{equation}
 For simplicity, we may assume that the exponents $e_i$ are taken in a
 box $[-B,B]$,%
 \footnote{Negative values represent the dual direction to $(π-λ,ℓ)$,
@@ -2272,40 +2323,402 @@ The protocol is schematized in Figure~\ref{fig:sidh}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{(Quantum) Security}
+\section{Security and quantum computers}
 
-understand security. %
-An adversary who only sees the public keys, can break the system by
-solving the following problem.%
-\footnote{Security proofs for the Couveignes--Rostovtsev--Stolbunov
-  protocol rely on variants of the isogeny walk problem similar to DDH
-  or CDH.}
+We end this chapter with a quick review of the security of the key
+exchange protocols presented so far. %
+The problem that is often cited as the cornerstone of isogeny based
+cryptography is the \emph{isogeny walk problem}.
 
 \begin{problem}[Isogeny walk problem]
-  Given two elliptic curves $E,E'∈\Ell_q(\O)$, find an isogeny path
-  $E→E'$.
+  \label{prob:iwp}
+  Let $\F_q$ be a finite field. %
+  Given two elliptic curves $E,E'$ defined over $\F_q$ such that
+  $\#E(\F_q)=\#E'(\F_q)$, find an isogeny $E→E'$ of smooth degree.
 \end{problem}
 
-If we want to avoid brute force attacks, we need $\Ell_q(\O)$ to be
-large, hence $q$ must also be large. %
-When $E,E'$ are uniformly random in $\Ell_q(\O)$, the best attacks to
-the isogeny walk problem take $O(q^{1/4})$
-operations~\cite{GHS,galbraith+stolbunov11}. %
+The ``smooth degree'' requirement is there so that the isogeny can be
+represented compactly as a composition of small degree isogenies. %
+We are purposefully vague on the distribution where $E,E'$ are taken
+from, because this is going to depend on the cryptosystem. %
+Naturally, the first parameter to look at is the size of the isogeny
+class of $E,E'$: too small, and we can find the isogeny by brute
+force. %
+
+\paragraph{Security of CM constructions.}
+In the CM case, using the \emph{bathymeter} developed in
+Chapter~\ref{cha:tate}, we can find ascending paths from $E$ and $E'$
+to two curves $\hat{E},\hat{E}'$ with complex multiplication by the
+maximal order; then, we are left with the problem of finding a
+horizontal isogeny between $\hat{E}$ and $\hat{E'}$. %
+Since the horizontal isogeny class of $\O_K$ is the smallest among all
+horizontal isogeny classes of curves with complex multiplication by
+some $\O⊂\O_K$, it makes sense to reduce to this case, as first noted
+by Galbraith, Hess and Smart~\cite{GHS,galbraith+stolbunov11}. %
+
+\begin{problem}[Horizontal isogeny walk problem]
+  \label{prob:hiwp}
+  Let $\F_q$ be a finite field, and let $\O_K$ be the ring of integers
+  of a quadratic imaginary field $K=ℚ(\sqrt{-D})$. %
+  Given two elliptic curves $E,E'$ defined over $\F_q$ with complex
+  multiplication by $\O_K$, find an isogeny $E→E'$ of smooth degree.
+\end{problem}
+
+The size of the horizontal isogeny class is $h(\O_K)$; it is known by
+the class number formula that this is in $O(\sqrt{Δ_K})$, and, for the
+typical isogeny class\footnote{Including the isogeny class of trace
+  zero supersingular curves used in CSIDH.}, $Δ_K=O(q)$. %
+The best generic attack against the \nameref{prob:hiwp} problem is a
+Pollard-rho style algorithm, performing random walks from $E$ and $E'$
+until a collision is found~\cite{GHS}. %
+Its average complexity is $O(\sqrt{h(O_k)})$, thus $O(q^{1/4})$ for a
+typical isogeny class. %
+This justifies choosing a prime $q$ of $4n$ bits, for a security level
+of $2^n$, and this is indeed what we do
+in~\cite{cryptoeprint:2018:485} and what CSIDH
+does~\cite{cryptoeprint:2018:383}.
+
 However, we must also ensure that the key space covers the whole
-$\Ell_q(\O)$, possibly approaching the uniform distribution. %
-This means that we need a relatively large subset $S⊂\Cl(\O)$: for
-example, if walks are sampled by picking a random subset of $S$ and
-composing the associated isogenies, the key space will contain at most
-$2^{\#S}$ distinct keys. %
+$\Ell_q(\O_K)$, possibly approaching the uniform distribution. %
+This means that isogeny walks, as in Eq.~\eqref{eq:iso-walk}, must be
+sampled from a relatively large subset $S⊂\Cl(\O_K)$, implying that
+$\#S\gg \log q$. %
+For efficiency reasons, practical instantiations take $S$ just large
+enough: $\#S\sim (\log q)/2$;%
+\footnote{Additional constraints in CSIDH force $\#S$ to grow as
+  $(\log q)/(\loglog q)$.} %
+however it will not go unnoticed that this choice is insufficient to
+apply Theorem~\ref{th:ord-exp}. %
+We may as well live with it, changing our security assumptions to take
+into account the biased distributions given by random walks in graphs
+that are not known to be expanders, as it is done
+in~\cite{cryptoeprint:2018:485}. %
+
+\paragraph{Security of SIDH.}
+Things are quite different in SIDH. %
+We know that the supersingular isogeny graph over $\F_{p^2}$ has
+$≈p/12$ vertices, thus in general we can find a smooth isogeny between
+two supersingular curves in $O(\sqrt{p})$ operations using the same
+kind of random walk algorithm. %
+
+However, this is not the best attack against SIDH. %
+To understand why, we need to look at the key space. %
+Recall that the prime in SIDH is chosen of the form
+$p±1=ℓ_A^{e_A}ℓ_B^{e_B}f$. %
+Alice's secrets are uniformly random cyclic subgroups of
+$E[ℓ_A^{e_A}]$; Alice's key space contains thus at most
+$(ℓ_A+1)ℓ^{e_A-1}$ elements. %
+Similarly, Bob's keyspace contains at most $(ℓ_B+1)ℓ^{e_B-1}$
+elements. %
+To balance out the size of the two key spaces, we need
+$ℓ_A^{e_A}≈ℓ_B^{e_B}≈\sqrt{p}$. %
+Thus, Alice's and Bob's key spaces only cover a tiny fraction of the
+whole supersingular graph, much less they satisfy the conditions to
+Theorem~\ref{th:ss-exp}. %
+An isogeny path in any of the two subgraphs can be found by a
+meet-in-the middle strategy (also called a \emph{claw finding}
+algorithm) in only $O(p^{1/4})$ steps.%
+\footnote{A Pollard-rho style of algorithm is not possible in this
+  case, since its complexity would depend on the size of the whole
+  graph. %
+  The claw finding algorithm is very memory hungry, and some argue
+  that the RAM model is not appropriate to study its complexity. %
+  In a constant memory model, the currently best attack against SIDH
+  is estimated to take $O(p^{3/8})$
+  steps~\cite{cryptoeprint:2018:313}.} %
+
+Hence, like in the CM setting, we need to take $\log p\sim 4n$ for a
+security of $2^n$ operations. %
+However SIDH $j$-invariants are elements of $\F_{p^2}$, thus they will
+typically be twice as big as $j$-invariants in CSIDH. %
+Adding to that the fact that SIDH public keys contain more than a
+$j$-invariant (see Figure~\ref{fig:sidh}), we see that CSIDH consumes
+considerably less bandwidth that SIDH. %
+This is offset by the fact that SIDH is an order of magnitude faster
+than CSIDH, owing to the smaller isogeny degrees. %
+
+However, we just highlighted a very important point on SIDH: it
+transmits more information than what we would normally feel
+comfortable sharing. %
+Indeed, SIDH transmits not only the image curve $E/〈A〉$, but also
+the image of the basis points $P_B,Q_B$. %
+This is enough information to interpolate the secret isogeny by a
+Couveignes-like algorithm, however we do not know how to exploit the
+fact that the isogeny has smooth degree, and in fact we do not know
+any algorithm that takes advantage of this auxiliary information.%
+\footnote{See~\cite{10.1007/978-3-319-70697-9_12} for a distant cousin
+  of SIDH for which it is possible to extract useful information out
+  of the auxiliary data.} %
+
+At any rate, the security of SIDH cannot be founded on top of the
+\nameref{prob:iwp}. %
+Instead, it is necessary to make \emph{ad hoc} assumptions taking into
+account the information communicated by the protocol. %
+These assumptions, going under the names of CSSI, SSCDH,
+SSDDH~\cite{jao+defeo2011,defeo+jao+plut12} or SIDH~\cite{SIKE}, are
+too \emph{ad hoc} to deserve a space here; we refer the reader to the
+appendix for their definitions.
+
+\paragraph{Quantum security.}
+The discussion on security would not be complete without surveying
+quantum attacks. %
+Indeed, the main selling point of isogeny-based key exchange protocols
+is their (conjectured) resistance to quantum algorithms. %
+
+Let's start with CM constructions. %
+Couveignes' Hard Homogeneous Spaces setting is scarily similar to the
+Diffie--Hellman key exchange, which is indeed a special case of it. %
+Shor's algorithm~\cite{shor1994algorithms} solves the discrete
+logarithm problem in polynomial time on a quantum computer, and thus
+breaks the Diffie--Hellman protocol. %
+But is there a variant of Shor's algorithm that also breaks generic
+HHS constructions? %
+
+\begin{definition}[Hidden Subgroup Problem (HSP)]
+  Let $f:G→X$ be a function from a group $G$ to a set $X$. %
+  Assume that there is a subgroup $H⊂G$ such that $f(g)=f(g')$ if and
+  only if $g'∈gH$. %
+  The function $f$ is said to \emph{hide} the subgroup $H$, and the
+  \emph{hidden subgroup problem} consists in finding generators for
+  $H$, given access to $f$.
+\end{definition}
+
+It is well known that Kitaev's generalization of Shor's
+algorithm~\cite{kitaev1995hsp} solves the hidden subgroup problem in
+quantum polynomial time, when $G$ is an Abelian group. %
+
+\begin{definition}[Hidden Shift Problem (HShP)]
+  Let $f_0,f_1:G→X$ be two injective functions from a group $G$ to a
+  set $X$. %
+  Assume that there is an element $s∈G$ such that $f_0(g)=f_1(gs)$ for
+  any $g∈G$. %
+  The element $s$ is called a \emph{hidden shift} for $f_0,f_1$, and
+  the \emph{hidden shift problem} is to find $s$, given access to
+  $f_0$ and $f_1$. %
+\end{definition}
+
+For any group $G$, the hidden shift problem reduces to the hidden
+subgroup problem for the (generalized) dihedral group $G\rtimes C_2$.%
+\footnote{To reduce HShP to HSP, simply define the function $f$ by
+  $f(g,1) = f_0(g)$ and $f(g,-1) = f_1(g)$, so that the hidden
+  subgroup is generated by $(s,-1)$.} %
+Kitaev's algorithm does not solve the HShP, but a different family of
+algorithms, due to Kuperberg~\cite{Kup,Kuperberg2013} and
+Regev~\cite{regev04} solves it in subexponential quantum time
+$\exp(\sqrt{\log\#G})$. %
+
+As first noted in~\cite{childs2014constructing} and then improved
+in~\cite{BS18,BIJ18,Jao-etal-kuperberg-2018}, Kuperberg's algorithm
+can be used to solve the \nameref{prob:hiwp} as follows: let $E,E'$ be
+the two curves with complex multiplication by $\O_K$, define two
+functions $f_0,f_1:\Cl(\O_K)\to\Ell_q(\O_K)$ as $f_0(\a)=\a·E$ and
+$f_1(\a)=\a·E'$, then the hidden shift defines a horizontal isogeny
+between $E$ and $E'$. %
+
+Kuperberg's algorithm is a game changer for protocols based on complex
+multiplication: indeed, to ensure $2^n$ quantum security we need to
+take $\log q=O(n^2)$. %
+The actual constant depends on the variant of Kuperberg's algorithm,
+and various parameters such as available quantum memory; its exact
+value is currently debated, but it appears that taking $\log q$
+somewhere between $512$ and $1024$ bits grants a security of $2^{64}$
+quantum gates~\cite{cryptoeprint:2018:383,cryptoeprint:2018:485,BS18}.
+
+For SIDH, on the other hand, there is no group action%
+\footnote{Outside of the subgraph of $\F_p$-rational curves, but the
+  algorithm in~\cite{biasse2014quantum} does not impact the security
+  of SIDH.} %
+that can be exploited by Kuperberg's algorithm. %
+Currently, the best quantum attack against SIDH is a Grover-like claw
+finding algorithm due to Tani~\cite{tani2009claw}, requiring
+$O(p^{1/6})$ quantum gates (and as many qubits!). %
+For this reason, $p$ is typically chosen so that $\log p\sim 6n$ for a
+quantum security of $2^n$ gates, although it is debated whether Tani's
+algorithm actually presents an advantage over the classical claw
+finding attack~\cite{todo}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Perspectives}
 
-- Signatures, other protocols
-- attacks
-- Quantum algorithms, Kuperberg,
-- distributions
+The field of isogeny-based cryptography is a relatively young one, and
+still confidential compared to other post-quantum families. %
+
+\paragraph{Other protocols.}
+In this chapter we have only presented key exchange systems, however
+it is possible to obtain other interesting protocols from isogeny
+graphs. %
+Public key encryption \emph{à la} El Gamal is an easy exercise,
+whereas CCA-secure Key Encapsulation Methods (KEMs) already pose a
+riddle. %
+On one hand, key validation is problematic for SIDH, forcing the use
+of generic transforms such as Fujasaki and
+Okamoto's~\cite{10.1007/3-540-48405-1_34}. %
+On the other hand, key validation in CM systems essentially amounts to
+verifying the order of the elliptic curves; this allows CCA-secure
+systems à la
+DHIES~\cite{cryptoeprint:1999:007,10.1007/3-540-45353-9_12,doi:10.1137/S0097539702403773},
+but also static-static non-interactive key exchange (NIKE), making
+CSIDH the first practical post-quantum NIKE. %
+
+Signatures are another soft spot of isogeny-based cryptography. %
+No analogue of Schnorr signatures is known for any of the primitives
+presented so far. %
+Instead, we have zero-knowledge identification schemes for
+SIDH~\cite{defeo+jao+plut12,cryptoeprint:2017:186,cryptoeprint:2016:1154}
+and, very recently, CSIDH~\cite{cryptoeprint:2018:824}. %
+From these, we can derive signature schemes via the Fiat--Shamir
+transform, but this are either slow, or have large signatures, or
+both. %
+It is currently an open problem to build a compact and efficient
+signature scheme from isogeny primitives. %
+
+Finally, none of the advanced protocols derived from Diffie--Helmann,
+such as identity based encryption, blind signatures, etc., is known to
+have an isogeny-based analogue. %
+One of the most advanced cryptographic ideas based on isogenies, a
+sort of multilinear map, has been recently introduced by Boneh, Glass,
+Krashen, Lauter, Sharif, Silverberg, Tibouchi and
+Zhandry~\cite{Boneh2018}; however the idea fails to give an actual
+protocol, because a key mathematical ingredient (a generalization of
+the $j$-invariant of elliptic curves) is missing, and finding it was
+left as an open problem by the authors.
+
+\paragraph{Other graphs.}
+It is also natural to ask whether other families of expander graphs
+could be used for cryptography. %
+LPS graphs~\cite{LubPS}, for example, are very much related to
+supersingular graphs, and have already been proposed as a basis for
+(symmetric) cryptography~\cite{charles+lauter+goren09}, although they
+have been broken~\cite{tillich2008collisions,quis}. %
+
+As another example, groupoids of maximal orders of quaternion albebras
+are isomorphic to supersingular isogeny graphs; however it has been
+shown that the equivalent of the~\ref{prob:iwp} in these groupoids can
+be solved in (classical) polynomial time~\cite{kohel2014quaternion}.%
+\footnote{The complex multiplication equivalent to this result would
+  be solving the discrete logarithm problem of $\Cl(\O)$ in classical
+  polynomial time.} %
+We do not know how to use this result to break SIDH, however it has
+been employed in various security
+reductions~\cite{galbraithsecurity,cryptoeprint:2017:962}.
+
+An obvious generalization of isogeny based protocols would consist in
+replacing elliptic curves with higher dimensional varieties. %
+Some advantages are to be expected: higher dimensional varieties have
+larger torsion groups, thus more isogenies for a fixed degree. %
+This has the potential to produce smaller parameters, however the
+current knowledge on isogenies in higher dimension is still very
+rudimentary, and few algorithms exist. %
+Some early progress in understanding them has been made
+in~\cite{lubicz_robert_2012,lubicz_robert_2015,cosset2015computing,ionica2014isogeny,Brooks2017},
+it would be interesting to further develop this field. %
+
+\paragraph{Efficiency.}
+Both SIDH and CSIDH have very small keys, compared to other
+post-quantum candidates (or even to RSA). %
+However, SIDH is among the slowest candidates to the NIST post-quantum
+competition, and CSIDH is currently an order of magnitude slower. %
+
+Considerable efforts have been devoted to speed-up SIDH, using ideas
+such as \emph{optimal strategies} for Vélu's
+formulas~\cite{defeo+jao+plut12}, \emph{projectivized} curve
+equations~\cite{costello2016sidh}, \emph{key
+  compression}~\cite{azarderakhsh2016key,Costello2017,10.1007/978-3-319-79063-3_12},
+arithmetic modulo primes of special
+form~\cite{costello2016sidh,vercauteren-sidh-fp,8023082}, dedicated
+\emph{Montgomery ladders}~\cite{cryptoeprint:2017:1015}, and various
+software and hardware level
+optimizations~\cite{cryptoeprint:2017:1213}. %
+Owing to this, we seem to have pretty much hit a wall on how much SIDH
+can be further sped-up: barring spectacular discoveries%
+\footnote{One particular trick in CSIDH that is completely absent in
+  SIDH is using the quadratic twist to perform part of the
+  computations. %
+  I have thought of this for a while, and I see no fundamental reason
+  why it should not work for SIDH, if it was not for the fact that
+  finding suitable parameters seems computationally unfeasible. %
+  My favorite example is $p=17$, so $p^2-1=2^53^2$; if it were
+  possible to find large primes with similar properties, the gain
+  would be spectacular.}, %
+its efficiency is bound to receive only minor improvements in the
+coming years. %
+In particular, this poses a problem for IoT and other embedded
+devices, where SIDH is still unsuitable owing to its large memory and
+CPU requirements. %
+
+On the other hand, CSIDH is still very young, and a lot of
+optimization avenues are yet to be explored. %
+In particular, CSIDH still lacks a constant-time implementation. %
+The abysmal performance of the ordinary curve
+Couveignes--Rostovtsev--Stolbunov protocol could also use some
+improvements, although I am out of ideas at the moment.
+
+In the CSIDH setting, different contexts call for different parameter
+choices. %
+Note that, while $p$ must grow like $O(n^2)$ due to Kuperberg's
+algorithm, the key space is only forced to grow at a much slower rate
+of $O(n)$, the best available attacks being the same claw finding
+algorithms used against SIDH. %
+While the authors of~\cite{cryptoeprint:2018:383} have the key-space
+grow at the same rate as the prime $p$, it is more convenient for
+signatures to have a smaller key space~\cite{cryptoeprint:2018:824}. %
+This of course leads to a probability distribution on $\Ell_q(\O)$
+very far from uniform, potentially affecting security proofs. %
+It is an interesting problem to study the various compromises that can
+be made on parameters, and their impact on security.
+
+\paragraph{Security.}
+Obviously, confidence in isogeny based cryptography can only be gained
+through more research on security. %
+
+This means, of course, working on attacks. %
+A fundamental topic, at the moment, is establishing the quantum
+security of CSIDH. %
+Some preliminary work has been done
+in~\cite{BS18,BIJ18,Jao-etal-kuperberg-2018}, but a consensus has yet
+to be reached. %
+
+Concerning SIDH, it is interesting that the only recent result on
+generic attacks shows that SIDH is potentially \emph{more} secure than
+originally thought~\cite{cryptoeprint:2018:313}. %
+However, none of the known attacks exploits the ``auxiliary''
+information transmitted by the protocol in the form of torsion
+points. %
+Some work in this direction has been done by
+Petit~\cite{10.1007/978-3-319-70697-9_12}, but no direct impact on
+SIDH has been demonstrated. %
+In particular, there seems to be absolutely no research on using the
+auxiliary information in a quantum algorithm. %
+
+Whether quantum computers, Tate's theorem, Couveignes' algorithm, or a
+combination of all can help crack the security of SIDH is certainly
+one of the most fascinating topics in isogeny based cryptography.
+
+Besides key recovery, other kinds of attacks are also interesting. %
+The most celebrated one is Galbraith, Petit, Shani and Ti's key
+learning attack against the static version of
+SIDH~\cite{galbraithsecurity}, showing that key validation for SIDH is
+indeed hard. %
+Other attack models, e.g., side channel attacks, have also been
+investigated~\cite{gelin2017loop,ti2017fault}. %
+These efforts remain sporadic, and more work is needed in these
+directions. %
+
+Finally, more security proofs would help consolidate trust in
+isogenies. %
+The security assumption of SIDH being so \emph{ad hoc}, more work on
+security reductions, such
+as~\cite{galbraithsecurity,cryptoeprint:2017:962}, could help build
+trust by reducing security to more ``natural'' problems. %
+CSIDH, on the other hand, benefits from a much nicer hardness
+assumption, although key distribution is often an issue for security
+proofs: it is not clear how much its security is affected by more
+aggressive parameters deviating considerably from the uniform
+distribution. %
+Given the intended use of these protocols, proofs of quantum security
+are another obvious target for research.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2341,9 +2754,10 @@ As short as possible. Necessary?
 % LocalWords:  preimage bijection cryptosystems univariate Decisional
 % LocalWords:  isomorphisms isogenous Schoof's decisional bivariate
 % LocalWords:  precomputed  Abelian Vélu's Elkies Couveignes Lercier
-% LocalWords:  Schoof endomorphism Frobenius supersingular Kohel
+% LocalWords:  Schoof endomorphism Frobenius supersingular Kohel SIDH
 % LocalWords:  diagonalizing diagonalizable diagonalization morphisms
 % LocalWords:  undirected bathymeter endomorphisms tensored subgraph
 % LocalWords:  quotienting eigenspace coprime submodule Atkin Cayley
-% LocalWords:  cryptographic codomain invertible diagonalizes
-% LocalWords:  expander expanders polynomially invariants
+% LocalWords:  cryptographic codomain invertible diagonalizes CSIDH
+% LocalWords:  expander expanders polynomially invariants injective
+% LocalWords:  cryptosystem instantiations dihedral

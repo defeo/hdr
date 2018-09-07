@@ -737,15 +737,6 @@
   groups    = {Isogenies},
 }
 
-@Misc{cryptoeprint:2017:571,
-  author       = {Christophe Petit},
-  title        = {Faster Algorithms for Isogeny Problems using Torsion Point Images},
-  howpublished = {Cryptology ePrint Archive, Report 2017/571},
-  year         = {2017},
-  note         = {\url{http://eprint.iacr.org/2017/571}},
-  groups       = {Isogenies},
-}
-
 @Misc{cryptoeprint:2017:962,
   author       = {Christophe Petit and Kristin Lauter},
   title        = {Hard and easy problems for supersingular isogeny graphs},
@@ -1631,6 +1622,315 @@ requirement is only polynomial.},
   year         = {2018},
   note         = {to appear, \url{https://eprint.iacr.org/2018/383}},
   howpublished = {Cryptology ePrint Archive, Report 2018/383},
+}
+
+@Misc{cryptoeprint:2018:313,
+  author       = {Adj, Gora and Cervantes-V\'{a}zquez, Daniel and Chi-Dom\'{i}nguez, Jes\'{u}s-Javier and Menezes, Alfred and Rodr\'iguez-Henr\'iquez, Francisco},
+  title        = {On the cost of computing isogenies between supersingular elliptic curves},
+  howpublished = {Cryptology ePrint Archive, Report 2018/313},
+  year         = {2018},
+  note         = {\url{https://eprint.iacr.org/2018/313}},
+}
+
+@InProceedings{10.1007/978-3-319-70697-9_12,
+  author    = {Petit, Christophe},
+  title     = {Faster Algorithms for Isogeny Problems Using Torsion Point Images},
+  booktitle = {Advances in Cryptology -- ASIACRYPT 2017},
+  year      = {2017},
+  editor    = {Takagi, Tsuyoshi and Peyrin, Thomas},
+  pages     = {330--353},
+  address   = {Cham},
+  publisher = {Springer International Publishing},
+  abstract  = {There is a recent trend in cryptography to construct protocols based on the hardness of computing isogenies between supersingular elliptic curves. Two prominent examples are Jao-De Feo's key exchange protocol and the resulting encryption scheme by De Feo-Jao-Pl{\^u}t. One particularity of the isogeny problems underlying these protocols is that some additional information is given as input, namely the image of some torsion points with order coprime to the isogeny. This additional information was used in several active attacks against the protocols but the current best passive attacks make no use of it at all.},
+  isbn      = {978-3-319-70697-9},
+}
+
+@InProceedings{shor1994algorithms,
+  author       = {Shor, Peter W},
+  title        = {Algorithms for quantum computation: Discrete logarithms and factoring},
+  booktitle    = {Foundations of Computer Science, 1994 Proceedings., 35th Annual Symposium on},
+  year         = {1994},
+  pages        = {124--134},
+  organization = {IEEE},
+}
+
+@Article{kitaev1995hsp,
+  author  = {Kitaev, Alexey Yuri},
+  title   = {Quantum measurements and the Abelian stabilizer problem},
+  journal = {arXiv preprint quant-ph/9511026},
+  year    = {1995},
+  eprint  = {https://arxiv.org/abs/quant-ph/9511026},
+  url     = {https://arxiv.org/abs/quant-ph/9511026},
+}
+
+@Misc{BS18,
+  author       = {Xavier Bonnetain and Andr{\'{e}} Schrottenloher},
+  title        = {Quantum Security Analysis of {CSIDH} and Ordinary Isogeny-based Schemes},
+  howpublished = {{IACR} Cryptology ePrint Archive 2018/537},
+  year         = {2018},
+}
+
+@Misc{BIJ18,
+  author       = {Biasse, Jean-Fran\c{c}ois and Iezzi, Annamaria and Jacobson, Michael J. Jr.},
+  title        = {A note on the security of {CSIDH}},
+  howpublished = {arXiv:1806.03656},
+  year         = {2018},
+}
+
+@InProceedings{Jao-etal-kuperberg-2018,
+  author    = {Jao, David and LeGrow, Jason and Leonardi, Christopher and Ruiz-Lopez, Luiz},
+  title     = {A polynomial quantum space attack on CRS and CSIDH},
+  booktitle = {MathCrypt 2018},
+  year      = {2018},
+  note      = {to appear},
+}
+
+@Article{tani2009claw,
+  author    = {Tani, Seiichiro},
+  title     = {Claw finding algorithms using quantum walk},
+  journal   = {Theoretical Computer Science},
+  year      = {2009},
+  volume    = {410},
+  number    = {50},
+  pages     = {5285--5297},
+  publisher = {Elsevier},
+}
+
+@InProceedings{10.1007/3-540-48405-1_34,
+  author    = {Fujisaki, Eiichiro and Okamoto, Tatsuaki},
+  title     = {Secure Integration of Asymmetric and Symmetric Encryption Schemes},
+  booktitle = {Advances in Cryptology --- CRYPTO' 99},
+  year      = {1999},
+  editor    = {Wiener, Michael},
+  pages     = {537--554},
+  address   = {Berlin, Heidelberg},
+  publisher = {Springer Berlin Heidelberg},
+  abstract  = {This paper shows a generic and simple conversion from weak asymmetric and symmetric encryption schemes into an asymmetric encryption scheme which is secure in a very strong sense --- indistinguishability against adaptive chosen-ciphertext attacks in the random oracle model. In particular, this conversion can be applied efficiently to an asymmetric encryption scheme that provides a large enough coin space and, for every message, many enough variants of the encryption, like the ElGamal encryption scheme.},
+  isbn      = {978-3-540-48405-9},
+}
+
+@InProceedings{10.1007/3-540-45353-9_12,
+  author    = {Abdalla, Michel and Bellare, Mihir and Rogaway, Phillip},
+  title     = {The Oracle Diffie-Hellman Assumptions and an Analysis of DHIES},
+  booktitle = {Topics in Cryptology --- CT-RSA 2001},
+  year      = {2001},
+  editor    = {Naccache, David},
+  pages     = {143--158},
+  address   = {Berlin, Heidelberg},
+  publisher = {Springer Berlin Heidelberg},
+  abstract  = {This paper provides security analysis for the public-key encryption scheme DHIES (formerly named DHES and DHAES), which was proposed in [7] and is now in several draft standards. DHIES is a Diffie-Hellman based scheme that combines a symmetric encryption method, a message authentication code, and a hash function, in addition to number-theoretic operations, in a way which is intended to provide security against chosen-ciphertext attacks. In this paper we find natural assumptions under which DHIES achieves security under chosen-ciphertext attack. The assumptions we make about the Diffie-Hellman problem are interesting variants of the customary ones, and we investigate relationships among them, and provide security lower bounds. Our proofs are in the standard model; no random-oracle assumption is required.},
+  isbn      = {978-3-540-45353-6},
+}
+
+@Misc{cryptoeprint:1999:007,
+  author       = {Abdalla, Michel and Bellare, Mihir and Rogaway, Phillip},
+  title        = {DHAES: An Encryption Scheme Based on the Diffie-Hellman Problem},
+  howpublished = {Cryptology ePrint Archive, Report 1999/007},
+  year         = {1999},
+  note         = {\url{https://eprint.iacr.org/1999/007}},
+}
+
+@Article{doi:10.1137/S0097539702403773,
+  author  = {Ronald Cramer and Victor Shoup},
+  title   = {Design and Analysis of Practical Public-Key Encryption Schemes Secure against Adaptive Chosen Ciphertext Attack},
+  journal = {SIAM Journal on Computing},
+  year    = {2003},
+  volume  = {33},
+  number  = {1},
+  pages   = {167-226},
+  doi     = {10.1137/S0097539702403773},
+  eprint  = {https://doi.org/10.1137/S0097539702403773},
+  url     = { https://doi.org/10.1137/S0097539702403773},
+}
+
+@InProceedings{Boneh2018,
+  author    = {Boneh, Dan and Glass, Darren and Krashen, Daniel and Lauter, Kristin and Sharif, Shahed and Silverberg, Alice and Tibouchi, Mehdi and Zhandry, Mark},
+  title     = {Multiparty Non-Interactive Key Exchange and More from Isogenies on Elliptic Curves},
+  booktitle = {MathCrypt 2018},
+  year      = {2018},
+}
+
+@InProceedings{10.1007/978-3-319-79063-3_12,
+  author    = {Zanon, Gustavo H. M. and Simplicio, Marcos A. and Pereira, Geovandro C. C. F. and Doliskani, Javad and Barreto, Paulo S. L. M.},
+  title     = {Faster Isogeny-Based Compressed Key Agreement},
+  booktitle = {Post-Quantum Cryptography},
+  year      = {2018},
+  editor    = {Lange, Tanja and Steinwandt, Rainer},
+  pages     = {248--268},
+  address   = {Cham},
+  publisher = {Springer International Publishing},
+  abstract  = {Supersingular isogeny-based cryptography is one of the more recent families of post-quantum proposals. An interesting feature is the comparatively low bandwidth occupation in key agreement protocols, which stems from the possibility of key compression. However, compression and decompression introduce a significant overhead to the overall processing cost despite recent progress. In this paper we address the main processing bottlenecks involved in key compression and decompression, and suggest substantial improvements for each of them. Some of our techniques may have an independent interest for other, more conventional areas of elliptic curve cryptography as well.},
+  isbn      = {978-3-319-79063-3},
+}
+
+@Article{vercauteren-sidh-fp,
+  author  = {Angshuman Karmakar and Sujoy Sinha Roy and Frederik Vercauteren and Ingrid Verbauwhede},
+  title   = {Efficient Finite Field Multiplication for Isogeny Based Post Quantum Cryptography},
+  journal = {Proceedings of WAIFI 2016},
+  year    = {2016},
+}
+
+@InProceedings{8023082,
+  author    = {Bos, Joppe W. and Friedberger, Simon},
+  title     = {Fast Arithmetic Modulo $2^x p^y \pm 1$},
+  booktitle = {2017 IEEE 24th Symposium on Computer Arithmetic (ARITH)},
+  year      = {2017},
+  pages     = {148-155},
+  month     = {July},
+  abstract  = {We give a systematic overview of techniques to compute arithmetic modulo 2xpy± 1 and propose improvements. This is useful for computations in the supersingular isogeny Diffie-Hellman (SIDH) key-exchange protocol which is one of the more recent contenders in the post-quantum public-key arena. One of the main computational bottlenecks in this cryptographic key-exchange protocol is computing modular arithmetic in a finite field defined by a prime of this special shape. Recent implementations already use this special prime shape to speed up the cryptographic implementations but it remains unclear if the choices made are optimal or if one can do better. Our overview shows that in the SIDH setting, where arithmetic over a quadratic extension field is required, the approaches based on Montgomery multiplication are to be preferred. Based on our results, we give selection criteria for such moduli and the outcome of our search reveals that there exist moduli which result in even faster implementations.},
+  doi       = {10.1109/ARITH.2017.15},
+  groups    = {Isogenies},
+  issn      = {1063-6889},
+  keywords  = {cryptographic protocols;public key cryptography;quantum cryptography;fast arithmetic modulo;supersingular isogeny Diffie-Hellman key-exchange protocol;SIDH key-exchange protocol;post-quantum public-key arena;computational bottlenecks;cryptographic key-exchange protocol;modular arithmetic;finite field;Montgomery multiplication;selection criteria;quadratic extension field;Protocols;Shape;Public key cryptography;Elliptic curves;Optimization;Electronic mail;montgomery multiplication;barrett reduction;post-quantum cryptography;sidh},
+}
+
+@Misc{cryptoeprint:2017:1015,
+  author       = {Armando Faz-Hern\'andez and Julio L\'opez and Eduardo Ochoa-Jim\'enez and Francisco Rodr\'iguez-Henr\'iquez},
+  title        = {A Faster Software Implementation of the Supersingular Isogeny Diffie-Hellman Key Exchange Protocol},
+  howpublished = {Cryptology ePrint Archive, Report 2017/1015},
+  year         = {2017},
+  note         = {\url{http://eprint.iacr.org/2017/1015}},
+  groups       = {Isogenies},
+}
+
+@Misc{cryptoeprint:2018:824,
+  author       = {Luca De Feo and Steven D. Galbraith},
+  title        = {SeaSign: Compact isogeny signatures from class group actions},
+  howpublished = {Cryptology ePrint Archive, Report 2018/824},
+  year         = {2018},
+  note         = {\url{https://eprint.iacr.org/2018/824}},
+}
+
+@Misc{cryptoeprint:2017:1213,
+  author       = {Michael Meyer and Steffen Reith and Fabio Campos},
+  title        = {On hybrid SIDH schemes using Edwards and Montgomery curve arithmetic},
+  howpublished = {Cryptology ePrint Archive, Report 2017/1213},
+  year         = {2017},
+  note         = {\url{https://eprint.iacr.org/2017/1213}},
+}
+
+@Article{charles+lauter+goren09,
+  author               = {Charles, Denis X. and Goren, Eyal Z. and Lauter, Kristin E.},
+  title                = {Cryptographic Hash Functions from Expander Graphs},
+  journal              = {Journal of Cryptology},
+  year                 = {2009},
+  volume               = {22},
+  number               = {1},
+  pages                = {93-113},
+  month                = jan,
+  issn                 = {0933-2790},
+  abstract             = {Abstract   We propose constructing provable collision resistant hash functions from expander graphs in which finding cycles is hard. As examples, we investigate two specific families of optimal expander graphs for provable collision resistant hash function constructions: the families of Ramanujan graphs constructed by {Lubotzky-Phillips}-Sarnak and Pizer respectively. When the hash function is constructed from one of Pizer's Ramanujan graphs, (the set of supersingular elliptic curves over with ℓ-isogenies, ℓ a prime different from p), then collision resistance follows from hardness of computing isogenies between supersingular elliptic curves. For the {LPS} graphs, the underlying hard problem is a representation problem in group theory. Constructing our hash functions from optimal expander graphs implies that the outputs closely approximate the uniform distribution. This property is useful for arguing that the output is indistinguishable from random sequences of bits. We estimate the cost per bit to compute these hash functions, and we implement our hash function for several members of the Pizer and {LPS} graph families and give actual timings.},
+  citeulike-article-id = {10862471},
+  citeulike-linkout-0  = {http://dx.doi.org/10.1007/s00145-007-9002-x},
+  citeulike-linkout-1  = {http://www.springerlink.com/content/cv4r187833614475},
+  day                  = {1},
+  doi                  = {10.1007/s00145-007-9002-x},
+  groups               = {Isogenies},
+  keywords             = {elliptic\_curve, hash, isogenies},
+  posted-at            = {2012-07-06 21:19:46},
+  url                  = {http://dx.doi.org/10.1007/s00145-007-9002-x},
+}
+
+@InProceedings{quis,
+  author               = {Petit, Christophe and Lauter, Kristin and Quisquater, Jean-Jacques},
+  title                = {Full Cryptanalysis of {LPS} and {M}orgenstern Hash Functions},
+  booktitle            = {Proceedings of the 6th international conference on Security and Cryptography for Networks},
+  year                 = {2008},
+  series               = {SCN '08},
+  address              = {Berlin, Heidelberg},
+  publisher            = {Springer-Verlag},
+  citeulike-article-id = {10862461},
+  citeulike-linkout-0  = {http://dx.doi.org/10.1007/978-3-540-85855-3_18},
+  location             = {Amalfi, Italy},
+  posted-at            = {2012-07-06 21:19:45},
+  url                  = {http://dx.doi.org/10.1007/978-3-540-85855-3_18},
+}
+
+@InProceedings{tillich2008collisions,
+  author       = {Tillich, Jean-Pierre and Z{\'e}mor, Gilles},
+  title        = {Collisions for the LPS expander graph hash function},
+  booktitle    = {Annual International Conference on the Theory and Applications of Cryptographic Techniques},
+  year         = {2008},
+  pages        = {254--269},
+  organization = {Springer},
+}
+
+@Article{lubicz_robert_2012,
+  author    = {Lubicz, David and Robert, Damien},
+  title     = {Computing isogenies between abelian varieties},
+  journal   = {Compositio Mathematica},
+  year      = {2012},
+  volume    = {148},
+  number    = {5},
+  pages     = {1483–1515},
+  doi       = {10.1112/S0010437X12000243},
+  groups    = {Isogenies},
+  publisher = {London Mathematical Society},
+}
+
+@Article{Brooks2017,
+  author   = {Brooks, Ernest Hunter and Jetchev, Dimitar and Wesolowski, Benjamin},
+  title    = {Isogeny graphs of ordinary abelian varieties},
+  journal  = {Research in Number Theory},
+  year     = {2017},
+  volume   = {3},
+  number   = {1},
+  pages    = {28},
+  month    = {Nov},
+  issn     = {2363-9555},
+  abstract = {Fix a prime number                                                                           {\$}{\$}{\backslash}ell {\$}{\$}                                                            ℓ                                                      . Graphs of isogenies of degree a power of                                                                           {\$}{\$}{\backslash}ell {\$}{\$}                                                            ℓ                                                       are well-understood for elliptic curves, but not for higher-dimensional abelian varieties. We study the case of absolutely simple ordinary abelian varieties over a finite field. We analyse graphs of so-called                                                                           {\$}{\$}{\backslash}mathfrak l{\$}{\$}                                                            l                                                      -isogenies, resolving that, in arbitrary dimension, their structure is similar, but not identical, to the ``volcanoes'' occurring as graphs of isogenies of elliptic curves. Specializing to the case of principally polarizable abelian surfaces, we then exploit this structure to describe graphs of a particular class of isogenies known as                                                                           {\$}{\$}({\backslash}ell , {\backslash}ell ){\$}{\$}                                                                                    (                        ℓ                        ,                        ℓ                        )                                                                            -isogenies: those whose kernels are maximal isotropic subgroups of the                                                                           {\$}{\$}{\backslash}ell {\$}{\$}                                                            ℓ                                                      -torsion for the Weil pairing. We use these two results to write an algorithm giving a path of computable isogenies from an arbitrary absolutely simple ordinary abelian surface towards one with maximal endomorphism ring, which has immediate consequences for the CM-method in genus 2, for computing explicit isogenies, and for the random self-reducibility of the discrete logarithm problem in genus 2 cryptography.},
+  day      = {01},
+  doi      = {10.1007/s40993-017-0087-5},
+  url      = {https://doi.org/10.1007/s40993-017-0087-5},
+}
+
+@Article{ionica2014isogeny,
+  author  = {Ionica, Sorina and Thom{\'e}, Emmanuel},
+  title   = {Isogeny graphs with maximal real multiplication},
+  journal = {arXiv preprint arXiv:1407.6672},
+  year    = {2014},
+}
+
+@Article{cosset2015computing,
+  author  = {Cosset, Romain and Robert, Damien},
+  title   = {Computing $(\ell, \ell)$-isogenies in polynomial time on Jacobians of genus 2 curves},
+  journal = {Mathematics of Computation},
+  year    = {2015},
+  volume  = {84},
+  number  = {294},
+  pages   = {1953--1975},
+  groups  = {Isogenies},
+}
+
+@Article{lubicz_robert_2015,
+  author    = {Lubicz, David and Robert, Damien},
+  title     = {Computing separable isogenies in quasi-optimal time},
+  journal   = {LMS Journal of Computation and Mathematics},
+  year      = {2015},
+  volume    = {18},
+  number    = {1},
+  pages     = {198–216},
+  doi       = {10.1112/S146115701400045X},
+  publisher = {London Mathematical Society},
+}
+
+@InProceedings{gelin2017loop,
+  author       = {G{\'e}lin, Alexandre and Wesolowski, Benjamin},
+  title        = {Loop-abort faults on supersingular isogeny cryptosystems},
+  booktitle    = {International Workshop on Post-Quantum Cryptography},
+  year         = {2017},
+  pages        = {93--106},
+  organization = {Springer},
+}
+
+@InProceedings{ti2017fault,
+  author       = {Ti, Yan Bo},
+  title        = {Fault attack on supersingular isogeny cryptosystems},
+  booktitle    = {International Workshop on Post-Quantum Cryptography},
+  year         = {2017},
+  pages        = {107--122},
+  organization = {Springer},
+  groups       = {Isogenies},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
