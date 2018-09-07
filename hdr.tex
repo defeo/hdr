@@ -1330,7 +1330,7 @@ not (entirely) contained in $E(\F_q)$, and indeed it will almost never
 be in the context of our algorithm. %
 Thus, we first need to compute the smallest field extension of $\F_q$
 where $E[ℓ^k]$ is going to be defined. %
-We ``climb'' level by level: first computing $E[ℓ]$, then $E[ℓ^2]$,
+We ``ascend'' level by level: first computing $E[ℓ]$, then $E[ℓ^2]$,
 and so on until we reach $E[ℓ^k]$. %
 Each step will require factoring some polynomials, in general of
 degree $ℓ$, leading to the construction of a \emph{tower of
@@ -1478,7 +1478,43 @@ $π|T_{ℓ'}(E)$.
 \chapter{Altimetry}
 \label{cha:fpbar}
 
+In the previous chapter we saw how to determine the structure of an
+isogeny volcano by looking at the way the Frobenius endomorphism acts
+on the Tate module. %
+To effectively perform the computation, we need to approximate the
+Tate module by projecting it onto a torsion group of order, say,
+$ℓ^k$. %
+Even this finite group, however, may not be defined over the base
+field $\F_p$. %
+It is then natural to construct \emph{towers of extensions fields},
+over which increasingly larger torsion groups are defined. %
 
+But why stop at towers? %
+This chapter is devoted to techniques to ``ascend'' in \emph{lattices
+  of extension fields}, possibly up to the full algebraic closure. %
+The structure of $\bar{\F}_p$ is simple enough that we will not need
+more than the classic theory of cyclotomic extensions. %
+Instead, we will concentrate our efforts on looking for asymptotically
+optimal algorithms, discovering on our path a rich palette of
+algorithmic ideas. %
+
+After learning about representations of finite fields and algorithms
+to compute irreducible polynomials, we will explore two radically
+different paradigms to represent the algebraic closure of $\F_p$, both
+being currently used in computer algebra systems. %
+On one side, we will have lattices of finite fields represented by
+families of \emph{special} polynomials, the most well known example
+being the family of Conway polynomials, introduced by the GAP
+system~\cite{todo}, and then adopted by Magma~\cite{MAGMA} and
+SageMath~\cite{Sage}. %
+On the other side, we will have lattices of \emph{arbitrarily
+  represented} finite fields, such as those used by Magma. %
+The fundamental tool for these will be an \emph{isomorphism
+  algorithm}, we shall thus learn about the two main existing
+families: the first one, due to Lenstra~\cite{todo} and
+Allombert~\cite{todo}, based on the theory of Kummer extensions; the
+second one, due to Pinch~\cite{todo} and Rains~\cite{todo}, based on
+Gaussian periods. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -2811,3 +2847,4 @@ As short as possible. Necessary?
 % LocalWords:  cryptographic codomain invertible diagonalizes CSIDH
 % LocalWords:  expander expanders polynomially invariants injective
 % LocalWords:  cryptosystem instantiations dihedral cryptology
+% LocalWords:  cyclotomic
