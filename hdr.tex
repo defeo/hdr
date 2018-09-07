@@ -1,6 +1,6 @@
 \documentclass{report}
 
-\usepackage[a4paper]{geometry}
+\usepackage[b5paper]{geometry}
 \usepackage[english]{babel}
 \usepackage{array}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
@@ -101,6 +101,53 @@
 \chapter{Bathymetry}
 \label{cha:tate}
 
+What's an isogeny, anyway? %
+Despite the imposing sounding name, an isogeny is a pretty simple
+concept: a morphism between two elliptic curves, preserving their
+algebraic structure (both as a group and as a variety). %
+
+Isogenies of Abelian varieties have been studied since the beginning
+of the 19th century, by the likes of Abel, Jacobi, Weierstrass,
+Riemann, Picard, etc. %
+According to Wikipedia%
+\footnote{See \url{https://en.wikipedia.org/wiki/Isogeny}. No source
+  is given, though.}, %
+the name ``isogeny'' was introduced in the 20th century by André Weil,
+to avoid confusion with ``isomorphism''. %
+After the \emph{schematic} revolution in algebraic geometry, major
+contributions to the theory of Abelian varieties and isogenies were
+made by Serre, Tate, and, obviously, Grothendieck. %
+With the development of computer algebra, people grew increasingly
+interested in effective methods, with important contributions being
+made by Schoof, Atkin, Elkies, Satoh, Kedlaya, and many others. %
+In recent years, isogenies have found various applications in
+cryptology, sparking a remarkable wave of results on their algorithmic
+properties. %
+
+In this chapter, we shall take the algorithmic point of view, and
+discuss algorithms to compute and classify isogenies of elliptic
+curves. %
+The focal point of interest will be the \emph{Frobenius endomorphism}
+of an elliptic curve defined over a finite field. %
+We will first learn how it governs the properties of isogenies ``in
+the neighborhood'' of an elliptic curve. %
+We will then define \emph{isogeny graphs}---graphs whose vertices are
+elliptic curves and whose edges are isogenies---, and, not unlike a
+biologist, set on a mission to classify them. %
+Isogeny graphs inherit an \emph{infinite tree} structure, but over a
+finite field they must ``fold'' in order to fit into a finite space. %
+Thanks to a celebrated theorem of Tate, we will discover that the
+Frobenius endomorphism, much like the DNA of a living creature,
+determines the ``folding'' of the isogeny graph. %
+
+Even knowing the structure of an isogeny graph, it is not always easy
+to navigate it. %
+An \emph{effective version} of Tate's theorem will provide us with a
+tool to ``probe the depth'' of a curve inside an isogeny graph;
+appropriately, we shall call this tool a \emph{bathymeter}. %
+Armed with our brand new bathymeter, we will conclude the chapter by
+presenting the algorithm with the best known complexity to compute an
+isogeny between two given elliptic curves. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1431,6 +1478,9 @@ $π|T_{ℓ'}(E)$.
 \chapter{Altimetry}
 \label{cha:fpbar}
 
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Extensions of finite fields}
@@ -1447,7 +1497,7 @@ change of order, rur, etc.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-\section{$\bar{\F_p}$}
+\section{$\bar{\F}_p$}
 - towers, composita
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -2760,4 +2810,4 @@ As short as possible. Necessary?
 % LocalWords:  quotienting eigenspace coprime submodule Atkin Cayley
 % LocalWords:  cryptographic codomain invertible diagonalizes CSIDH
 % LocalWords:  expander expanders polynomially invariants injective
-% LocalWords:  cryptosystem instantiations dihedral
+% LocalWords:  cryptosystem instantiations dihedral cryptology
