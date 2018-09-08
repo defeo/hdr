@@ -91,9 +91,10 @@
 % \footnote{https://github.com/Microsoft/PQCrypto-VPN.} %
 
 
-
 % We'll take a journey, from one lonely elliptic curve over a finite
 % field to the amazingly rich world of isogeny graphs.
+
+% Manifesto of a \emph{full-stack number theorist}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +117,7 @@ the name ``isogeny'' was introduced in the 20th century by André Weil,
 to avoid confusion with ``isomorphism''. %
 After the \emph{schematic} revolution in algebraic geometry, major
 contributions to the theory of Abelian varieties and isogenies were
-made by Serre, Tate, and, obviously, Grothendieck. %
+made by Cartier, Serre, Tate, and, obviously, Grothendieck. %
 With the development of computer algebra, people grew increasingly
 interested in effective methods, with important contributions being
 made by Schoof, Atkin, Elkies, Satoh, Kedlaya, and many others. %
@@ -1505,24 +1506,179 @@ being currently used in computer algebra systems. %
 On one side, we will have lattices of finite fields represented by
 families of \emph{special} polynomials, the most well known example
 being the family of Conway polynomials, introduced by the GAP
-system~\cite{todo}, and then adopted by Magma~\cite{MAGMA} and
+system~\cite{GAP4}, and then adopted by Magma~\cite{MAGMA} and
 SageMath~\cite{Sage}. %
 On the other side, we will have lattices of \emph{arbitrarily
   represented} finite fields, such as those used by Magma. %
 The fundamental tool for these will be an \emph{isomorphism
   algorithm}, we shall thus learn about the two main existing
-families: the first one, due to Lenstra~\cite{todo} and
-Allombert~\cite{todo}, based on the theory of Kummer extensions; the
-second one, due to Pinch~\cite{todo} and Rains~\cite{todo}, based on
-Gaussian periods. %
+families: the first one, due to Lenstra~\cite{LenstraJr91} and
+Allombert~\cite{Allombert02}, based on the theory of Kummer
+extensions; the second one, due to Pinch~\cite{Pinch} and
+Rains~\cite{rains2008}, based on Gaussian periods. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Extensions of finite fields}
 
-- Representing extensions: multivariate, univariate, triangular sets,
-change of order, rur, etc.
+From now on, $\F_p$ is a finite field of prime order. %
+Much of what we are going to present is easily generalized to
+non-prime fields, however we will stick to prime fields for
+simplicity, and refer to the appendix the reader interested in
+the general case. %
+
+Since this chapter is chiefly about complexity, we need to agree on a
+unit of measurement. %
+The field $\F_p$ is typically represented as the ring of integers
+modulo $p$, using $\log p$ bits per element. %
+Addition, subtraction and multiplication modulo $p$ can all be
+performed in $\tildO(\log p)$ binary operations using asymptotically
+fast integer multiplication and Euclidean division, while field
+inversion can be computed at the same asymptotic cost using a fast
+extended Euclidean algorithm (see~\cite{vzGG} for a detailed
+account). %
+\emph{Zech logarithms} are another commonly used representation for
+finite fields of small size: elements of $\F_p$ are represented as
+powers of a generator, making it relatively cheap to multiply and
+invert elements, whereas additions are computed by a lookup in a table
+with $O(p)$ entries. %
+
+Even though in practice any representation has noticeably different
+costs for the various arithmetic operations, it will be convenient to
+abstract from the actual implementation of $\F_p$ and measure
+complexities in the \emph{algebraic model}, i.e., counting every field
+operation as $O(1)$. %
+Given a complexity in the algebraic model, a relatively accurate
+estimate of the binary complexity can be obtained by multiplying by
+$\log p$ (and ignoring polynomial terms in $\loglog p$). %
+
+The universally employed way to represent a field extension $\F_{p^d}$
+is as a quotient of the polynomial ring $\F_p[X]$ by a monic
+irreducible polynomial $f(X)$ of degree $d$. %
+In this representation, much like in the modular integers case, all
+arithmetic operations can be performed in $\tildO(n)$ elementary
+algebraic operations using fast polynomial multiplication, Euclidean
+division, and extended Euclidean algorithm (see again~\cite{vzGG}). %
+Most popular software libraries for number theory, e.g.,
+Flint~\cite{flint}, NTL~\cite{shoup2003ntl}, Pari~\cite{Pari},
+Magma~\cite{MAGMA}, use this representation%
+\footnote{Givaro~\cite{givaro} is one notable exception, employing
+  Zech logarithms. %
+  All of the mentioned libraries, with the exception of Magma, are
+  used by SageMath~\cite{Sage}.}, %
+and a considerable amount of effort has been spent in optimizing it. %
+Hence this representation, that we shall call \emph{univariate}, is
+the best choice both from an asymptotical and a practical point of
+view. %
+
+When more than one extension of $\F_p$ is involved, several
+representations are possible. %
+A natural choice is to represent increasingly large fields as
+\emph{towers of extensions}: for example, $\F_{p^2}$ may be
+represented as $\F_{p}[X_1]/f_1(X_1)$, then $\F_{p^4}$ as
+$\F_{p^2}[X_2]/f_2(X_2)$, and so on. %
+In general, the polynomial $f_i$ will have coefficients over the
+previous field. %
+\emph{Flattening} the tower, we may rewrite the system of extension
+fields as a quotient
+\begin{equation}
+  \label{eq:triangular}
+  \F_p[X_1,\dots,X_n] /
+  \left|\begin{array}{l}
+          X_n^{d_n} - \tilde{f}_n(X_1,\dots,X_n),\\
+          \qquad\vdots\\
+          X_1^{d_1} - \tilde{f}_1(X_1),
+        \end{array}\right.
+\end{equation}
+where the $i$-th field in the tower is identified with the subring
+generated by $X_1,\dots,X_i$. %
+The polynomial ideal in Eq.~\eqref{eq:triangular} is a special case of
+a (zero-dimensional) \emph{triangular set}, and an extensive
+literature is devoted to computing modulo them~\cite{todo}. %
+Performing arithmetic operations modulo triangular sets incurs an
+intrinsic penalty, exponential in the number $n$ of variables, that an
+ordinary univariate representation does
+not~\cite{li+moreno+schost07}. %
+
+To recover the quasi-optimal performance of the univariate
+representation, we may seek a \emph{change of order}%
+\footnote{The name ''change of order'' comes from the theory of
+  Gröbner bases, it is indeed equivalent to a change of order from
+  lexicographic to inverse lexicographic.} %
+algorithm to rewrite the quotient as
+\begin{equation}
+  \label{eq:triangular}
+  \F_p[X_1,\dots,X_n] /
+  \left|\begin{array}{l}
+          X_n^e - g_n(X_n),\\
+          \qquad\vdots\\
+          X_2 - g_2(X_n),\\
+          X_1 - g_1(X_n).
+        \end{array}\right.
+\end{equation}
+This representation goes under various names, such as \emph{rational
+  univariate representation}~\cite{rouiller99} and \emph{geometric
+  resolution}~\cite{giusti+lecerf+salvy01}. %
+Using this representation, we can efficiently perform arithmetic in
+the top level of the tower, and we can still identify the $i$-th
+intermediate fields as being generated by $X_i$, or equivalently by
+the polynomial expression $g_i(X_n)$. %
+
+However, our special instance enjoys many special properties that
+general triangular sets do not, and we wish to exploit them. %
+On the other hand, the tower of extensions paradigm is not adapted to
+all situations: for example, a field $\F_{p^{ed}}$ with $e∧d=1$ can be
+seen both as an extension of $\F_{p^e}$ and as one of $\F_{p^d}$. %
+
+Ideally, we would like to have a way to represent arbitrary
+collections of extensions of $\F_p$, in such a way that any extension
+is represented in optimal space (i.e., $O(d)$ coefficients for an
+element of an extension of degree $d$), and that arithmetic operations
+are performed in quasi-optimal time (i.e., $\tildO(d)$ operations). %
+We would also like to have \emph{efficient embeddings}: whenever we
+have a pair of extensions $\F_p⊂k⊂K$, we want to take an element $x∈k$
+and represent it as an element of $K$, and, reciprocally, we want to
+be able to test whether an element $y∈K$ belongs to $k$, and in this
+case we want to compute its representation as an element of the
+smaller field. %
+
+Finally, we want to compute this representation efficiently, and,
+possibly, \emph{incrementally}, i.e., we want to be able to add more
+field extensions to the collection without having to recompute
+everything. %
+Another often sought requirement is \emph{uniqueness}, i.e., that any
+field extension is determined by an irreducible polynomial whose
+definition only depends on the characteristic $p$ and the degree of
+the extension. %
+More advanced features, such as computing normal bases, vector space
+isomorphisms, evaluating Frobenius morphisms, etc. are also (terribly)
+interesting, but they are out of the scope of this document. %
+
+The reader may be surprised to learn that no such representation is
+known! %
+The difficulty is not a theoretical one: as Lenstra
+showed~\cite{LenstraJr91}, besides the problem of finding irreducible
+polynomials, any other question is amenable to linear algebra; and for
+the former problem we have both probabilistic and
+deterministic~\cite{shoup93,shoup94,couveignes+lercier11}
+polynomial-time algorithms. %
+Instead, the difficulty is to satisfy all requirements in an
+efficient, possibly quasi-optimal, manner. %
+
+Various solutions have been deployed in practice in computer algebra
+systems such as Magma and SageMath, however none of these is
+especially efficient. %
+In the next sections we shall explore the various available
+constructions, and possible research avenues. %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{Special families of irreducible polynomials}
+
+- Conway
+- computing irreducible polynomials
+- towers, composita
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -1533,14 +1689,8 @@ change of order, rur, etc.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-\section{$\bar{\F}_p$}
-- towers, composita
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-
 \section{Lattices of finite fields}
 
-- Conway polynomials,
 - Bosma et al.
 - work in progress, implementations?
 
@@ -2713,9 +2863,8 @@ equations~\cite{costello2016sidh}, \emph{key
   compression}~\cite{azarderakhsh2016key,Costello2017,10.1007/978-3-319-79063-3_12},
 arithmetic modulo primes of special
 form~\cite{costello2016sidh,vercauteren-sidh-fp,8023082}, dedicated
-\emph{Montgomery ladders}~\cite{cryptoeprint:2017:1015}, and various
-software and hardware level
-optimizations~\cite{cryptoeprint:2017:1213}. %
+\emph{Montgomery ladders}~\cite{flor_sidh_x64}, and various software
+and hardware level optimizations~\cite{cryptoeprint:2017:1213}. %
 Owing to this, we seem to have pretty much hit a wall on how much SIDH
 can be further sped-up: barring spectacular discoveries%
 \footnote{One particular trick in CSIDH that is completely absent in
@@ -2846,5 +2995,5 @@ As short as possible. Necessary?
 % LocalWords:  quotienting eigenspace coprime submodule Atkin Cayley
 % LocalWords:  cryptographic codomain invertible diagonalizes CSIDH
 % LocalWords:  expander expanders polynomially invariants injective
-% LocalWords:  cryptosystem instantiations dihedral cryptology
-% LocalWords:  cyclotomic
+% LocalWords:  cryptosystem instantiations dihedral cryptology monic
+% LocalWords:  cyclotomic embeddings asymptotical
