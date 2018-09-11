@@ -2175,14 +2175,29 @@ There is another, quite technical, ingredient to the paper, that we
 have mostly ignored so far. %
 Evaluating embeddings is only half of the job: we also want to
 evaluate the (partial) inverse maps, or, more generally, projections
-$\F_{p^{mn}}→\F_{p^m}$ and $\F_{p^{mn}}→\F_{p^n}$ such that, when
+$\F_{p^{mn}}→\F_{p^m}$ and $\F_{p^{mn}}→\F_{p^n}$ that, when
 composed with the embeddings, yield the identity map. %
-To this end, we use a technique called \emph{transposition
-  principle}~\cite{shoup99,bostan+lecerf+schost:tellegen}, to derive a
-projection algorithm from the embedding one. %
-This is a special case of a general technique that we shall present in
-the next section, when discussing \emph{isomorphism evaluation}, we
-thus skip details here. %
+
+A general \emph{mantra} states that, whenever a field isomorphism
+$ϕ:k→K$ can be evaluated at a certain cost, the inverse map $ϕ^{-1}$
+can evaluated at the same cost (see~\cite[§8.2]{ffisom-long} for a
+precise statement). %
+In our specific instance, let $b∈\F_{p^m}$, and let $M_b$ be the
+matrix of the map $c↦bc$ in the \emph{dual bases} of $\F_{p^n}$ and
+$\F_{p^{mn}}$. %
+Direct calculation shows that $M_b^t$ is the matrix of the map
+$a↦\Tr_{\F_{p^{mn}}/\F_{p^n}}(ab)$ in the \emph{monomial bases} of
+$\F_{p^{mn}}$ and $\F_{p^n}$; thus, if
+$\Tr_{\F_{p^{mn}}/\F_{p^n}}(b)=1$, the matrix $M_b^t$ is a partial
+inverse to $M_b$ (albeit in a different basis). %
+
+To obtain an algorithm from this observation, we use a technique
+called \emph{transposition
+  principle}~\cite{shoup99,bostan+lecerf+schost:tellegen},
+transforming an algorithm to evaluate $M_b$ into one to evaluate
+$M_b^t$ \emph{at the same cost}. %
+Said otherwise, we derive a projection algorithm by \emph{transposing}
+the embedding one. %
 
 In conclusion, our techniques allow to compute embeddings and
 projections of composita in quasi-optimal time. %
@@ -2227,7 +2242,6 @@ with L.~Brieulle, J.~Doliskani, J.-P.~Flori and
 appendix. %
 In the paper, we study the more general \emph{embedding problem} of
 two finite fields $k⊂K$. %
-We decompose it in two subproblems.
 
 \begin{problem}[Embedding description]
   Given two finite fields $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$, with
@@ -2236,28 +2250,22 @@ We decompose it in two subproblems.
   mapping $α$ to $β$.
 \end{problem}
 
-It is easily seen that $(α,β)$ describes an embedding if and
-only if $α$ and $β$ share the same minimal polynomial. %
+It is easily seen that $(α,β)$ describes an embedding if and only if
+$α$ and $β$ share the same minimal polynomial. %
 
-\begin{problem}[Embedding evaluation]
-  Let an \emph{embedding description} $(\alpha,\beta)∈k×K$ be given. %
-  The \emph{embedding evaluation problem} is to solve, for any $γ∈k$
-  and $δ∈K$, the following problems:
-  \begin{itemize}
-  \item Compute $ϕ(γ)∈K$.
-  \item Test if $δ∈ϕ(k)$.
-  \item If $δ∈ϕ(k)$, compute $ϕ^{-1}(δ)∈k$.
-  \end{itemize}
-\end{problem}
-
-All the literature on the embedding/isomorphism problem essentially
-focuses on the embedding description, arguably the richest of the two
-problems. %
-For simplicity, we shall only discuss here isomorphisms, i.e.,
-$k≃K$. %
+Given an embedding description $(α,β)$, the associated embedding (and
+its partial inverse) can be evaluated on any element of $k$ by linear
+algebra. %
+More efficient techniques, similar to those employed in the previous
+section for composita, are also available. %
+They are not discussed in the appendix, but they are described in the
+extended version~\cite{ffisom-long} of~\cite{brieulle2018computing}. %
 
 The algorithms for embedding description are very similar to those to
 compute irreducible polynomials. %
+For simplicity, we shall only discuss here isomorphisms, i.e.,
+$k≃K$; we refer to appendix for the general problem. %
+
 There essentially exist two big families: the ``Kummer family'', a
 generalization of the ``Kummer case'' for primary towers discussed in
 Section~\ref{sec:spec-famil-irred}; and the ``Cyclotomic family'', a
@@ -2266,10 +2274,10 @@ Each of these families can come in a ``genus 0'' flavor, like the
 Kummer case for primary towers, or in a ``genus 1'' flavor, like the
 Couveignes--Lercier construction.%
 \footnote{Note that higher genus generalization are possible, but they
-  seldom give efficient algorithms.}  In Table~\ref{tab:ffalgos} we
-summarize the known constructions for computing irreducible
-polynomials and isomorphism descriptions, according to these
-categories. %
+  seldom give efficient algorithms.} %
+In Table~\ref{tab:ffalgos} we summarize the known constructions for
+computing irreducible polynomials and isomorphism descriptions,
+according to these categories. %
 
 
 \begin{table}
@@ -2466,16 +2474,16 @@ $E(\F_{p^n})$. %
 By mimicking the definition of Gaussian periods, we can obtain a
 uniquely defined element of $\F_{p^n}$. %
 
-\begin{equation*}[Elliptic period]
+\begin{definition}[Elliptic period]
   Let $E/\F_p$ be an elliptic curve of $j$-invariant not $0$ or
   $1728$. %
   Let $ℓ > 3$ be an Elkies prime for $E$, $λ$ an eigenvalue
   of $π$, and $P$ a point of order $ℓ$ such that $π(P)=λP$. %
   Suppose that there is a subgroup $S$ of $(ℤ/ℓℤ)^×$ such
   that
-  \begin{equation}
+  \begin{equation*}
     (ℤ/ℓℤ)^× = 〈λ〉 × S.
-  \end{equation}
+  \end{equation*}
   
   Then we define an \emph{elliptic period} as
   \begin{equation*}
@@ -2486,7 +2494,7 @@ uniquely defined element of $\F_{p^n}$. %
     \end{cases}
   \end{equation*}
   where $x(P)$ denotes the abscissa of $P$.
-\end{equation*}
+\end{definition}
 
 It is immediate to modify Rains' algorithm to use elliptic periods
 instead of Gaussian ones, the freedom in the choice of the curve
@@ -2519,51 +2527,11 @@ in time $\tildO(n^{(ω+1)/2}+n\log q)$, where $ω$ is the \emph{exponent
   of linear algebra}, while the elliptic variant runs in time
 $\tildO(n^2\log q)$. %
 
-This bounds are remarkable: according to them, Rains' original
+These bounds are remarkable: according to them, Rains' original
 algorithm is the only one with subquadratic complexity. %
 However this bound is only heuristic, and experiments show that, both
 the original algorithm and the elliptic variant, perform faster than
 Allombert's algorithm only in very limited cases. %
-
-
-\paragraph{Isomorphism evaluation.}
-Let now $K=\F_p[Y]/g(Y)$ be another finite field, let $〈,〉_K$ be
-the bilinear form defined by its trace to $\F_p$, and let
-$\phi:k\hookrightarrow K$ be a field embedding. %
-There exists a unique linear map $\phi^t:K\to k$, called the
-\emph{dual map} of $\phi$, such that
-\begin{equation*}
-  〈ϕ(γ),δ〉_K=〈γ,ϕ^t(δ)〉_k
-  \qquad\text{for any $γ∈k$ and $δ∈K$.}
-\end{equation*}
-If $M=(m_{i,j})$ is the matrix of $\phi$ in the monomial bases of $k$
-and $K$, then its transpose $M^t$ is the matrix of $\phi^t$ in their
-\emph{dual bases}. %
-Indeed,
-\begin{equation}
-  \label{eq:tellegen-matrix}
-  m_{i,j} = 〈ϕ(X^j),Y_i^*〉 = 〈X^j,ϕ^t(Y_i^*)〉.
-\end{equation}
-
-We are now going to show that $\phi^t$ is closely related to the
-inverse map of $\phi$. %
-If $\phi$ is an isomorphism of fields, then we immediately have
-$\phi^t=\phi^{-1}$. %
-Indeed, in this case $\phi$ preserves the bilinear forms:
-\begin{equation*}
-  〈γ,δ〉_k = 〈ϕ(γ),ϕ(δ)〉_K
-  \qquad\text{for any $γ,δ∈k$.}
-\end{equation*}
-Hence, duality implies that
-\begin{equation*}
-  〈γ,δ〉_k = 〈γ,ϕ^t∘ϕ(δ)〉_k,
-\end{equation*}
-but then the non-degeneracy of the trace implies that
-$\phi^t\circ\phi$ is the identity map.\footnote{More generally, in the
-  category of finite-dimensional vector spaces with nondegenerate
-  bilinear forms and morphisms that preserve bilinear forms, we have a
-  natural isomorphism between the identity functor and the dual
-  functor.}
 
 
 
