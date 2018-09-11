@@ -2209,11 +2209,10 @@ In some circumstances, we may not have the choice of the polynomial
 representing a field extensions; this happens quite often in computer
 algebra systems that allow the user to choose their own polynomial. %
 
-Isomorphism algorithms let us lift the restriction to special
-polynomials: using them, a computer algebra system may internally
-represent finite fields with special polynomials, while letting the
-user work with a isomorphic copy defined by a polynomial of their
-choice. %
+Isomorphism algorithms let us lift this restriction: using them, a
+computer algebra system may internally represent finite fields with
+special polynomials, while letting the user work with an isomorphic
+copy defined by a polynomial of their choice. %
 In the next section we shall also see how isomorphism algorithms
 (actually, embedding algorithms) allow us to represent $\bar{\F}_p$
 without using any special polynomial. %
@@ -2221,29 +2220,29 @@ without using any special polynomial. %
 The isomorphism problem was first investigated by
 Lenstra~\cite{LenstraJr91}, who showed that it can be solved in
 deterministic polynomial time. %
-An thorough review of all known algorithms is given in the paper
+A thorough review of all known algorithms is given in the paper
 ``Computing Isomorphisms and Embeddings of Finite Fields'', written
-with L.~Brieulle, J.~Doliskani, J.~P.~Flori and
+with L.~Brieulle, J.~Doliskani, J.-P.~Flori and
 É.~Schost~\cite{brieulle2018computing}, and included in the
 appendix. %
 In the paper, we study the more general \emph{embedding problem} of
-two finite fields $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$ such that
-$\deg f$ divides $\deg g$. %
+two finite fields $k⊂K$. %
 We decompose it in two subproblems.
 
 \begin{problem}[Embedding description]
-  Given $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$, determine elements
-  $α∈k$ and $β∈K$ such that $k=\F_p(α)$, and such
-  that there exists an embedding $ϕ$ mapping $α$ to
-  $β$.
+  Given two finite fields $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$, with
+  $\deg f$ dividing $\deg g$, determine elements $α∈k$ and $β∈K$ such
+  that $k=\F_p(α)$, and such that there exists an embedding $ϕ$
+  mapping $α$ to $β$.
 \end{problem}
 
 It is easily seen that $(α,β)$ describes an embedding if and
 only if $α$ and $β$ share the same minimal polynomial. %
 
 \begin{problem}[Embedding evaluation]
-  Given an \emph{embedding description} $(\alpha,\beta)∈k×K$, given
-  $γ∈k$ and $δ∈K$, solve the following problems:
+  Let an \emph{embedding description} $(\alpha,\beta)∈k×K$ be given. %
+  The \emph{embedding evaluation problem} is to solve, for any $γ∈k$
+  and $δ∈K$, the following problems:
   \begin{itemize}
   \item Compute $ϕ(γ)∈K$.
   \item Test if $δ∈ϕ(k)$.
@@ -2257,8 +2256,8 @@ problems. %
 For simplicity, we shall only discuss here isomorphisms, i.e.,
 $k≃K$. %
 
-The algorithms for the embedding description are very similar to those
-to compute irreducible polynomials. %
+The algorithms for embedding description are very similar to those to
+compute irreducible polynomials. %
 There essentially exist two big families: the ``Kummer family'', a
 generalization of the ``Kummer case'' for primary towers discussed in
 Section~\ref{sec:spec-famil-irred}; and the ``Cyclotomic family'', a
@@ -2271,8 +2270,6 @@ Couveignes--Lercier construction.%
 summarize the known constructions for computing irreducible
 polynomials and isomorphism descriptions, according to these
 categories. %
-We will now describe Kummer-type algorithms first, then
-cyclotomic-type. %
 
 
 \begin{table}
@@ -2303,6 +2300,11 @@ cyclotomic-type. %
   \label{tab:ffalgos}
 \end{table}
 
+We will now describe Kummer-type algorithms first, then
+cyclotomic-type. %
+The common principle for all of them, is to compute a special element,
+say in $\F_{p^n}$, uniquely defined up to automorphisms of
+$\F_{p^n}$. %
 
 \paragraph{Lenstra--Allombert algorithm.}
 In~\cite{LenstraJr91}, Lenstra proved that the isomorphism problem can
@@ -2319,11 +2321,210 @@ Allombert has included in PARI/GP both his variant and ours. %
 The Lenstra--Allombert algorithm is similar in spirit to Shoup's
 algorithm for computing irreducible
 polynomials~\cite{Shoup_1990,shoup93,shoup94}. %
+Let $k,K$ be two isomorphic copies of $\F_{p^n}$, the idea is to
+choose $α∈k$ and $β∈K$ to be solutions to Hilbert's theorem 90: these
+are not uniquely defined up to automorphisms, but at least they are
+unique \emph{up to a scalar}. %
+
+Assume, for example, that $n$ divides $p-1$, and fix a $n$-th root of
+unity $ζ_n∈\F_p$. %
+An element $α∈k$ is a solution to Hilbert 90 if and only if
+$α^p=ζ_nα$; it is immediate to see that any other solution is of the
+form $cα$ for $c∈\F_p$. %
+Hence, if $β∈K$ is also a solution to Hilbert 90, any isomorphic image
+of $β$ in $k$ is such that $α/β=c∈\F_p$; the problem is then to find
+this scalar. %
+
+Lenstra and Allombert differ in the way the scalar $c$ is found. %
+We describe here Allombert's variant:
+\begin{enumerate}
+\item Compute a $n$-th root of unity $ζ_n∈\F_p$;
+\item Find solutions $α∈k$ and $β∈K$ to Hilbert 90 relative to $ζ_n$;
+\item Compute $a=α^n$ and $b=β^n$, they are both in $\F_p$;
+\item Compute $c=\sqrt[n]{a/b}$ using a polynomial factoring
+  algorithm;
+\item Return $α$ and $cβ$.
+\end{enumerate}
+
+To extend the algorithm to arbitrary $n$, assume first that $p$ does
+not divide $n$. %
+Like in Shoup's algorithm, we adjoin the necessary roots of unity to
+the base fields: Allombert factors the $n$-th cyclotomic polynomials
+$Φ_n$ and extends scalars to $A_n=\F_p(ζ_n)$, whereas Lenstra uses the
+unfactored polynomial and constructs the ring $A_n=\F_p[Z]/Φ_n(Z)$. %
+Then, the same algorithm as above is run in $\F_{p^n}⊗A_n$, and the
+result is descended to $\F_{p^n}$ using a projection. %
+Note that, in both cases, $\F_{p^n}⊗A_n$ is not necessarily a field. %
+
+Finally, extensions of degree $p^k$ are dealt with an \emph{additive
+  variant} of the algorithm above, analogous to Shoup's construction
+based on Artin--Schreier theory. %
+Then, a solution for a generic $n=p^kn'$ is obtained by combining
+(either by multiplying or by adding) the multiplicative solution for
+$n'$ and the additive one for $p^k$. %
+
+The dominant cost in the Lenstra--Allombert algorithm is computing the
+solution to Hilbert 90. %
+In general, $\F_{p^n}⊗A_n$ is an algebra of degree $O(n^2)$, thus
+there is no hope to obtain an algorithm better than quadratic. %
+In~\cite{brieulle2018computing} we show that it is indeed possible to
+achieve the optimum, and even lower than that in favorable cases. %
+
+\begin{proposition}
+  \def\MM{\mathsf{M}} %
+  Let $k,K$ be two extensions of degree $r$ over $\F_p$, where $r$ is
+  a prime power. %
+  Let $s$ be the order of $q$ in $(ℤ/rℤ)^×$. %
+  Let $ω$ be an exponent such that $n×n$ matrices with coefficients in
+  $\F_p$ can be multiplied using $n^ω$ operations, and let $\MM(n)$ be
+  the cost of multiplying polynomials of degree at most $n$ in
+  $\F_p[X]$. %
+  Allombert's algorithm computes its output using on average
+  \begin{itemize}
+  \item $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(p))$
+    operations if $s \in O(r^{(\omega-3)/(\omega-5)})$, or
+   \item
+     $O(
+     r^{(\omega^2-4\omega-1)/(\omega-5)}+(s+r^{2/(5-\omega)})\MM(r)\log(p)
+     +s^{\omega-1}r\log(r)\log(s))$ operations if
+     $s \in \Omega(r^{(\omega-3)/(\omega-5)})$ and
+     $s \in O(r^{1/(\omega-1)})$, or
+  \item $O(\MM(r^2)\log^2(r) + \MM(r)\log(r)\log(p))$ operations
+    otherwise.
+  \end{itemize}
+\end{proposition}
+
+Note that the bounds for the first two cases could be improved using
+algorithms of Kedlaya and Umans~\cite{KeUm11}, however we do not
+consider these algorithms as they are deemed unpractical.
+
+An elliptic curve variant of the Lenstra--Allombert algorithm was
+recently proposed by Narayanan~\cite{narayanan2016fast}. %
+Historically, it is the first the first isomorphism algorithm to
+achieve a quasi-quadratic complexity, however it is deeply dependent
+on Kedlaya and Umans' results, thus unlikely to be practical. %
 
 
 \paragraph{Rains' algorithm.}
+Rains' algorithm is an improvement over an idea of
+Pinch~\cite{Pinch}. %
+Rains never published his findings, however his algorithm was
+eventually implemented in Magma v2.14. %
+The original paper is still unpublished, the only publicly available
+sources for it being, at the moment, Magma's source code%
+\footnote{Precisely, in file \texttt{package/Ring/FldFin/embed.m}.}, %
+and our paper~\cite{brieulle2018computing}. %
+An elliptic curve generalization of the algorithm was also originally
+proposed by Pinch, and then improved in~\cite{brieulle2018computing}
+using ideas similar to Rains'. %
 
-~\cite{brieulle2018computing}
+The key idea is similar to the Adleman--Lenstra algorithm. %
+If $k,K$ are two isomorphic copies of $\F_{p^n}$, find an integer $ℓ$
+such that $\F_{p^n}≃\F_p(ζ_ℓ)$, where $ζ_ℓ$ is an $ℓ$-th root of
+unity; then the roots of the cyclotomic polynomial $Φ_ℓ$ generate both
+$k$ and $K$ over $\F_p$. %
+However, the roots of $Φ_ℓ$ are only uniquely defined (up to
+isomorphism) if $Φ_ℓ$ is irreducible over $\F_p$, i.e., if $n=φ(ℓ)$. %
+In order to uniquely define an element of $k,K$, Rains' suggested
+using \emph{Gaussian periods}, i.e., traces of roots of unity in a
+number field. %
+
+\begin{definition}[Gaussian period]
+  Let $p$ be a prime, and let $ℓ$ be a squarefree integer such that
+  $(ℤ/ℓℤ)^× = 〈p〉 × S$ for some $S$.  %
+  For any primitive $ℓ$-th root of unity $ζ_ℓ$ in $\bar{\F}_p$, define
+  the Gaussian period $η_p(ζ_ℓ)$ as
+  \begin{equation*}
+    η_p(ζ_ℓ) = \sum_{σ∈S}{ζ_ℓ^{σ}}.
+  \end{equation*}
+\end{definition}
+
+It is a classic fact that the periods $η(ζ_ℓ)$, as $ζ_ℓ$ runs through
+the roots of $Φ_ℓ$, form a normal basis of $\F_p(ζ_ℓ)$; thus $η(ζ_ℓ)$
+is uniquely defined up to isomorphism. %
+Rains' algorithm follows immediately:
+\begin{enumerate}
+\item Find a \emph{small} $ℓ$ such that $(ℤ/ℓℤ)^×=〈p〉×S$, with
+  $\#〈p〉=n$;
+\item Take random roots of unity $ζ_ℓ∈k$ and $ζ_ℓ'∈K$;
+\item Return the Gaussian periods $α=η(ζ_ℓ)$ and $β=η(ζ_ℓ')$.
+\end{enumerate}
+
+However it may happen that no such \emph{small} $ℓ$ exists. %
+Rains' solution to the problem (identical to Adleman and Lenstra's) is
+to extend scalars to a small degree auxiliary extension
+$\F_q=\F_{p^s}$, with $s∧n=1$, and apply the same algorithm to
+$k⊗\F_q$ and $K⊗\F_q$; then the result is descended to an isomorphism
+of $k,K$ by taking a trace. %
+
+A different way to solve the problem is to generalize Gaussian periods
+to \emph{elliptic periods}. %
+Let $E/\F_p$ be an elliptic curve, and suppose that $π|E[ℓ]$ acts like
+a matrix $\mat{λ&0\\0&μ}$; suppose that the order in $(ℤ/ℓℤ)^×$ of,
+say, $λ$ is equal to $n$, then the eigenspace of $λ$ is contained in
+$E(\F_{p^n})$. %
+By mimicking the definition of Gaussian periods, we can obtain a
+uniquely defined element of $\F_{p^n}$. %
+
+\begin{equation*}[Elliptic period]
+  Let $E/\F_p$ be an elliptic curve of $j$-invariant not $0$ or
+  $1728$. %
+  Let $ℓ > 3$ be an Elkies prime for $E$, $λ$ an eigenvalue
+  of $π$, and $P$ a point of order $ℓ$ such that $π(P)=λP$. %
+  Suppose that there is a subgroup $S$ of $(ℤ/ℓℤ)^×$ such
+  that
+  \begin{equation}
+    (ℤ/ℓℤ)^× = 〈λ〉 × S.
+  \end{equation}
+  
+  Then we define an \emph{elliptic period} as
+  \begin{equation*}
+    η_{λ,S}(P) =
+    \begin{cases}
+      \sum_{σ∈S/\{±1\}} {x \left([σ] P \right)} & \text{if $-1∈S$,}\\
+      \sum_{σ∈S} {x \left([σ] P \right)} & \text{otherwise,}
+    \end{cases}
+  \end{equation*}
+  where $x(P)$ denotes the abscissa of $P$.
+\end{equation*}
+
+It is immediate to modify Rains' algorithm to use elliptic periods
+instead of Gaussian ones, the freedom in the choice of the curve
+$E/\F_p$ enabling us to find a smaller $ℓ$ without the need for an
+auxiliary extension. %
+However, we encounter a problem: elliptic periods do not form normal
+bases, in general. %
+While it is easy to find examples where elliptic periods are not
+normal, it is enough for our purposes that they generate $\F_{p^n}$ as
+a field. %
+Despite an extensive search, documented
+in~\cite{brieulle2018computing}, we have not been able to find a
+single example where elliptic periods do not generate their field of
+definition. %
+Hence, in principle our elliptic variant of Rains' algorithm has a
+(provably small) failure probability; however our searches have led us
+to conjecture that this probability may actually be zero, as is
+precisely stated in the appendix. %
+
+The complexity of Rains' algorithm is extremely sensitive to how small
+the integer $ℓ$ is. %
+Unfortunately, even assuming the generalized Riemann hypothesis,
+bounds on $ℓ$ are very loose, thus provable bounds on the complexity
+of the algorithm are very bad. %
+However, in practice we expect that $ℓ=O(n\log n)$, and we give enough
+experimental evidence in~\cite{brieulle2018computing} to support this
+heuristic. %
+Assuming this heuristic bound, we can prove that Rains' algorithm runs
+in time $\tildO(n^{(ω+1)/2}+n\log q)$, where $ω$ is the \emph{exponent
+  of linear algebra}, while the elliptic variant runs in time
+$\tildO(n^2\log q)$. %
+
+This bounds are remarkable: according to them, Rains' original
+algorithm is the only one with subquadratic complexity. %
+However this bound is only heuristic, and experiments show that, both
+the original algorithm and the elliptic variant, perform faster than
+Allombert's algorithm only in very limited cases. %
+
 
 \paragraph{Isomorphism evaluation.}
 Let now $K=\F_p[Y]/g(Y)$ be another finite field, let $〈,〉_K$ be
@@ -3683,4 +3884,5 @@ As short as possible. Necessary?
 % LocalWords:  cryptosystem instantiations dihedral cryptology monic
 % LocalWords:  cyclotomic embeddings asymptotical incrementality
 % LocalWords:  surjection subfields exponentiations Lenstra SageMath
-% LocalWords:  Kummer Shoup composita monomial
+% LocalWords:  Kummer Shoup composita monomial automorphisms
+% LocalWords:  Allombert Allombert's
