@@ -31,6 +31,11 @@
 \usetikzlibrary{arrows,trees,matrix,decorations,decorations.text,decorations.pathmorphing,calc}
 \pgfkeys{/triangle/.code=\tikzset{x={(-0.5cm,-0.866cm)},y={(1cm,0cm)}}}
 \pgfkeys{/lattice/.code n args={4}{\tikzset{cm={#1,#2,#3,#4,(0,0)}}}}
+\tikzset{
+  dotstyle/.style={circle, inner sep = 1.2pt, outer sep = 4pt, fill = gray},
+  edgetower/.style={thick},
+  edgecomp/.style={thick, lightgray}
+}
 
 % theorem environments
 \theoremstyle{plain}
@@ -253,7 +258,7 @@ This is because, when we think of isogenies, we think of them as
 geometric objects, acting on the extension of the curves to the
 algebraic closure. %
 This is not dissimilar from the way power-by-$n$ maps act on the
-multiplicative group $k^\times$ of a field $k$: the map $x↦x^2$, for
+multiplicative group $k^×$ of a field $k$: the map $x↦x^2$, for
 example, is a two-to-one (algebraic) group morphism on
 $\F_{11}^\times$, and those elements that have no preimage, the
 non-squares, will have exactly two square roots in $\F_{11^2}$, and so
@@ -498,8 +503,7 @@ research community busy for more than twenty years, and still do
 today. %
 Let's have a closer look at it. %
 
-\subsection{Elkies' algorithm}
-
+\paragraph{Elkies' algorithm.}
 For a start, it should be noticed that both variants are by no means
 ``hard''. %
 Indeed, we have explicit formulas for adding points on a curve $E$,
@@ -630,8 +634,7 @@ While this is good enough for counting points of elliptic curves
 defined over a prime field $\F_p$, it fails, for example, over binary
 fields. %
 
-\subsection{Couveignes' algorithm}
-
+\paragraph{Couveignes' algorithm.}
 After Elkies, others set out to solve the explicit isogeny problem in
 small characteristic. %
 While Elkies' method is grounded in complex analysis, and thus
@@ -1486,15 +1489,16 @@ To effectively perform the computation, we need to approximate the
 Tate module by projecting it onto a torsion group of order, say,
 $ℓ^k$. %
 Even this finite group, however, may not be defined over the base
-field $\F_p$. %
+field. %
 It is then natural to construct \emph{towers of extensions fields},
 over which increasingly larger torsion groups are defined. %
 
 But why stop at towers? %
 This chapter is devoted to techniques to ``ascend'' in \emph{lattices
-  of extension fields}, possibly up to the full algebraic closure. %
+  of extension fields}, possibly up to the full algebraic closure
+$\bar{\F}_p$. %
 The structure of $\bar{\F}_p$ is simple enough that we will not need
-more than the classic theory of cyclotomic extensions. %
+more than the basic theory of cyclotomic extensions. %
 Instead, we will concentrate our efforts on looking for asymptotically
 optimal algorithms, discovering on our path a rich palette of
 algorithmic ideas. %
@@ -1505,7 +1509,7 @@ different paradigms to represent the algebraic closure of $\F_p$, both
 being currently used in computer algebra systems. %
 On one side, we will have lattices of finite fields represented by
 families of \emph{special} polynomials, the most well known example
-being the family of Conway polynomials, introduced by the GAP
+being the family of Conway polynomials, introduced in the GAP
 system~\cite{GAP4}, and then adopted by Magma~\cite{MAGMA} and
 SageMath~\cite{Sage}. %
 On the other side, we will have lattices of \emph{arbitrarily
@@ -1520,7 +1524,7 @@ Rains~\cite{rains2008}, based on Gaussian periods. %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
-\section{Extensions of finite fields}
+\section{Computing irreducible polynomials}
 
 From now on, $\F_p$ is a finite field of prime order. %
 Much of what we are going to present is easily generalized to
@@ -1553,15 +1557,15 @@ Given a complexity in the algebraic model, a relatively accurate
 estimate of the binary complexity can be obtained by multiplying by
 $\log p$ (and ignoring polynomial terms in $\loglog p$). %
 
-The universally employed way to represent a field extension $\F_{p^d}$
+The universally employed way to represent a field extension $\F_{p^n}$
 is as a quotient of the polynomial ring $\F_p[X]$ by a monic
-irreducible polynomial $f(X)$ of degree $d$. %
+irreducible polynomial $f(X)$ of degree $n$. %
 In this representation, much like in the modular integers case, all
 arithmetic operations can be performed in $\tildO(n)$ elementary
 algebraic operations using fast polynomial multiplication, Euclidean
 division, and extended Euclidean algorithm (see again~\cite{vzGG}). %
 Most popular software libraries for number theory, e.g.,
-Flint~\cite{flint}, NTL~\cite{shoup2003ntl}, Pari~\cite{Pari},
+Flint~\cite{flint}, NTL~\cite{shoup2003ntl}, PARI/GP~\cite{Pari},
 Magma~\cite{MAGMA}, use this representation%
 \footnote{Givaro~\cite{givaro} is one notable exception, employing
   Zech logarithms. %
@@ -1572,11 +1576,77 @@ Hence this representation, that we shall call \emph{univariate}, is
 the best choice both from an asymptotical and a practical point of
 view. %
 
-When more than one extension of $\F_p$ is involved, several
-representations are possible. %
-A natural choice is to represent increasingly large fields as
-\emph{towers of extensions}: for example, $\F_{p^2}$ may be
-represented as $\F_{p}[X_1]/f_1(X_1)$, then $\F_{p^4}$ as
+Of course, to employ this representation, we need an algorithm to
+compute irreducible polynomials of arbitrary degree. %
+Three different approaches are known. %
+
+The first one, and the simplest, consists in taking random monic
+polynomials until an irreducible one is found. %
+The density of irreducible polynomials of a given degree $n$ is
+$\sim 1/n$, thus this approach will lead to an irreducible polynomials
+in $O(n)$ tries on average. %
+Testing irreducibility of random polynomials can be done in
+$\tildO(n\log p)$ operations on average, using Ben-Or's
+algorithm~\cite{Ben-Or1981,10.1007/978-3-642-60539-0_27}, thus in
+total this approach has a quasi-quadratic dependency on $n$. %
+This is the most commonly implemented method, available in Magma,
+SageMath, etc.
+
+The second method is due to Adleman and
+Lenstra~\cite{Adleman-Lenstra}, and implemented, as far as I know,
+only in PARI/GP\footnote{And thus also available in SageMath.}. %
+It is based on the properties of cyclotomic polynomials, and is
+similar in spirit to Rains' algorithm presented in
+Section~\ref{sec:isom-finite-fields}. %
+Adleman and Lenstra show that their algorithm takes deterministic
+polynomial time, under the generalized Riemann hypothesis, albeit with
+a quite large exponent. %
+However, the algorithm is quite efficient in practice, and the average
+case complexity of the variant implemented in PARI/GP is similar to
+that of factoring a degree $n$ polynomial over $\F_p$.%
+\footnote{We are not aware of any published formal analysis of the
+  PARI/GP variant, however we believe that the average-case complexity
+  is (heuristically) dominated by the cost of factoring a cyclotomic
+  polynomial of degree $O(n\log n)$. %
+  See also Section~\ref{sec:isom-finite-fields}} %
+
+The third method is due to Shoup~\cite{Shoup_1990,shoup93,shoup94},
+later extended by Couveignes and
+Lercier~\cite{couveignes+lercier11,DeDoSc13}. %
+It uses a variety of algorithms, that we shall discuss in
+Section~\ref{sec:spec-famil-irred}. %
+Using the best available routines, it can compute an irreducible
+polynomial in $\tildO(n(\log p)^5)$ operations on average, but
+trade-offs are available if the cost in $\log p$ is deemed too high. %
+We are not aware of any computer algebra software implementing this
+method, probably owing to the relative novelty of the method, and to
+its intricacies. %
+
+We note that it is an open problem to give an unconditionally
+deterministic algorithm to compute irreducible polynomials of
+arbitrary degree. %
+The closest to this is Shoup's first algorithm~\cite{Shoup_1990}: it
+consists of reduction from the problem of finding irreducible
+polynomials to that of polynomial factoring, and can be made fully
+deterministic using Berlekamp's deterministic factoring
+algorithm~\cite{berlekamp1970factoring}; however Berlekamp's algorithm
+has an exponential dependency in $\log p$.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+\section{From one extension to the algebraic closure}
+
+In many contexts, such as when manipulating geometrical objects, it is
+natural to work in many extensions of $\F_p$ at once. %
+More generally, the algebraic closure $\bar{\F}_p$ is the (infinite)
+reunion of all the finite extensions of $\F_p$; it is thus sufficient
+to represent all finite extensions of $\F_p$ in a \emph{compatible}
+way in order to represent $\bar{\F}_p$.
+
+A natural choice to represent a collection of extensions of $\F_p$ is
+as a \emph{towers of extensions}: for example, $\F_{p^2}$ may be
+represented as $\F_{p}[X_1]/f_1(X_1)$, then $\F_{p^6}$ as
 $\F_{p^2}[X_2]/f_2(X_2)$, and so on. %
 In general, the polynomial $f_i$ will have coefficients over the
 previous field. %
@@ -1584,11 +1654,11 @@ previous field. %
 fields as a quotient
 \begin{equation}
   \label{eq:triangular}
-  \F_p[X_1,\dots,X_n] /
+  \F_p[X_1,\dots,X_k] /
   \left|\begin{array}{l}
-          X_n^{d_n} - \tilde{f}_n(X_1,\dots,X_n),\\
+          X_n^{n_k} - \tilde{f}_k(X_1,\dots,X_k),\\
           \qquad\vdots\\
-          X_1^{d_1} - \tilde{f}_1(X_1),
+          X_1^{n_1} - \tilde{f}_1(X_1),
         \end{array}\right.
 \end{equation}
 where the $i$-th field in the tower is identified with the subring
@@ -1597,7 +1667,7 @@ The polynomial ideal in Eq.~\eqref{eq:triangular} is a special case of
 a (zero-dimensional) \emph{triangular set}, and an extensive
 literature is devoted to computing modulo them~\cite{todo}. %
 Performing arithmetic operations modulo triangular sets incurs an
-intrinsic penalty, exponential in the number $n$ of variables, that an
+intrinsic penalty, exponential in the number $k$ of variables, that an
 ordinary univariate representation does
 not~\cite{li+moreno+schost07}. %
 
@@ -1607,62 +1677,64 @@ representation, we may seek a \emph{change of order}%
   Gröbner bases, it is indeed equivalent to a change of order from
   lexicographic to inverse lexicographic.} %
 algorithm to rewrite the quotient as
-\begin{equation}
-  \label{eq:triangular}
-  \F_p[X_1,\dots,X_n] /
+\begin{equation*}
+  \F_p[X_1,\dots,X_k] /
   \left|\begin{array}{l}
-          X_n^e - g_n(X_n),\\
+          X_k^e - g_n(X_k),\\
           \qquad\vdots\\
-          X_2 - g_2(X_n),\\
-          X_1 - g_1(X_n).
+          X_2 - g_2(X_k),\\
+          X_1 - g_1(X_k).
         \end{array}\right.
-\end{equation}
+\end{equation*}
 This representation goes under various names, such as \emph{rational
   univariate representation}~\cite{rouiller99} and \emph{geometric
   resolution}~\cite{giusti+lecerf+salvy01}. %
 Using this representation, we can efficiently perform arithmetic in
 the top level of the tower, and we can still identify the $i$-th
 intermediate fields as being generated by $X_i$, or equivalently by
-the polynomial expression $g_i(X_n)$. %
+the polynomial expression $g_i(X_k)$. %
 
 However, our special instance enjoys many special properties that
 general triangular sets do not, and we wish to exploit them. %
 On the other hand, the tower of extensions paradigm is not adapted to
-all situations: for example, a field $\F_{p^{ed}}$ with $e∧d=1$ can be
-seen both as an extension of $\F_{p^e}$ and as one of $\F_{p^d}$. %
+all situations: for example, a field $\F_{p^{mn}}$ with $m∧n=1$ can be
+seen both as an extension of $\F_{p^n}$ and as one of $\F_{p^m}$. %
 
-Ideally, we would like to have a way to represent arbitrary
-collections of extensions of $\F_p$, in such a way that any extension
-is represented in optimal space (i.e., $O(d)$ coefficients for an
-element of an extension of degree $d$), and that arithmetic operations
-are performed in quasi-optimal time (i.e., $\tildO(d)$ operations). %
-We would also like to have \emph{efficient embeddings}: whenever we
-have a pair of extensions $\F_p⊂k⊂K$, we want to take an element $x∈k$
-and represent it as an element of $K$, and, reciprocally, we want to
-be able to test whether an element $y∈K$ belongs to $k$, and in this
-case we want to compute its representation as an element of the
-smaller field. %
+Ideally, we would like to have a way to represent \emph{arbitrary
+  collections} of extensions of $\F_p$, in such a way that any
+extension is represented in optimal space (i.e., $O(n)$ coefficients
+for an element of an extension of degree $n$), and that arithmetic
+operations are performed in quasi-optimal time (i.e., $\tildO(n)$
+operations). %
+We would also like to have \emph{compatibility}: for any pair of
+extensions $\F_p⊂k⊂K$, we want to take an element $x∈k$ and represent
+it as an element of $K$, and, reciprocally, we want to be able to test
+whether an element $y∈K$ belongs to $k$, and in that case compute its
+representation as an element of the smaller field. %
 
-Finally, we want to compute this representation efficiently, and,
+Finally, we want to compute all the data associated with this
+representation (e.g., the irreducible polynomials) efficiently, and,
 possibly, \emph{incrementally}, i.e., we want to be able to add more
 field extensions to the collection without having to recompute
 everything. %
+The last requirement is necessary to represent $\bar{\F}_p$
+effectively. %
+
 Another often sought requirement is \emph{uniqueness}, i.e., that any
 field extension is determined by an irreducible polynomial whose
 definition only depends on the characteristic $p$ and the degree of
-the extension. %
+the extension, thus providing a \emph{standard} way to represent
+$\bar{\F}_p$. %
 More advanced features, such as computing normal bases, vector space
-isomorphisms, evaluating Frobenius morphisms, etc. are also (terribly)
-interesting, but they are out of the scope of this document. %
+isomorphisms, evaluating Frobenius morphisms, etc., are also
+(terribly) interesting, but they are out of the scope of this
+document. %
 
 The reader may be surprised to learn that no such representation is
 known! %
-The difficulty is not a theoretical one: as Lenstra
-showed~\cite{LenstraJr91}, besides the problem of finding irreducible
-polynomials, any other question is amenable to linear algebra; and for
-the former problem we have both probabilistic and
-deterministic~\cite{shoup93,shoup94,couveignes+lercier11}
-polynomial-time algorithms. %
+The difficulty is not a theoretical one: besides the problem of
+finding irreducible polynomials, any other question is amenable to
+linear algebra, as Lenstra showed~\cite{LenstraJr91}. %
 Instead, the difficulty is to satisfy all requirements in an
 efficient, possibly quasi-optimal, manner. %
 
@@ -1675,17 +1747,624 @@ constructions, and possible research avenues. %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Special families of irreducible polynomials}
+\label{sec:spec-famil-irred}
 
-- Conway
-- computing irreducible polynomials
-- towers, composita
+Among all irreducible polynomials, which ones are best suited to
+represent a collection of finite extensions of $\F_p$, or potentially
+the collection of \emph{all} finite extensions of $\F_p$? %
+This fascinating question, investigated by many, has no single answer:
+indeed, depending on what is meant by ``best'', different solutions
+are possible. %
+
+\paragraph{Conway polynomials.}
+One of the most famous constructions is that of \emph{Conway
+  polynomials}. %
+The main feature of Conway polynomials is \emph{norm compatibility}:
+the norm map $\F_{q^n}→\F_{q^m}$ is a surjection from the roots of the
+$n$-th Conway polynomial to the roots of the $m$-th Conway polynomial,
+whenever $m$ divides $n$. %
+
+Norm compatibility is easy to achieve for a fixed collection
+$\mathcal{F}$ of finite extensions of $\F_p$: let $K/\F_p$ be the
+smallest finite field containing all fields in $\mathcal{F}$, let $η$
+be a primitive element of $K$, i.e., a generator of the multiplicative
+group $K^×$, then the Conway polynomial of a field $k⊂K$ is defined as
+the minimal polynomial of $N_{K/k}(η)$, where $N_{K/k}$ is the norm
+map. %
+However, Conway polynomials have two other goals: incrementality and
+uniqueness. %
+This leads to the following definition.
+
+\begin{definition}[Conway polynomial]
+  Let $p$ be a prime and $n>1$ an integer. %
+  The \emph{Conway polynomial} $C_{p,n}$ is the
+  \emph{lexicographically smallest} monic irreducible polynomial of
+  degree $n$ satisfying the following conditions:
+  \begin{itemize}
+  \item \emph{Primitivity:} $C_{p,n}$ is primitive (i.e., its roots
+    generate the multiplicative group $\F_{p^n}^×$);
+  \item \emph{Norm compatibility:} If $m$ divides $n$, then
+    $C_{p,m}\left(X^{\frac{p^n-1}{p^m-1}}\right) = 0 \mod C_{p,n}$.
+  \end{itemize}
+\end{definition}
+
+The ``lexicographically smallest'' condition is required to ensure
+uniqueness; it is typically defined by writing $f∈\F_p[X]$ as
+\begin{equation*}
+  f = \sum_{i=0}^n (-1)^{n-i} f_i x^i,
+  \qquad\text{with $0≤f_i<p$,}
+\end{equation*}
+and taking the lexicographic order on the words $f_n\dots f_0$.
+
+Conway polynomials were defined by Parker%
+\footnote{According to Lübeck~\cite{Luebeck}.}, %
+who named them in honor of John Conway and his famous book ``On
+Numbers and Games''~\cite{Conway:ONAG2000}; their existence was shown
+by Nickel~\cite{Nickel1988}. %
+They were first adopted by the computer algebra system GAP~\cite{GAP4}
+as a default representation for finite fields. %
+They are typically computed by exhaustive search over all irreducible
+polynomials, or by a slightly better algorithm due to Heath and
+Loehr~\cite{heath+loehr99}. %
+Given the huge computational cost involved in finding them, they are
+usually precomputed; tables of Conway polynomials are available in any
+major computer algebra system.%
+\footnote{Most computer algebra systems switch to other methods when
+  precomputed Conway polynomials are not available. %
+  An interesting exception is SageMath (since version
+  5.13~\cite{Roe2013}), that defines \emph{pseudo-Conway polynomials}
+  by dropping the ``lexicographically first'' requirement, and
+  computes them on the fly whenever a true Conway polynomial is not
+  available in the tables. %
+  The approach is notoriously slow: computing a pseudo-Conway
+  polynomial for $\F_{p^{30}}$ takes in the order of seconds, already
+  for $p>1000$; compare this to the milliseconds needed to compute a
+  random irreducible polynomial of the same degree.} %
+
+We note that Conway polynomials are not especially good to represent
+embeddings: given an element of $\F_{p^m}$ represented as
+$a(X) \bmod C_{p,m}(X)$, its image in $\F_{p^n}$, for $m\mid n$, is
+computed as $a(X^{(p^n-1)/(p^m-1)})\bmod C_{p,n}(X)$, requiring very
+large modular exponentiations; while there are algorithms to perform
+this computation in $O(n^{1+o(1)})$ operations~\cite{KeUm11}, they are
+known to be very inefficient in practice. %
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[scale=0.8]
+    \coordinate (T2) at (-2, 0.5);
+    \draw
+    (0,0) node (Fq)  {$\F_p$}
+    ++(T2) node (Fq2) {$\F_{p^2}$}
+    ++(T2) node (Fq4) {$\F_{p^4}$}
+    ++(T2) node (Fq2l) {$\F_p^{(2)}$};
+    % ---------------------
+    \coordinate (T3) at (-0.7, 2);
+    \draw
+    ++(T3) node (Fq3) {$\F_{p^3}$}
+    ++(T3) node (Fq9) {$\F_{p^9}$}
+    ++(T3) node (Fq3l) {$\F_p^{(3)}$};
+    % ---------------------
+    \coordinate (T5) at (0.7, 2);
+    \draw
+    ++(T5) node (Fq5) {$\F_{p^5}$}
+    ++(T5) node (Fq25) {$\F_{p^{25}}$}
+    ++(T5) node (Fq5l) {$\F_p^{(5)}$};
+    % ---------------------
+    \coordinate (Tl) at (2, 1);
+    \draw
+    ++(Tl) node (Fql) {$\F_{p^ℓ}$}
+    ++(Tl) node (Fql2) {$\F_{p^{ℓ^2}}$}
+    ++(Tl) node (Fqll) {$\F_p^{(ℓ)}$};
+    % ---------------------
+    \draw[every node/.style=dotstyle]
+    (Fq) ++(Fq2) ++(Fq3) node (dot1) {}
+    (Fq) ++(Fq4) ++(Fq3) node (dot2) {}
+    (Fq) ++(Fq2) ++(Fq5) node (dot3) {}
+    (Fq) ++(Fq3) ++(Fq5) node (dot4) {}
+    (Fq) ++(Fq3) ++(Fql) node (dot5) {}
+    (Fq) ++(Fq5) ++(Fql) node (dot6) {};
+    % ---------------------
+    \draw 
+    (Fq) 
+    edge[edgetower] (Fq2)
+    edge[edgetower] (Fq3)
+    edge[edgetower] (Fq5)
+    edge[edgetower] (Fql)
+    (Fq2)
+    edge[edgetower] (Fq4)
+    edge[edgecomp] (dot1)
+    (Fq4)
+    edge[edgetower, dotted] (Fq2l)
+    edge[edgecomp] (dot2)
+    (dot1)
+    edge[edgecomp] (dot2)
+    (Fq3)
+    edge[edgetower] (Fq9)
+    edge[edgecomp] (dot1)
+    edge[edgecomp] (dot4)
+    (Fq9)
+    edge[edgetower, dotted] (Fq3l)
+    (Fq5)
+    edge[edgetower] (Fq25)
+    edge[edgecomp] (dot4)
+    edge[edgecomp] (dot6)
+    (Fq25)
+    edge[edgetower, dotted] (Fq5l)
+    (Fql)
+    edge[edgetower] (Fql2)
+    edge[edgecomp] (dot6)
+    (Fql2)
+    edge[edgetower, dotted] (Fqll)
+    (dot3)
+    edge[edgecomp] (Fq2)
+    edge[edgecomp] (Fq5)
+    (dot5)
+    edge[edgecomp] (Fq3)
+    edge[edgecomp] (Fql);
+  \end{tikzpicture}
+  \caption{Lattice of extensions of $\F_p$.}
+  \label{fig:fpbar}
+\end{figure}
+
+\paragraph{Primary towers.}
+All other solutions are generalizations of Shoup's algorithm for
+computing irreducible polynomials~\cite{Shoup_1990,shoup93,shoup94}. %
+
+We start by restricting to \emph{primary towers of extensions}, i.e.,
+towers of extensions of prime-power degree. %
+Formally, for a prime $ℓ≠p$, define the \emph{$ℓ$-adic closure} of
+$\F_p$ as the infinite field
+$\F_p^{(ℓ)} = \bigcup_{i\ge 0}\F_{p^{ℓ^i}}$.
+
+To represent $\F_p^{(ℓ)}$, we want to define an infinite family of
+irreducible polynomials of degree $ℓ^i$ for $i>0$, and algorithms for
+the corresponding embeddings. %
+
+Here is a simple example: suppose that $ℓ$ divides $p-1$, then the
+$ℓ$-th power map is not injective on $\F_p$, and thus $\F_p$ contains
+$ℓ$-adic non-residues. %
+Let $η$ be such a non-residue, then $X_i^{ℓ^i}-η$ is a family of
+irreducible polynomials, and the embeddings between the fields
+$\F_{p^{ℓ^i}}$ are easily defined by the relationship
+$X_i^ℓ=X_{i-1}$. %
+We may call this special case the ``Kummer case'', for obvious
+reasons. %
+
+Shoup's construction generalizes the Kummer case to an arbitrary prime
+$ℓ$, by adjoining $ℓ$-th roots of unity to $\F_p$. %
+The idea is to define an extension $\F_q=\F_p(ζ_ℓ)$ of the base field,
+and then construct its $ℓ$-adic closure $\F_q^{(ℓ)}$. %
+The sought closure is then identified to a subfield
+$\F_p^{(ℓ)}⊂\F_q^{(ℓ)}$ using a projection map; this is illustrated below.
+\begin{equation*}
+  \begin{tikzpicture}
+    \draw
+    (0,0) node(Q){$\F_p$}
+    (-1,1) node(Q0){$\F_q=\F_p(ζ_ℓ)$}
+    (1,1) node(K1) {$\F_{p^ℓ}$}
+    (0,2) node(Q1) {$\F_{q^ℓ}$}
+    (2,2) node(Koo) {$\F_p^{(ℓ)}$}
+    (1,3) node(Qoo) {$\F_q^{(ℓ)}$};
+    \draw (Q) edge node[auto]{\scriptsize$r$} (Q0)
+              edge node[auto,swap]{\scriptsize$ℓ$} (K1)
+          (K1) edge (Q1)
+          (Q1) edge (Q0)
+               edge[dashed] (Qoo)
+          (Koo) edge[dashed] (K1)
+               edge (Qoo);
+  \end{tikzpicture}
+\end{equation*}
+
+Shoup explicitly computes $\F_q$ by factoring the $ℓ$-th cyclotomic
+polynomial, then finds an $ℓ$-adic non-residue $η∈\F_q$, and defines
+$\F_{q^{ℓ^i}}$ as $\F_q(X_i)/(X_i^{ℓ^i}-η)$. %
+Then, a defining polynomial of $\F_{p^{ℓ^i}}$ is found by taking the
+trace $\F_{q^{ℓ^i}}→\F_{p^{ℓ^i}}$ of the residue class of $X_i$, and
+computing its minimal polynomial. %
+
+Shoup's construction pays an intrinsic $O(ℓ)$ overhead, because of the
+\emph{auxiliary extension} $\F_p(ζ_ℓ)$. %
+To avoid this cost, Couveignes and Lercier's generalize the Kummer
+case in a different direction. %
+
+It is well known in number theory folklore that any algorithm that
+uses purely multiplicative properties of $\F_p$ can be generalized by
+replacing the multiplicative group $\F_p^×$ with a different algebraic
+group $G(\F_p)$, e.g., the group of points of an elliptic curve
+$E/\F_p$. %
+This principle is the basis, for example, for Lenstra's elliptic curve
+factoring method~\cite{lenstra87}. %
+We shall see this principle applied over and over again in this
+chapter. %
+
+The Kummer case is based on the fact that the map $x↦x^ℓ$ is
+surjective on $\bar{\F}_p$, but not on $\F_p$. %
+Because of its geometric properties, its fibers are irreducible and
+define irreducible polynomials $X^ℓ-η$ whenever $η$ is an $ℓ$-adic
+non-residue. %
+Does this ring a bell?
+
+We saw at the beginning of the last chapter that an isogeny $ϕ:E→E'$
+is a degree $ℓ$ map, surjective on $E'(\bar{\F}_p)$, but not on
+$E'(\F_p)$ whenever $\ker ϕ⊂E(\F_p)$. %
+If we choose an elliptic curve $E/\F_p$ such that $π|E[ℓ]$ acts like
+$\mat{1&0\\0&μ}$ for some $μ≠1\pmod{ℓ}$, then the isogeny $ϕ$
+associated to the eigenvalue $1$ is not surjective, and its fibers are
+irreducible. %
+
+Couveignes and Lercier take random elliptic curves, and count their
+points, until one with the desired Frobenius endomorphism is found. %
+Then they compute the unique $ℓ$-isogeny $ϕ:E→E'$ with rational
+kernel, using Vélu's formulas, and find a point $P∈E'(\F_p)$ not in
+$ϕ(E(\F_p))$. %
+The irreducible polynomial defining $\F_{p^ℓ}$ is then deduced from
+the fiber $ϕ^{-1}(P)$, for example by projecting onto the $x$-axis. %
+This is easily generalized to arbitrary primary extensions
+$\F_{p^{ℓ^i}}$. %
+
+The drawback of this technique is the high cost involved in the search
+for a suitable elliptic curve: if $ℓ<p^{1/4}$ about one curve in $ℓ$
+has the desired property~\cite{lenstra87,castryck+hubrechts13}, and
+counting the number of points takes $\tildO((\log p)^5)$ operations
+using Schoof's algorithm%
+\footnote{This complexity bound could be improved using the
+  Schoof--Elkies--Atkin algorithm, however this would add additional
+  heuristic hypotheses to the construction.}. %
+Hence, this construction is only practical for relatively small values
+of $p$ and $ℓ$. %
+Also, in general, $ℓ$ may be so large that no elliptic curve exists
+with the desired properties. %
+In this case Couveignes and Lercier propose extending the base field
+$\F_p$ to an extension of degree $O(\log ℓ)$, and use the same
+projection machinery as in Shoup's original construction. %
+Although this trick salvages the asymptotic complexity of the method,
+I am not sure anyone has ever dared implement it. %
+
+So far, we have only mentioned the construction of the irreducible
+polynomials, without specifying how we compute embeddings. %
+In the work ``Fast Algorithms for $ℓ$-adic Towers over Finite Fields''
+written with J.~Doliskani and É.~Schost~\cite{DeDoSc13}, we provide
+algorithms to efficiently evaluate embeddings, both for Shoup's and
+for Couveignes and Lercier's construction, and we also add
+incrementality to the latter. %
+The techniques are relatively simple generalizations of the Kummer
+case, leveraging fast algorithms for polynomial composition and
+decomposition, and we will not detail them. %
+Suffice to say that they are very efficient, both asymptotically and
+in practice, and achieve quasi-optimal embeddings for the
+Couveignes--Lercier construction. %
+Experiments in~\cite{DeDoSc13} show that they beat other techniques by
+orders of magnitude, in particular when constructing a primary tower
+with many levels\footnote{Gains are already remarkable for
+  $\F_{p^{81}}$}. %
+
+Couveignes and Lercier's technique, and thus our extension, does not
+naturally provide uniqueness: this depends intrinsically on the random
+choices of elliptic curves. %
+Although it would be possible to fix the choices of the algorithm in a
+deterministic way, this feels even less natural than for Conway
+polynomials. %
+A better option is to fix the choices made by Shoup's construction in
+a deterministic way; this is exactly what Lenstra and de Smit do
+in~\cite{lenstra+desmit08-stdmodels}, with a special focus on
+deterministic algorithms. %
+However, to the best of my knowledge, no one has ever tried
+implementing this construction, that looks mostly of theoretical
+interest. %
+
+A few words on the case $ℓ=p$, to finish. %
+We can define $\F_p^{(p)}$ in the same way as we have defined the
+$ℓ$-adic closure, however none of the techniques described so far
+applies to this case. %
+The construction of irreducible polynomials of degree $p^i$ using
+Artin-Schreier theory is folklore, and already present
+in~\cite{Adleman-Lenstra}. %
+The related algorithms for computing embeddings are developed
+in~\cite{df+schost09,df+schost12}.
+
+\paragraph{Composita.}
+Once we have $ℓ$-adic closures for any $ℓ$, we need to ``glue'' them
+together to obtain the algebraic closure. %
+Formally, $\bar{\F}_p$ is isomorphic to the tensor product
+$⨂_{ℓ} \F_p^{(ℓ)}$, where $ℓ$ runs over all primes. %
+This suggests representing an extension of degree
+$n=ℓ_1^{e_1}\cdots ℓ_k^{e_k}$ as a quotient
+\begin{equation}
+  \label{eq:tensor}
+  \F_p[X_1,\dots,X_k] / 
+  \left|\begin{array}{l}
+          X_k^{ℓ_k^{e_k}} - f_k(X_k),\\
+          \qquad\vdots\\
+          X_1^{ℓ_1^{e_1}} - f_1(X_1);
+        \end{array}\right.
+\end{equation}
+however, arithmetic operations in this representation incur the same
+penalty as triangular sets. %
+
+The building block to switch to a rational univariate representation
+will be an algorithm to compute \emph{composita} with explicit
+embeddings. %
+Formally, given two extensions fields $\F_{p^m}$ and $\F_{p^n}$, with
+$m∧n=1$, we want to compute a univariate representation for the field
+$\F_{p^{mn}}$, together with efficient algorithms for evaluating the
+embeddings $\F_{p^m}\hookrightarrow \F_{p^{mn}}$ and
+$\F_{p^n}\hookrightarrow \F_{p^{mn}}$. %
+By applying this construction recursively, we can represent an
+arbitrary tensor product of primary extensions. %
+
+The construction of an irreducible polynomial of degree $mn$ is
+folklore, and was already used by Shoup~\cite{Shoup_1990}. %
+Given two separable polynomials $f$ and $g$, their \emph{composed
+  product} is the polynomial
+\begin{equation*}
+  (f⊗g)(X) = \prod_{f(α)=0}\prod_{g(β)=0} (X - αβ).
+\end{equation*}
+We similarly define the \emph{composed sum} as the polynomial whose
+roots are the sums of the roots of $f$ and $g$. %
+It is well known that, if $f,g∈\F_p[X]$ are irreducible polynomials of
+coprime degree, then both their composed sum and composed product are
+irreducible~\cite{BrCa87}.%
+\footnote{The hypothesis that $f,g$ have coefficients in a finite
+  field is important. %
+  For example, only the composed sum is necessarily irreducible if the
+  polynomials have rational coefficients.} %
+Both polynomials can be computed in $\tildO(mn)$ operations using
+algorithms in~\cite{BoFlSaSc06}, and both have been used to construct
+irreducible polynomials of arbitrary degree. %
+
+The less evident part is the evaluation of the embeddings. %
+In ``Fast Arithmetic for the Algebraic Closure of Finite Fields''
+written with J.~Doliskani and É.~Schost~\cite{DeDoSc2014}, and
+included in the appendix, we develop new techniques for embeddings of
+composita constructed through composed products. %
+Our techniques are purely algebraic, and apply to any base field,
+however they are most interesting in practice to compute in composita
+of finite fields. %
+
+The main technical ingredient of our work is a representation of
+finite field elements using a pair of monomial/dual bases, drawing
+from previous work of Shoup~\cite{shoup94,shoup95,shoup99} and Bostan,
+Salvy and Schost~\cite{bostan+salvy+schost03}. %
+
+If $\F_{p^m}$ is represented as $\F_p[X]/f(X)$, we define its
+\emph{monomial basis} as $(1,X,\dots,X^{m-1})$. %
+The associated \emph{dual basis} is $(X_0^*,X_1^*,\dots,X_{m-1}^*)$,
+where $X_i^*$ are defined by
+\begin{equation*}
+  \Tr(X^jX_i^*)_k = \begin{cases}
+    1 &\text{if $i=j$,}\\
+    0 &\text{otherwise,}
+  \end{cases}
+\end{equation*}
+where $\Tr$ denotes the trace from $\F_{p^m}$ to $\F_p$. %
+Given the polynomial $f$, conversions between the monomial and the
+dual basis can be performed very efficiently at a cost of $\tildO(n)$
+operations, thus we allow ourselves to switch freely between the two
+representations. %
+
+Now, let $\F_{p^m},\F_{p^n}$ and $\F_{p^{mn}}$ be represented as in
+the diagram
+\begin{equation*}
+  \begin{tikzpicture}
+    \draw
+    (0,0) node(Fp) {$\F_p$}
+    (-1,1) node[anchor=east](Fpm) {$\F_p[X]/f(X) =  \F_{p^m}$}
+    (1,1) node[anchor=west](Fpn) {$\F_{p^n} = \F_p[Y]/g(Y)$}
+    (0,2) node(Fpmn) {$\F_{p^{mn}} = \F_p[Z]/(f⊗g)(Z)$};
+    \draw
+    (Fp) edge (Fpm) edge (Fpn)
+    (Fpmn) edge (Fpm) edge (Fpn);
+  \end{tikzpicture}
+\end{equation*}
+with the natural embedding defined by $Z=XY$. %
+We seek an algorithm for the following operation: given $b∈\F_{p^m}$
+and $c∈\F_{p^n}$, compute $bc∈\F_{p^{mn}}$. %
+Note that this gives a way to evaluate both embeddings, by fixing
+either $c=1$ or $b=1$. %
+
+The key observation is that the product $bc$ is computed as a
+component-wise product in the dual bases of the respective fields. %
+The embedding algorithm is thus (almost) as simple as converting both
+$b$ and $c$ to the respective dual bases, multiplying
+component-by-component, and converting back to the monomial basis of
+$\F_{p^{mn}}$. %
+We refer to the appendix for further details. %
+
+There is another, quite technical, ingredient to the paper, that we
+have mostly ignored so far. %
+Evaluating embeddings is only half of the job: we also want to
+evaluate the (partial) inverse maps, or, more generally, projections
+$\F_{p^{mn}}→\F_{p^m}$ and $\F_{p^{mn}}→\F_{p^n}$ such that, when
+composed with the embeddings, yield the identity map. %
+To this end, we use a technique called \emph{transposition
+  principle}~\cite{shoup99,bostan+lecerf+schost:tellegen}, to derive a
+projection algorithm from the embedding one. %
+This is a special case of a general technique that we shall present in
+the next section, when discussing \emph{isomorphism evaluation}, we
+thus skip details here. %
+
+In conclusion, our techniques allow to compute embeddings and
+projections of composita in quasi-optimal time. %
+They also allow to evaluate vector space isomorphisms, e.g.,
+$\F_{p^{mn}}≃\F_{p^m}^n$, with the best known complexity, however not
+in quasi-optimal time. %
+By combining these techniques with any technique for primary towers,
+we obtain a representation for $\bar{\F}_p$, unique if the
+representation of primary towers is. %
+Unfortunately, since we do not know how to evaluate vector space
+isomorphisms in quasi-optimal time, we inherit the same unsatisfactory
+complexity for any computation in $\bar{\F}_p$. %
+Lifting this restriction is one of the problems that torments me. %
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Isomorphisms of finite fields}
+\label{sec:isom-finite-fields}
 
-- Lenstra/Allombert
-- Rains
+Special (compatible) families of irreducible polynomials are a
+fascinating topic, however they are not a universal solution. %
+In some circumstances, we may not have the choice of the polynomial
+representing a field extensions; this happens quite often in computer
+algebra systems that allow the user to choose their own polynomial. %
+
+Isomorphism algorithms let us lift the restriction to special
+polynomials: using them, a computer algebra system may internally
+represent finite fields with special polynomials, while letting the
+user work with a isomorphic copy defined by a polynomial of their
+choice. %
+In the next section we shall also see how isomorphism algorithms
+(actually, embedding algorithms) allow us to represent $\bar{\F}_p$
+without using any special polynomial. %
+
+The isomorphism problem was first investigated by
+Lenstra~\cite{LenstraJr91}, who showed that it can be solved in
+deterministic polynomial time. %
+An thorough review of all known algorithms is given in the paper
+``Computing Isomorphisms and Embeddings of Finite Fields'', written
+with L.~Brieulle, J.~Doliskani, J.~P.~Flori and
+É.~Schost~\cite{brieulle2018computing}, and included in the
+appendix. %
+In the paper, we study the more general \emph{embedding problem} of
+two finite fields $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$ such that
+$\deg f$ divides $\deg g$. %
+We decompose it in two subproblems.
+
+\begin{problem}[Embedding description]
+  Given $k=\F_p[X]/f(X)$ and $K=\F_p[Y]/g(Y)$, determine elements
+  $α∈k$ and $β∈K$ such that $k=\F_p(α)$, and such
+  that there exists an embedding $ϕ$ mapping $α$ to
+  $β$.
+\end{problem}
+
+It is easily seen that $(α,β)$ describes an embedding if and
+only if $α$ and $β$ share the same minimal polynomial. %
+
+\begin{problem}[Embedding evaluation]
+  Given an \emph{embedding description} $(\alpha,\beta)∈k×K$, given
+  $γ∈k$ and $δ∈K$, solve the following problems:
+  \begin{itemize}
+  \item Compute $ϕ(γ)∈K$.
+  \item Test if $δ∈ϕ(k)$.
+  \item If $δ∈ϕ(k)$, compute $ϕ^{-1}(δ)∈k$.
+  \end{itemize}
+\end{problem}
+
+All the literature on the embedding/isomorphism problem essentially
+focuses on the embedding description, arguably the richest of the two
+problems. %
+For simplicity, we shall only discuss here isomorphisms, i.e.,
+$k≃K$. %
+
+The algorithms for the embedding description are very similar to those
+to compute irreducible polynomials. %
+There essentially exist two big families: the ``Kummer family'', a
+generalization of the ``Kummer case'' for primary towers discussed in
+Section~\ref{sec:spec-famil-irred}; and the ``Cyclotomic family'', a
+generalization of the Adleman--Lenstra algorithm. %
+Each of these families can come in a ``genus 0'' flavor, like the
+Kummer case for primary towers, or in a ``genus 1'' flavor, like the
+Couveignes--Lercier construction.%
+\footnote{Note that higher genus generalization are possible, but they
+  seldom give efficient algorithms.}  In Table~\ref{tab:ffalgos} we
+summarize the known constructions for computing irreducible
+polynomials and isomorphism descriptions, according to these
+categories. %
+We will now describe Kummer-type algorithms first, then
+cyclotomic-type. %
+
+
+\begin{table}
+  \centering
+  \begin{tabular}{l | c | c}
+    & Irreducible polynomials
+    & Isomorphisms\\
+    \hline
+    Kummer $g=0$
+    & Shoup~\cite{Shoup_1990,shoup93,shoup94}
+    & Lenstra~\cite{LenstraJr91},
+      Allombert~\cite{Allombert02}\\
+    %%
+    Kummer $g=1$
+    & Couveignes--Lercier~\cite{couveignes+lercier11}
+    & Narayanan~\cite{narayanan2016fast}\\
+    %%
+    Cyclotomic $g=0$
+    & Adleman--Lenstra~\cite{Adleman-Lenstra}
+    & Pinch~\cite{Pinch}, Rains~\cite{rains2008}\\
+    %% 
+    Cyclotomic $g=1$
+    & ---
+    & Pinch~\cite{Pinch}, BDDFS~\cite{brieulle2018computing}
+  \end{tabular}
+  \caption{Main algorithmic ideas to compute irreducible polynomials
+    and isomorphisms of finite fields, by inventors.}
+  \label{tab:ffalgos}
+\end{table}
+
+
+\paragraph{Lenstra--Allombert algorithm.}
+In~\cite{LenstraJr91}, Lenstra proved that the isomorphism problem can
+be solved in deterministic polynomial time, without focusing much on
+getting the best possible complexity. %
+In~\cite{Allombert02}, Allombert modified Lenstra's algorithm to
+obtain an efficient one; in doing so, he replaced some routines with
+polynomial factorization, thus dropping determinism. %
+In~\cite{brieulle2018computing}, we give several variants of
+Allombert's algorithm that are more efficient, both asymptotically and
+in practice. %
+Allombert has included in PARI/GP both his variant and ours. %
+
+The Lenstra--Allombert algorithm is similar in spirit to Shoup's
+algorithm for computing irreducible
+polynomials~\cite{Shoup_1990,shoup93,shoup94}. %
+
+
+\paragraph{Rains' algorithm.}
+
+~\cite{brieulle2018computing}
+
+\paragraph{Isomorphism evaluation.}
+Let now $K=\F_p[Y]/g(Y)$ be another finite field, let $〈,〉_K$ be
+the bilinear form defined by its trace to $\F_p$, and let
+$\phi:k\hookrightarrow K$ be a field embedding. %
+There exists a unique linear map $\phi^t:K\to k$, called the
+\emph{dual map} of $\phi$, such that
+\begin{equation*}
+  〈ϕ(γ),δ〉_K=〈γ,ϕ^t(δ)〉_k
+  \qquad\text{for any $γ∈k$ and $δ∈K$.}
+\end{equation*}
+If $M=(m_{i,j})$ is the matrix of $\phi$ in the monomial bases of $k$
+and $K$, then its transpose $M^t$ is the matrix of $\phi^t$ in their
+\emph{dual bases}. %
+Indeed,
+\begin{equation}
+  \label{eq:tellegen-matrix}
+  m_{i,j} = 〈ϕ(X^j),Y_i^*〉 = 〈X^j,ϕ^t(Y_i^*)〉.
+\end{equation}
+
+We are now going to show that $\phi^t$ is closely related to the
+inverse map of $\phi$. %
+If $\phi$ is an isomorphism of fields, then we immediately have
+$\phi^t=\phi^{-1}$. %
+Indeed, in this case $\phi$ preserves the bilinear forms:
+\begin{equation*}
+  〈γ,δ〉_k = 〈ϕ(γ),ϕ(δ)〉_K
+  \qquad\text{for any $γ,δ∈k$.}
+\end{equation*}
+Hence, duality implies that
+\begin{equation*}
+  〈γ,δ〉_k = 〈γ,ϕ^t∘ϕ(δ)〉_k,
+\end{equation*}
+but then the non-degeneracy of the trace implies that
+$\phi^t\circ\phi$ is the identity map.\footnote{More generally, in the
+  category of finite-dimensional vector spaces with nondegenerate
+  bilinear forms and morphisms that preserve bilinear forms, we have a
+  natural isomorphism between the identity functor and the dual
+  functor.}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -1694,9 +2373,15 @@ constructions, and possible research avenues. %
 - Bosma et al.
 - work in progress, implementations?
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Perspectives}
+
+- FFT mul in tensor products
+
+\paragraph{On elegance.}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2996,4 +3681,6 @@ As short as possible. Necessary?
 % LocalWords:  cryptographic codomain invertible diagonalizes CSIDH
 % LocalWords:  expander expanders polynomially invariants injective
 % LocalWords:  cryptosystem instantiations dihedral cryptology monic
-% LocalWords:  cyclotomic embeddings asymptotical
+% LocalWords:  cyclotomic embeddings asymptotical incrementality
+% LocalWords:  surjection subfields exponentiations Lenstra SageMath
+% LocalWords:  Kummer Shoup composita monomial
