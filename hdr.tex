@@ -47,6 +47,7 @@
 \newtheorem{definition}[theorem]{Definition}
 \newtheorem{example}[theorem]{Example}
 \newtheorem{problem}{Problem}
+\newtheorem{conjecture}{Conjecture}
 
 \include{preamble}
 
@@ -2189,21 +2190,26 @@ Direct calculation shows that $M_b^t$ is the matrix of the map
 $a↦\Tr_{\F_{p^{mn}}/\F_{p^n}}(ab)$ in the \emph{monomial bases} of
 $\F_{p^{mn}}$ and $\F_{p^n}$; thus, if
 $\Tr_{\F_{p^{mn}}/\F_{p^n}}(b)=1$, the matrix $M_b^t$ is a partial
-inverse to $M_b$ (albeit in a different basis). %
+inverse to $M_b$ (albeit in a different basis).%
+\footnote{I feel so guilty for shrinking one of my favorite tricks to
+  one single paragraph. %
+  Really, go read~\cite[§8]{ffisom-long}, please!} %
+% TODO: check the scalars
 
 To obtain an algorithm from this observation, we use a technique
 called \emph{transposition
   principle}~\cite{shoup99,bostan+lecerf+schost:tellegen},
 transforming an algorithm to evaluate $M_b$ into one to evaluate
 $M_b^t$ \emph{at the same cost}. %
-Said otherwise, we derive a projection algorithm by \emph{transposing}
-the embedding one. %
+Said otherwise, we derive an effcient projection algorithm by
+\emph{transposing} the embedding one. %
 
 In conclusion, our techniques allow to compute embeddings and
 projections of composita in quasi-optimal time. %
-They also allow to evaluate vector space isomorphisms, e.g.,
-$\F_{p^{mn}}≃\F_{p^m}^n$, with the best known complexity, however not
-in quasi-optimal time. %
+They also allow to evaluate vector space isomorphisms (e.g.,
+$\F_{p^{mn}}≃\F_{p^m}^n$ with respect to the monomial or the dual
+basis) with the best known complexity, although not in quasi-optimal
+time. %
 By combining these techniques with any technique for primary towers,
 we obtain a representation for $\bar{\F}_p$, unique if the
 representation of primary towers is. %
@@ -2222,7 +2228,7 @@ Special (compatible) families of irreducible polynomials are a
 fascinating topic, however they are not a universal solution. %
 In some circumstances, we may not have the choice of the polynomial
 representing a field extensions; this happens quite often in computer
-algebra systems that allow the user to choose their own polynomial. %
+algebra systems that let the user choose their own polynomial. %
 
 Isomorphism algorithms let us lift this restriction: using them, a
 computer algebra system may internally represent finite fields with
@@ -2252,6 +2258,9 @@ two finite fields $k⊂K$. %
 
 It is easily seen that $(α,β)$ describes an embedding if and only if
 $α$ and $β$ share the same minimal polynomial. %
+Therefore, the simplest solution, although not the most efficient,
+consists in taking the class of $X$ for $α$, and a root of $f(X)$ in
+$K$ for $β$. %
 
 Given an embedding description $(α,β)$, the associated embedding (and
 its partial inverse) can be evaluated on any element of $k$ by linear
@@ -2264,7 +2273,7 @@ extended version~\cite{ffisom-long} of~\cite{brieulle2018computing}. %
 The algorithms for embedding description are very similar to those to
 compute irreducible polynomials. %
 For simplicity, we shall only discuss here isomorphisms, i.e.,
-$k≃K$; we refer to appendix for the general problem. %
+$k≃K$; we refer to the appendix for the general problem. %
 
 There essentially exist two big families: the ``Kummer family'', a
 generalization of the ``Kummer case'' for primary towers discussed in
@@ -2349,7 +2358,7 @@ We describe here Allombert's variant:
 \item Compute a $n$-th root of unity $ζ_n∈\F_p$;
 \item Find solutions $α∈k$ and $β∈K$ to Hilbert 90 relative to $ζ_n$;
 \item Compute $a=α^n$ and $b=β^n$, they are both in $\F_p$;
-\item Compute $c=\sqrt[n]{a/b}$ using a polynomial factoring
+\item Compute $c=\sqrt[n]{a/b}∈\F_p$ using a polynomial factoring
   algorithm;
 \item Return $α$ and $cβ$.
 \end{enumerate}
@@ -2378,7 +2387,7 @@ there is no hope to obtain an algorithm better than quadratic. %
 In~\cite{brieulle2018computing} we show that it is indeed possible to
 achieve the optimum, and even lower than that in favorable cases. %
 
-\begin{proposition}
+\begin{proposition}[{Brieulle, D., Doliskani, Flori, Schost~\cite{brieulle2018computing}}]
   \def\MM{\mathsf{M}} %
   Let $k,K$ be two extensions of degree $r$ over $\F_p$, where $r$ is
   a prime power. %
@@ -2506,13 +2515,21 @@ While it is easy to find examples where elliptic periods are not
 normal, it is enough for our purposes that they generate $\F_{p^n}$ as
 a field. %
 Despite an extensive search, documented
-in~\cite{brieulle2018computing}, we have not been able to find a
-single example where elliptic periods do not generate their field of
-definition. %
+in~\cite{ffisom-long,brieulle2018computing}, we have not been able to
+find a single example where elliptic periods do not generate their
+field of definition. %
 Hence, in principle our elliptic variant of Rains' algorithm has a
 (provably small) failure probability; however our searches have led us
-to conjecture that this probability may actually be zero, as is
-precisely stated in the appendix. %
+to conjecture that this probability may actually be zero. %
+
+\begin{conjecture}[{Brieulle, D., Doliskani, Flori,
+    Schost~\cite{brieulle2018computing}}]
+  Let $E/\F_p$ be an elliptic curve with $j$-invariant not $0$ or
+  $1728$; let $ℓ$ be an Elkies prime for $E$, and $P∈E[ℓ]$ a point in
+  the eigenspace of a Frobenius eigenvalue $λ$ for $ℓ$. %
+  Assume that $(ℤ/ℓℤ)^× = 〈λ〉 × S$, then the elliptic period
+  $\eta_{\lambda,S}(P)$ generates $\F_p(x(P))$ over $\F_p$.
+\end{conjecture}
 
 The complexity of Rains' algorithm is extremely sensitive to how small
 the integer $ℓ$ is. %
@@ -2523,12 +2540,13 @@ However, in practice we expect that $ℓ=O(n\log n)$, and we give enough
 experimental evidence in~\cite{brieulle2018computing} to support this
 heuristic. %
 Assuming this heuristic bound, we can prove that Rains' algorithm runs
-in time $\tildO(n^{(ω+1)/2}+n\log q)$, where $ω$ is the \emph{exponent
-  of linear algebra}, while the elliptic variant runs in time
-$\tildO(n^2\log q)$. %
+in average time $\tildO(n^{(ω+1)/2}+n\log q)$, where $ω$ is the
+\emph{exponent of linear algebra}, while the elliptic variant runs in
+time $\tildO(n^2\log q)$. %
 
 These bounds are remarkable: according to them, Rains' original
-algorithm is the only one with subquadratic complexity. %
+algorithm is the only isomorphism algorithm with subquadratic
+complexity. %
 However this bound is only heuristic, and experiments show that, both
 the original algorithm and the elliptic variant, perform faster than
 Allombert's algorithm only in very limited cases. %
@@ -2539,13 +2557,100 @@ Allombert's algorithm only in very limited cases. %
 
 \section{Lattices of finite fields}
 
-- Bosma et al.
-- work in progress, implementations?
+We end this chapter coming back to the problem of representing the
+algebraic closure $\bar{\F}_p$. %
+We saw how special families of polynomials can be used to represent
+finite extensions of $\F_p$ in a \emph{compatible},
+\emph{incremental}, and possibly \emph{unique} way, and thus can also
+be used the whole $\bar{\F}_p$. %
+At the opposite end of the spectrum we have the possibility of
+representing finite extensions of $\F_p$ by arbitrary polynomials, and
+provide compatibility through a general purpose embedding algorithm
+such as those presented in the previous section. %
 
+This approach was first formalized by Bosma, Cannon and Steel, in
+``Lattices of Compatibly Embedded Finite
+Fields''~\cite{bosma+cannon+steel97}. %
+They implemented it as the default system for Magma; to compute
+embeddings, they originally used the naive approach based on
+polynomial factoring, then added Rains' algorithm as an alternative. %
+To this day, Magma still has the most efficient system to represent
+lattices of arbitrary extensions of $\F_p$. %
+
+The Bosma--Cannon--Steel framework maintains a single data structure:
+a collection (a lattice) of compatible extension fields. %
+We may add new extensions to the lattice, at the user's request, by
+computing embeddings into each of the fields already present in it,
+and storing the embedding data along. %
+
+However, a naive implementation of this idea may easily get stuck. %
+Take for example $p=5$, and a lattice containing $\F_{p^2}$,
+$\F_{p^4}$ and $\F_{p^6}$; assume that the extensions are defined by
+the polynomials in the diagram below. %
+\begin{equation*}
+  \begin{tikzpicture}
+    \draw
+    (0,-1) node (F0) {$\F_5$}
+    (0,0) node(Fp) {$\F_5[X]/(X^2-X+2)$}
+    (-1,1) node[anchor=east](Fpm) {$\F_4[X]/(X^4-X^2+2)$}
+    (1,1) node[anchor=west](Fpn) {$\F_6[X]/(X^6-X^3+2)$}
+    (0,2) node(Fpmn) {$\F_5[X]/(X^{12}-X^6+2)$};
+    \draw
+    (Fp) edge (Fpm) edge (Fpn) edge (F0)
+    (Fpmn) edge (Fpm) edge (Fpn);
+  \end{tikzpicture}
+\end{equation*}
+Denote by $η_2,η_4,η_6$ the classes of $X$ in
+$\F_{p^2},\F_{p^4},\F_{p^6}$ respectively, and assume that we have
+chosen the embeddings $η_2↦η_4^2$ and $η_2↦η_6^3$. %
+Now, suppose that we want to add $\F_{p^{12}}$ to the lattice. %
+We start by embedding $\F_{p^4}\hookrightarrow\F_{p^{12}}$ with
+$η_4↦η_{12}^{15}$; at this point, we are not anymore free to choose
+any embedding for $\F_{p^6}\hookrightarrow\F_{p^{12}}$: indeed,
+choosing $η_6↦η_{12}^2$ would imply $η_{12}^{6}=η_2=η_{12}^{30}$, and
+thus $η_{12}^{24}=1$, which is impossible because all 24th roots of
+unity are in $\F_{5^2}$. %
+
+The \emph{tour de force} by Bosma, Cannon and Steel consists in
+showing that it is always possible to construct compatible lattices,
+if one constructs the lattice carefully. %
+They define six conditions that the lattice must satisfy in order to
+ensure compatibility; we paraphrase them below:
+\begin{enumerate}
+\item \emph{Unicity:} For every pair of fields $k,K$ in the lattice,
+  there is at most one embedding $k\hookrightarrow K$.
+\item \emph{Reflexivity:} Every field is embedded in itself through
+  the identity morphism.
+\item \emph{Prime subfield:} $\F_p$ is embedded in every field via the
+  canonical embedding.
+\item \emph{Invertibility:} If $k≃K$, then the embeddings
+  $k\hookrightarrow K$ and $K\hookrightarrow k$ are inverse to one
+  another.
+\item \emph{Transitivity:} For any triple $k⊂K⊂L$ the embeddings
+  $ϕ_{k,K}:k→K$, $ϕ_{K,L}:K→L$, $ϕ_{k,L}:k→L$, are compatible, i.e.,
+  $ϕ_{k,L}=ϕ_{K,L}∘ϕ_{k,K}$.
+\item \emph{Intersection:} For any triple $k,K,L$ such that $k⊂L$ and
+  $K⊂L$, the subfield $k∩K$ is also in the lattice and is compatibly
+  embedded in $k,K,L$.
+\end{enumerate}
+
+By maintaining these properties throughout a session, Magma is able to
+ensure compatibility regardless of the number of finite fields created
+by the user. %
+If a criticism must be addressed to this data structure, it is on the
+combinatorial explosion that it entails: for any field in the lattice,
+the data on embeddings to any other subfield must be stored, thus
+storage grows quadratically in the number of fields in the lattice. %
+Also, as more and more fields are added, more and more computations
+must be performed to keep compatibility. %
+Nevertheless, Magma has still today undoubtedly the most efficient
+system to represent the algebraic closure of a finite field. %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \section{Perspectives}
+
+- lattices: work in progress, implementations?
 
 - FFT mul in tensor products
 
