@@ -108,7 +108,7 @@
 \chapter{Bathymetry}
 \label{cha:tate}
 
-What's an isogeny, anyway? %
+What is an isogeny, anyway? %
 Despite the imposing sounding name, an isogeny is a pretty simple
 concept: a morphism between two elliptic curves, preserving their
 algebraic structure (both as a group and as a variety). %
@@ -141,8 +141,9 @@ the neighborhood'' of an elliptic curve. %
 We will then define \emph{isogeny graphs}---graphs whose vertices are
 elliptic curves and whose edges are isogenies---, and, not unlike a
 biologist, set on a mission to classify them. %
-Isogeny graphs inherit an \emph{infinite tree} structure, but over a
-finite field they must ``fold'' in order to fit into a finite space. %
+Isogeny graphs inherit from an \emph{infinite tree} structure, but
+over a finite field they must ``fold'' in order to fit into a finite
+space. %
 Thanks to a celebrated theorem of Tate, we will discover that the
 Frobenius endomorphism, much like the DNA of a living creature,
 determines the ``folding'' of the isogeny graph. %
@@ -689,7 +690,8 @@ algorithms obsolete! %
 Incidentally, this coincides with the beginning of my career in
 research, one that started off by desperately trying to beat the
 cycles out of an algorithm that would be obsoleted before the end of
-my first year as a PhD.\footnote{I can only imagine FM's cold sweats
+my first year as a PhD student.%
+\footnote{I can only imagine FM's cold sweats
   when Lercier and Sirvent published their algorithm. I did not
   understand at the time. I do now.}
 
@@ -853,10 +855,6 @@ loops, otherwise that would provide a non-trivial endomorphism of
 $E$. %
 Hence, the isogeny graph of $E$ is an infinite $(ℓ+1)$-tree, as
 pictured in Figure~\ref{fig:infinite-tree}. %
-Despite the nice drawing, this graph is, algebraically, ``boring'': it
-looks the same from every vertex, there is not much we can say on it
-that is not already contained in the statement ``infinite tree'';
-contrary to what the drawing suggests, this graph has no ``origin''.
 
 \begin{figure}
   \centering
@@ -885,44 +883,18 @@ contrary to what the drawing suggests, this graph has no ``origin''.
   \label{fig:infinite-tree}
 \end{figure}
 
-Going back to finite fields, the picture gets more interesting. %
-For one, there is only a finite number of elliptic curves, so these
-graphs are finite. %
-Extending scalars to the algebraic closure adds vertices to these
-graphs, and makes them $ℓ+1$ regular; but how are these regular graphs
-going to ``fold'' inside the finite subfields of $\bar{\F}_q$? %
-
-For the case of supersingular curves, we know that there is only a
-finite number of them, up to isomorphism; so supersingular isogeny
-graphs are $(ℓ+1)$-regular and finite! %
-We will say more on them in Chapter~\ref{cha:crypto}. %
-
-For the case of ordinary curves, we have already discussed the notion
-of ``depth'', we thus know that, as we travel along a path of
-descending isogenies, there is an algebraic invariant that tells us
-how far we are from the surface. %
-Said otherwise, unlike the graph of $E/ℂ$ without complex
-multiplication, that of $E/\F_q$ has one, or more, ``origins''. %
-
-What about horizontal isogenies? %
-Can we construct indefinitely long walks entirely made of them? %
-Here is a spoiler: no! %
-The theory of complex multiplication tells us that there is only a
-finite number of elliptic curves defined over $\bar{\F}_q$, up to
-isomorphism, with endomorphism ring isomorphic to a given order. %
-But let's pretend we do not know complex multiplication, and slowly
-work our way towards classifying horizontal isogenies. %
-
-Here is an intuition. %
-In the same way the action of $π$ on $E[ℓ]$ allowed us to ``see'' the
-neighbors of $E$ in the $ℓ$-isogeny graph, ``climbing'' to $π|E[ℓ^n]$
-will give us a view on the ball of radius $n$ around $E$. %
-If we ``elevate'' our point of view ``high enough'', we shall be able
-to see enough of the graph to understand how it ``folds'' inside
-$\F_q$. %
-As long as we are not doing computations, the simplest way to go high
-enough is to go ``infinitely high'', i.e., study the restriction of
-$π$ to the \emph{Tate module} $T_ℓ(E)$. %
+To study the structure of these graphs we introduce a tool, a sort of
+``lighthouse'' planted at the origin, lighting the graph as it extends
+away towards infinity. %
+Here is an intuition: if we put $E$ at the origin of the graph,%
+\footnote{An infinite tree has no well defined origin, but we may
+  arbitrarily choose one.} %
+its neighbors are determined by the cyclic subgroup of $E[ℓ]$; if we
+``climb'' to $E[ℓ^n]$, we will be able to ``see'' as far as the ball
+of radius $n$ around $E$. %
+To make sense of the whole graph, it thus feels natural to climb
+``infinitely high'', i.e., to ascend to the \emph{Tate module}
+$T_ℓ(E)$. %
 
 The \emph{Tate module} $T_ℓ(E)$ is the \emph{projective limit}
 \begin{equation*}
@@ -934,92 +906,50 @@ given by the natural projections
 \end{equation*}
 Since the $E[ℓ^n]$ are $ℤ/ℓ^nℤ$-modules, $T_ℓ(E)$ has a $ℤ_ℓ$-module
 structure, where $ℤ_ℓ$ denotes the $ℓ$-adic integers. %
-Tate's isogeny theorem states that, for finite fields, studying
-morphisms of $T_ℓ(E)$ is the same as studying isogenies of $E$.
+Any isogeny $ϕ:E→E'$ induces a morphism $ϕ_ℓ:T_ℓ(E)→T_ℓ(E')$ on the
+Tate modules, and we may prove that \emph{no information is lost} in
+the process (see \cite[III,~Th~7.4]{silverman:elliptic}). %
 
-\begin{theorem}[{Tate~\cite{Tate}}]
-  Let $\F_q$ be a finite field of characteristic $p$, and let $ℓ≠p$ be
-  a prime. %
-  Let $E,E'$ be elliptic curves defined over $\F_q$, the canonical
-  map %
+\begin{theorem}
+  \label{th:pre-tate}
+  Let $E,E'$ be elliptic curves defined over a field $k$, and let $ℓ$
+  be a prime different from the characteristic of $k$. %
+  The canonical map %
   \begin{equation*}
-    \Hom_{\F_q}(E,E')⊗ℤ_ℓ → \Hom_{\F_q}(T_ℓ(E),T_ℓ(E'))
+    \Hom(E,E')⊗ℤ_ℓ → \Hom(T_ℓ(E),T_ℓ(E'))
   \end{equation*}
-  is an isomorphism of $ℤ_ℓ$-modules.
+  is injective.
 \end{theorem}
 
-Tate's theorem has many important consequences. %
-Among those, we have already mentioned that $E$ and $E'$ are isogenous
-if and only if $\#E(\F_q)=\#E'(\F_q)$. %
-Furthermore, the action of $π$ on $T_ℓ(E)$ provides a $2$-dimensional
-representation of $\Gal(\bar{\F}_q/\F_q)$, and Tate's theorem states
-that $E$ and $E'$ are isogenous over $\F_q$ if and only if $T_ℓ(E)$
-and $T_ℓ(E')$ are isomorphic as $ℚ_ℓ$-representations. %
-Explicitly computing this representation gives us another mean of, in
-Kohel's words, ``probing the depth''. %
+We can thus associate elements of $\GL_2(ℚ_ℓ)$ to the isogeny graph
+rooted in $E$ as follows. %
+Fix a basis of $T_ℓ(E)$, there are $ℓ+1$ isogenies of degree $ℓ$ from
+$E$ to other curves $E'$, determined by their respective kernels; up
+to a change of basis of $T_ℓ(E')$ the matrix $ϕ_ℓ$ (acting on the
+right) associated to $ϕ:E→E'$ is one of
+\begin{equation*}
+  \begin{pmatrix}
+    1&0\\0&ℓ
+  \end{pmatrix},\quad
+  \begin{pmatrix}
+    ℓ&a\\0&1
+\end{pmatrix}
+  \text { for $0≤a<ℓ$}.
+\end{equation*}
+By composing these elementary matrices, we obtain the matrix of any
+isogeny of degree $ℓ^n$; then, quotienting by the center of
+$\GL_2(ℚ_ℓ)$, we factor out endomorphisms of $E$.
 
-\begin{proposition}[{D., Hugounenq, Plût~\cite{defeo2016explicit}}]
-  \label{th:tate-matrix-elkies}
-  Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
-  endomorphism~$π$. %
-  Assume that the characteristic polynomial of~$π$ has two distinct
-  roots~$λ, μ$ in~$ℤ_ℓ$, and let $h=v_ℓ(λ-μ)$. %
-  Then there exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
-  conjugate, over~$ℤ_ℓ$, to the matrix $\mat{λ&ℓ^e\\0&μ}$. %
-  
-  Moreover, $h=v_ℓ([\End(E):ℤ[π]])$ is the height of the graph of $E$:
-  if~$E$ lies at the surface, $e = h$ and $π|T_ℓ(E)$ is also conjugate
-  over~$ℤ_ℓ$ to $\mat{λ&0\\0&μ}$; otherwise $h - e$~is the depth
-  of~$E$.
-\end{proposition}
-
-\begin{proposition}
-  \label{th:tate-matrix-atkin}
-  TODO: similar statement for Atkin and ramified primes. Conjecture:
-  about the same, but only true modulo $ℓ^h$. See Cyril's thesis.
-\end{proposition}
-
-Note that the number of roots of the characteristic polynomial of $π$
-in $ℤ_ℓ$ is conveniently computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
-the \emph{fundamental discriminant} of the polynomial. %
-
-We thus have an effective \emph{bathymeter} to navigate the isogeny
-graph: it is indeed sufficient to compute $π|T_ℓ(E)$ up to precision
-$ℓ^h$, i.e., $π|E[ℓ^h]$, in order to determine the depth of $E$. %
-This generalizes previous partial results of Miret et
-al.~\cite{MiretMSTV06,MIRET200867} and Ionica and
-Joux~\cite{ionica+joux13}. %
-
-But the propositions also give us an effective way to characterize
-horizontal isogenies. %
-Indeed, if $ϕ:E→E'$ is an $\F_q$-rational $ℓ$-isogeny, $ϕ_ℓ$ its
-restriction to $T_ℓ(E)$, and we let $π,π'$ be the Frobenius
-endomorphisms of $E,E'$, then $π' = ϕ_ℓπϕ_ℓ^{-1}$ (where we have
-tensored by $ℚ_ℓ$ to make sense of $ϕ_ℓ^{-1}$). %
-% TODO: experiments give me π' = ϕ^-1 π ϕ
-Up to change of basis of $T_ℓ(E')$, the $ℓ+1$ isogenies of degree $ℓ$
-are represented by the matrices $\mat{1&0\\0&ℓ}$ and $\mat{ℓ&a\\0&1}$
-for $0≤a<ℓ$; if we have an explicit $\GL_2(ℤ_ℓ)$ representation for
-$π|T_ℓ(E)$, we can compute the representations of $π'|T_ℓ(E')$ for
-each of these isogenies, and use
-Propositions~\ref{th:tate-matrix-elkies}
-and~\ref{th:tate-matrix-atkin} to recognize those that are
-horizontal. %
-
-By multiplying the elementary matrices above, and quotienting out
-scalar multiplications, we can extend the same technique to isogenies
-of degree $ℓ^n$: we obtain the tree
-structure\footnote{Serre~\cite[II]{SL2} calls this the tree of $\SL_2$
-  over $ℤ_ℓ$. %
-  I am grateful to J. Plût for explaining this to me, and for
+We thus define an infinite tree on $\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$,
+isomorphic to the graph of $E$, by associating the identity matrix to
+the origin, and the matrices $ϕ_ℓ$ to the paths $ϕ:E→E'$, as shown in
+Figure~\ref{fig:serre-tree}. %
+The \emph{tree of $\PGL_2(ℚ_ℓ)$} was already studied by
+Serre~\cite[II]{SL2}, and is at the heart of various constructions of
+\emph{expander graphs}~\cite{LubPS,Lub,cryptoeprint:2018:593}, a topic
+that we shall encounter again in Chapter~\ref{cha:crypto}.%
+\footnote{I am grateful to J. Plût for explaining this to me, and for
   providing the Ti\emph{k}Z code for Figure~\ref{fig:serre-tree}} %
-on $\PGL_2(ℚ_ℓ)/\PGL_2(ℤ_ℓ)$ shown in Figure~\ref{fig:serre-tree},
-where matrices at distance $n$ from $\mat{1&0\\0&1}$ represent
-isogenies of degree $ℓ^n$. %
-A path in the tree corresponds to a path in the isogeny graph;
-conjugating $π$ by the end node we obtain the Frobenius matrix of the
-corresponding curve, and we may thus identify paths that correspond
-to, e.g., horizontal walks. %
 
 \begin{figure}
   \centering
@@ -1060,11 +990,111 @@ to, e.g., horizontal walks. %
     }
     ;
   \end{tikzpicture}
-  \caption{$ℓ$-adic Serre tree, representing isogenies of degree $ℓ^n$
-    on $T_ℓ(E)$.}
+  \caption{Dyadic Serre tree, representing isogenies of degree $2^n$
+    on $T_2(E)$.}
   \label{fig:serre-tree}
 \end{figure}
 
+Despite the nice drawings, these graphs are, algebraically,
+``boring'': the choice of an origin is arbitrary, and they look the
+same from every vertex. %
+Things get more interesting if we go back to finite fields. %
+Any curve $E/\F_q$ can be seen as the reduction modulo $p$ of some
+curve $E/\bar{ℚ}$; thus it must inherit the connectivity structure of
+the isogeny graph of $E/\bar{ℚ}$. %
+However, there is only a finite number of curves defined over $\F_q$,
+and not all isogenies will be $\F_q$-rational. %
+Thus, the infinite tree of $\PGL_2(ℚ_ℓ)$ must somehow ``fold'' to fit
+inside $\F_q$? %
+
+For example, if $E/\F_q$ is a supersingular curve, we shall see in
+Chapter~\ref{cha:crypto} that its isogeny graph ``folds'' to a finite
+$(ℓ+1)$-regular graph containing all supersingular curves, up to
+$\bar{\F}_q$-isomorphisms. 
+
+For the case of ordinary curves, we have already discussed the notion
+of ``depth'', we thus know that, as we travel along a path of
+descending isogenies, there is an algebraic invariant that tells us
+how far we are from the surface. %
+Said otherwise, unlike the graph of $E/ℂ$ without complex
+multiplication, that of $E/\F_q$ has one (or more) recognizable
+origins. %
+
+Is it possible to read on $T_ℓ(E)$ the depth of $E$? %
+We again turn to the Frobenius endomorphism $π$ for help. %
+Tate's isogeny theorem makes a stronger statement than
+Theorem~\ref{th:pre-tate}, by restricting to morphisms that are
+invariant under the action of $π$: it tells us that, for finite
+fields, studying Galois-invaraint morphisms of $T_ℓ(E)$ is the same as
+studying rational isogenies of $E$.
+
+\begin{theorem}[{Tate~\cite{Tate}}]
+  Let $\F_q$ be a finite field of characteristic $p$, and let $ℓ≠p$ be
+  a prime. %
+  Let $E,E'$ be elliptic curves defined over $\F_q$, the canonical
+  map %
+  \begin{equation*}
+    \Hom_{\F_q}(E,E')⊗ℤ_ℓ → \Hom_{\F_q}(T_ℓ(E),T_ℓ(E'))
+  \end{equation*}
+  is an isomorphism of $ℤ_ℓ$-modules.
+\end{theorem}
+
+Tate's theorem has many important consequences. %
+Among those, we have already mentioned that $E$ and $E'$ are isogenous
+if and only if $\#E(\F_q)=\#E'(\F_q)$. %
+Furthermore, the action of $π$ on $T_ℓ(E)$ provides a $2$-dimensional
+representation of $\Gal(\bar{\F}_q/\F_q)$, and Tate's theorem states
+that $E$ and $E'$ are isogenous over $\F_q$ if and only if $T_ℓ(E)$
+and $T_ℓ(E')$ are isomorphic as $ℚ_ℓ$-representations. %
+By explicitly computing this representation we obtain an
+\emph{effective version of Tate's theorem}; one that lets us, in
+Kohel's words, ``probe the depths''. %
+
+\begin{proposition}[{D., Hugounenq, Plût~\cite{defeo2016explicit}}]
+  \label{th:tate-matrix-elkies}
+  Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
+  endomorphism~$π$. %
+  Assume that the characteristic polynomial of~$π$ has two distinct
+  roots~$λ, μ$ in~$ℤ_ℓ$, and let $h=v_ℓ(λ-μ)$. %
+  Then there exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
+  conjugate, over~$ℤ_ℓ$, to the matrix $\mat{λ&ℓ^e\\0&μ}$. %
+  
+  Moreover, $h=v_ℓ([\End(E):ℤ[π]])$ is the height of the graph of $E$:
+  if~$E$ lies at the surface, $e = h$ and $π|T_ℓ(E)$ is also conjugate
+  over~$ℤ_ℓ$ to $\mat{λ&0\\0&μ}$; otherwise $h - e$~is the depth
+  of~$E$.
+\end{proposition}
+
+\begin{proposition}
+  \label{th:tate-matrix-atkin}
+  TODO: similar statement for Atkin and ramified primes. Conjecture:
+  about the same, but only true modulo $ℓ^h$. See Cyril's thesis.
+\end{proposition}
+
+Note that the number of roots of the characteristic polynomial of $π$
+in $ℤ_ℓ$ is conveniently computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
+the \emph{fundamental discriminant} of the polynomial. %
+
+We thus have an effective \emph{bathymeter} to navigate the isogeny
+graph: it is indeed sufficient to compute $π|T_ℓ(E)$ up to precision
+$ℓ^h$, i.e., $π|E[ℓ^h]$, in order to determine the depth of $E$. %
+This generalizes previous partial results of Miret \emph{et
+  al.}~\cite{MiretMSTV06,MIRET200867} and Ionica and
+Joux~\cite{ionica+joux13}. %
+
+But what about horizontal isogenies? %
+Can we construct indefinitely long walks entirely made of them? %
+The effective version of Tate's theorem also gives us an effective way
+to characterize horizontal isogenies. %
+Indeed, if $ϕ:E→E'$ is an $\F_q$-rational isogeny, $ϕ_ℓ$ its
+restriction to $T_ℓ(E)$, and we let $π,π'$ be the Frobenius
+endomorphisms of $E,E'$, then $π' = ϕ_ℓπϕ_ℓ^{-1}$ (where we have
+tensored by $ℚ_ℓ$ to make sense of $ϕ_ℓ^{-1}$). %
+
+We have already conveniently arranged all isogenies of degree $ℓ^n$ in
+the graph of Figure~\ref{fig:serre-tree}, thus, if we are given a
+matrix for $π|T_ℓ(E)$, all we have to do to compute $π|T_ℓ(E')$ is to
+conjugate by the corresponding matrix $ϕ_ℓ$. %
 For example, assume that the characteristic polynomial of $π$ has two
 distinct roots, so that we are in the setting of
 Proposition~\ref{th:tate-matrix-elkies}. %
@@ -1076,10 +1106,10 @@ On the other hand, if $π$ can only be put in the form
 $\mat{λ&ℓ^e\\0&μ}$, we see that the isogeny $\mat{1&0\\0&ℓ}$ is
 ascending, whereas all others are descending. %
 Finally, if $π$ is of the form $\mat{λ&1\\0&μ}$, then we have one
-ascending isogeny as before, however no descending isogeny is
+ascending isogeny as before, however no descending isogeny can be
 rational. %
 
-By applying the same methods to $\leg{Δ_K}{ℓ}=-1,0$, we can prove a
+By applying the same reasoning to $\leg{Δ_K}{ℓ}=-1,0$, we can prove a
 complete classification of rational isogenies. %
 This is summarized in Table~\ref{tab:periodic-table}. %
 
