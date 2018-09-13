@@ -1,6 +1,6 @@
 \documentclass{report}
 
-\usepackage[b5paper]{geometry}
+\usepackage[a4paper]{geometry}
 \usepackage[english]{babel}
 \usepackage{array}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
@@ -1670,7 +1670,7 @@ literature is devoted to computing modulo them~\cite{todo}. %
 Performing arithmetic operations modulo triangular sets incurs an
 intrinsic penalty, exponential in the number $k$ of variables, that an
 ordinary univariate representation does
-not~\cite{li+moreno+schost07}. %
+not~\cite{canny+kaltofen+yagati89,li+moreno+schost07,vanderHoeven:2004:TFT:1005285.1005327}. %
 
 To recover the quasi-optimal performance of the univariate
 representation, we may seek a \emph{change of order}%
@@ -2650,12 +2650,187 @@ system to represent the algebraic closure of a finite field. %
 
 \section{Perspectives}
 
-- lattices: work in progress, implementations?
+Despite 40 years of research, the question of computing in extensions
+of $\F_p$ is not closed yet: there is still progress to be made both
+on the practical and the theoretical side. %
 
-- FFT mul in tensor products
+\paragraph{Implementations.}
+As we have seen, the only computer algebra systems implementing a
+generic mechanism to compute in $\bar{\F}_p$ are Magma and SageMath. %
+Neither can be said to be really efficient, but the prize for the
+fastest and most feature-rich undoubtedly goes to Magma. %
 
-\paragraph{On elegance.}
+The spectrum of available algorithms is nowadays considerably larger
+than what is used in these two systems, and it would be worth
+experimenting with them with the goal of beating the current
+implementations. %
 
+With H.~Randriam, É.~Rousseau and É.~Schost, we have started
+experimenting with the Bosma--Cannon--Steel framework in the new
+computer algebra system Nemo~\cite{Fieker:2017:NCA:3087604.3087611}. %
+A reproduction of the system in Magma has already been implemented by
+É.~Rousseau\footnote{\url{https://github.com/erou/LatticesGF.jl}}, and
+we are now exploring possible ways to improve its efficiency. %
+
+Unfortunately, no single catch-all technique emerges from the theory,
+thus experiments will necessarily have to take many different
+techniques into account. %
+
+After having obtained convincing results, it will be highly desirable
+to port the techniques that worked best to SageMath. %
+This will be facilitated by the fact that Nemo and SageMath share the
+same low-level C library in Flint, which is where we are adding the
+critical parts of the algorithms we test. %
+
+\paragraph{Special families.}
+Special families of irreducible polynomials are the most promising
+option for efficiently representing $\bar{\F}_p$, and the only one
+granting uniqueness. %
+However, at the moment they have serious drawbacks that make them an
+unrealistic target for implementation. %
+For one, they are quite complex to implement: the Couveignes--Lercier
+construction, for example, requires algorithms for counting points of
+elliptic curves.%
+\footnote{Realistically, though, a naive algorithm is enough, given
+  that the Couveignes--Lercier algorithm is only practical for
+  relatively small base fields.} %
+Finally, when the base field gets relatively large, the
+Couveignes--Lercier construction becomes too costly, and must be
+replaced by Shoup's construction, which is not quasi-optimal. %
+Thus, a first goal would be to find a simple algorithm for
+constructing primary towers, that is reasonably efficient for any
+parameter. %
+
+Even with a good construction for primary towers, we then need to
+construct composita in order to deal with general extensions. %
+Our construction is reasonably simple and efficient, however it is not
+optimal when it comes to vector space isomorphisms, and thus it is not
+optimal for $\bar{\F}_p$ either. %
+A construction for composita with quasi-linear complexity would be a
+big discovery, and would likely pave the way for a larger adoption of
+special families. %
+In the meantime, our construction is by far the one with the best
+available complexity, and is simple enough that it would be worth
+experimenting with it. %
+
+A radically different approach would be to keep the decomposition of
+$\bar{\F}_p$ as a tensor product of primary towers, i.e., to represent
+elements as multivariate polynomials modulo an ideal of univariate
+polynomials. %
+We have already said that known techniques, e.g., Kronecker
+substitution, incur an exponential penalty in the number of variables,
+i.e., the number of primary factors. %
+Improving this complexity would be a major breakthrough in computer
+algebra, with consequences that reach well beyond implementing
+$\bar{\F}_p$.
+
+\paragraph{On uniqueness and elegance.}
+Uniqueness in families of polynomials is an interesting question,
+because there is a social aspect to it. %
+
+Unfortunately, there is no ``natural'' choice for a unique family of
+irreducible polynomials. %
+What come closest to a canonical definition of an algebraic closure of
+a finite field is Conway's construction of the field $\mathbf{On}_2$,
+which contains $\bar{\F}_2$ as a subfield~\cite{Conway:ONAG2000}. %
+However, as Lenstra showed~\cite{LENSTRA1977389}, computing the finite
+subfields of $\mathbf{On}_2$ is not trivial. %
+Furthermore, no satisfactory generalization of Conway's work is known
+for general $p$. %
+
+Thus even reasonably simple proposals, such as Conway polynomials
+(which are mostly unrelated to $\mathbf{On}_2$), require a certain
+dose of \emph{ad hocness}, such as a ``lexicographically
+constraint''. %
+
+Any algorithm for computing irreducible polynomials can be
+artificially turned into a deterministic one by fixing random
+choices. %
+However, the main motivation for uniqueness is data portability: i.e.,
+the possibility to run the same computation in two computer algebra
+system (two different systems, the same system but different sessions,
+or versions, ...), and obtain the same results. %
+Thus, for a unique construction of irreducible polynomials to be
+accepted, it must be simple enough that all systems can implement it
+correctly, and test it easily, and it must also be popular enough that
+all systems \emph{want to} implement it. %
+
+I am afraid that the Couveignes--Lercier construction does not fit the
+bill. %
+Shoup's construction would be acceptable, but as long as its
+advantages over Conway polynomials are not clearly visible, I suspect
+few developers will be willing to implement it. %
+
+Therefore, I am convinced that a simple enough construction, even if
+not optimal, offering advantages similar to Conway polynomials at a
+lesser cost, would be extremely valuable to the community. %
+
+\paragraph{Isomorphisms.}
+I am sure that the hole in Table~\ref{tab:ffalgos} has not gone
+unnoticed. %
+Before the reader jumps on filling it, let me tell that I do not see
+how to obtain an interesting algorithm from it. %
+
+One obvious idea would be to look for curves $E/\F_p$ with a certain
+number of points, construct some isogeny of degree $ℓ$, and use its
+kernel polynomial to define an irreducible polynomial of the wanted
+degree (maybe using elliptic periods?). %
+However, this approach would not have a better complexity than the
+Adleman--Lenstra algorithm, in the same way that the elliptic variant
+of Rains' algorithm has not a better complexity than the original
+one. %
+It would also quite probably require the use of the $ℓ$-th modular
+polynomial, since the computations involved are very similar to those
+for the \nameref{prob:expl-isog} we saw in the previous chapter; thus
+it would probably also be unpractical. %
+
+A different approach would use curves defined over number fields. %
+This is probably even more desperate, given how hard it is to find
+torsion points on them. %
+
+Coming to something concrete, now, the obvious breakthrough would be
+to find an isomorphism algorithm with subquadratic complexity. %
+Rains' algorithm comes close to it, however it requires heuristic
+hypotheses that are probably out of reach. %
+
+Less ambitiously, we may look for practical algorithms. %
+Our experiments show that (one of the variants of) Allombert's
+algorithm is by far the most practical of all; beating its performance
+using a different paradigm would be a nice challenge. %
+
+
+\paragraph{Arbitrary extensions.}
+Moving to lattices of arbitrary extensions, we have already discussed
+the combinatorial explosion that the Bosma--Cannon--Steel data
+structure suffers from. %
+I am currently interested in taking ideas from isomorphism algorithms,
+and applying them to lattices of extensions, in the hope of reducing
+the amount of information that needs to be stored. %
+
+More in detail, we have seen that all isomorphism algorithms are based
+on the principle of finding some ``(almost) uniquely defined''
+generators for the finite fields. %
+We may imagine more than this: we may hope to find a \emph{lattice of
+  uniquely defined generators} such that generators are ``compatible''
+in some way. %
+This would allow storing only the generators, one per field, and
+deduce all embeddings from them. %
+
+The analogy between isomorphism algorithms and algorithms for
+irreducible polynomials, shown in Table~\ref{tab:ffalgos}, also hints
+at the fact that these \emph{lattices of generators} would be a sort
+of ``half-way'' construction, between special families of polynomials
+and arbitrary lattices, and may potentially lead to new solutions to
+the uniqueness problem mentioned above.
+
+Limited examples of this idea are easy to produce: think for example
+of the lattice of roots of unity, defining the ``cyclotomic
+extensions'' of $\F_p$. %
+However finding a general construction capable of describing arbitrary
+extensions seems harder. %
+We are currently exploring this idea in conjunction with the
+Lenstra--Allobmert algorithm, and hope to have interesting results
+soon. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -3730,7 +3905,7 @@ $O(p^{1/6})$ quantum gates (and as many qubits!). %
 For this reason, $p$ is typically chosen so that $\log p\sim 6n$ for a
 quantum security of $2^n$ gates, although it is debated whether Tani's
 algorithm actually presents an advantage over the classical claw
-finding attack~\cite{todo}.
+finding attack.%~\cite{todo}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -3958,4 +4133,4 @@ As short as possible. Necessary?
 % LocalWords:  cyclotomic embeddings asymptotical incrementality
 % LocalWords:  surjection subfields exponentiations Lenstra SageMath
 % LocalWords:  Kummer Shoup composita monomial automorphisms
-% LocalWords:  Allombert Allombert's
+% LocalWords:  Allombert Allombert's reproducibility combinatorial
