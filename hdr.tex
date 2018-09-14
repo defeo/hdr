@@ -66,47 +66,209 @@
 
 % TODO: License
 
-\tableofcontents{}
+\tableofcontents
 \clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \section*{Preface}
+%
+% Manifesto of a \emph{full-stack number theorist}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Introduction}
 
-% If you are reading this on a computer screen, chances are that you got
-% to it by browsing the web. %
-% You probably went to a search engine, or maybe received a link via
-% email, or social media. %
-% You followed the link, landing on some scientific repository, and
-% downloaded the pdf. %
+If you are reading this on a computer screen, chances are that you got
+to it by browsing the web. %
+You probably went to a search engine, or maybe received a link via
+email, or social media. %
+You followed the link, landing on some scientific repository, and
+downloaded the pdf. %
 
-% Two to three hops, each triggering dozens of connections to search
-% servers, CDNs for static assets, targeted advertisement services, and
-% trackers of all sorts. %
-% All over HTTPS. %
+Two to three hops, each triggering dozens of connections to search
+servers, CDNs for static assets, targeted advertisement services, and
+trackers of all sorts. %
+All over HTTPS. %
 
-% In the lapse of a few seconds, your CPU has chosen some standardized
-% elliptic curves, drawn dozens of random integers, multiplied some
-% default generators by them, and sent around projective points over the
-% wire. %
-% Hell! Maybe it's even the year 2050, and, as we've all moved to
-% Siberia to escape the effects of global warming, your Megacorp branded
-% browser is now offering perfect forward secrecy through ephemeral
-% supersingular isogeny key exchange.
+In the lapse of a few seconds, your CPU has chosen some standardized
+elliptic curves, drawn dozens of random integers, multiplied some
+default generators by them, and sent around projective points over the
+wire. %
+Maybe it is even the year 2050, and, as we have all moved to Siberia
+to escape the effects of global warming, your Megacorp branded browser
+is now offering perfect forward secrecy through ephemeral
+supersingular isogeny key exchange.
 
-% Yes. \emph{Supersingular isogeny key exchange}. %
-% I know this sounds straight out of a William Gibson novel, but it
-% actually is a real thing. %
-% And you don't even need to wait for Netherlands to be under water to
-% use it: Microsoft has released a fork of OpenVPN containing it.%
-% \footnote{https://github.com/Microsoft/PQCrypto-VPN.} %
+Yes. \emph{Supersingular isogeny key exchange}. %
+Indeed, this may sound straight out of a William Gibson novel, but it
+actually is a real thing. %
+And you do not even need to wait for Netherlands to be under water to
+use it: Microsoft has released a fork of OpenVPN containing it.%
+\footnote{https://github.com/Microsoft/PQCrypto-VPN.} %
 
+The goal of this document is to make those four words sound less
+otherworldly, at least for those who have been around asymmetric
+cryptography in recent years. %
+It is not a course on arithmetic geometry, nor a complete review of
+isogeny-based cryptography, not even a monography. %
+It is more like a promenade, a stroll around topics related to
+\emph{isogeny graphs} that are dearest to my heart. %
+A journey through unexplored lands made possible by science and
+technological progress. %
+Like mathematical \emph{capitaines Nemos} we shall start our journey
+on an isolated island, an \emph{elliptic curve} surfacing out of an
+uncharted sea. %
 
-% We'll take a journey, from one lonely elliptic curve over a finite
-% field to the amazingly rich world of isogeny graphs.
+We shall start our exploration by diving in the sea. %
+We will discover nearby underwater elliptic curves, linked to our
+island by \emph{isogenies}. %
+We will enter our \emph{Nautilus}, and, equipped with an
+\emph{algebraic bathymeter}, we will dive to the sea floor, to explore
+the slopes of an underwater \emph{volcano}. %
 
-% Manifesto of a \emph{full-stack number theorist}
+Next, we shall climb to the top of the island to gain a vantage point
+and observe the seascape around us. %
+We will build observation \emph{towers} to look as far as the remotest
+islets, discovering that our tiny island is only a minuscule part of
+an immense archipelago: an \emph{isogeny graph} crisscrossed by
+isogenies of any \emph{degree}.
 
+Finally, we shall set sail to explore the archipelago, charting the
+isogeny routes that link the elliptic curves. %
+The theories of \emph{complex multiplication} and of \emph{quaternion
+  algebras} will work as a compass, indicating the direction to the
+next island. %
+However, despite our technological prowess, like seamen in a starless
+night, we will miss a fundamental tool: a telemeter to keep track of
+the distance between elliptic curves. %
+A blessing and a curse, the lack of a telemeter will let us hide
+\emph{secrets} in the isogeny graph, confident that any pirate seeking
+them will be condemned to wander aimlessly through the islands for
+centuries to come.
+
+Breaking out of the metaphors, Chapter~\ref{cha:tate} deals with
+isogenies of elliptic curves and algorithmic problems related to
+them. %
+We will introduce the \nameref{prob:expl-isog}, first studied by
+Elkies, and present some algorithms to solve it. %
+We will then focus on elliptic curves over finite fields, and on a
+specific algorithm for the explicit isogeny problem due to
+Couveignes. %
+To understand it better, we will study the \emph{Frobenius
+  endomorphism}, and see how it determines the types of isogenies
+around an elliptic curve; by looking at its action on the \emph{Tate
+  module}, we will gain a global view on the \emph{isogeny graph}. %
+Then, an \emph{effective version of \hyperref[th:tate]{Tate's isogeny
+    theorem}} will provide us with an effective way to \emph{probe the
+  depths} of the isogeny graph. %
+Armed with this tool, we will end the chapter with a generalization of
+Couveignes' algorithm, currently the algorithm with the best
+complexity for solving the explicit isogeny problem. %
+
+The effective version of Tate's theorem is only as efficient as the
+algorithms at our disposal to compute in the algebraic closure of a
+finite field. %
+In Chapter~\ref{cha:fpbar} we shall study algorithms to represent and
+compute with finite extensions of a finite field. %
+We will review algorithms to compute irreducible polynomials, then
+move to two radically different paradigms to represent the algebraic
+closure of finite fields. %
+One, based on \emph{special families of irreducible polynomials}, will
+extend some algorithms for irreducible polynomials by adding to them
+more features: \emph{compatibility}, \emph{incrementality} and
+\emph{uniqueness}. %
+The other one, based on \emph{lattices of arbitrary irreducible
+  polynomials}, will be founded on an algorithm for computing
+isomorphisms of finite fields; we shall thus review all known
+algorithms for this problem, and see how they are related to
+algorithms for irreducible polynomials. %
+
+The goal of this chapter is not only to be a review in computational
+complexity, but also to explore the practical implementation aspects
+of the presented algorithms. %
+All along the exposition, we will refer to the available
+implementations in the most popular computer algebra systems and
+libraries (Magma, SageMath, PARI/GP, Nemo, Flint, NTL, \dots), and
+highlight the implementation challenges and possible ways forward. %
+
+Finally, in Chapter~\ref{cha:crypto} we will come to the much
+anticipated isogeny-based cryptography. %
+This novel type of cryptography, pioneered by Couveignes in the
+nineties, is built on the algebraic structure of large isogeny
+graphs. %
+We will see how the theory of \emph{complex multiplication} and that
+of \emph{quaternion algebras} determine the structure of these graphs,
+and how they prove their \emph{expansion} properties. %
+We will then focus, only, on key exchange protocols based on isogenies
+graphs; we will review three proposals: Couveignes' original one based
+on \emph{ordinary graphs}, a recent twist on it, named CSIDH, based on
+\emph{supersingular trace zero graphs}, and another one based on
+generic \emph{supersingular graphs} named SIDH. %
+We will conclude the chapter by discussing security of isogeny-based
+primitives. %
+The main selling point for isogeny-based algorithms is their supposed
+resistance to quantum attacks, we shall thus review the known quantum
+algorithms for breaking them, and discuss the impact on security
+parameters. %
+
+The whole document is meant as an introduction to a research area,
+thus it purposely ignores some important topics and skips technical
+details. %
+Each chapter is accompanied by one or two research articles,
+previously appeared in peer reviewed journals and proceedings, for the
+reader interested in gaining more insights. %
+These are, for Chapter~\ref{cha:tate},
+\begin{quote}
+  Luca De Feo, Cyril Hugounenq and Jérôme Plût. %
+  ``Explicit isogenies in quadratic time in any characteristic''. %
+  \emph{LMS Journal of Computation and
+    Mathematics}~\cite{defeo2016explicit}.
+\end{quote}
+Introducing the generalization of Couveignes' algorithm. %
+
+For Chapter~\ref{cha:fpbar},
+\begin{quote}
+  Luca De Feo, Javad Doliskani and Éric Schost. %
+  ``Fast Arithmetic for the Algebraic Closure of Finite Fields''. %
+  \emph{Proceedings of the 39th International Symposium on Symbolic
+    and Algebraic Computation (ISSAC 2014)}~\cite{DeDoSc2014}.
+\end{quote}
+On realizing the algebraic closure of a finite field, and
+\begin{quote}
+  Ludovic Brieulle, Luca De Feo, Javad Doliskani, Jean-Pierre Flori
+  and Éric Schost.%
+  ``Computing Isomorphisms and Embeddings of Finite Fields''. %
+  \emph{Mathematics of Computation}~\cite{brieulle2018computing}.
+\end{quote}
+On the complexity and the practical performance of isomorphism
+algorithms for finite fields. %
+
+For Chapter~\ref{cha:crypto},
+\begin{quote}
+  Luca De Feo, David Jao and Jérôme Plût.%
+  ``Towards Quantum-Resistant Cryptosystems from Supersingular
+  Elliptic Curve Isogenies''. %
+  \emph{Journal of Mathematical Cryptology}~\cite{jao+defeo2011,defeo+jao+plut12}.
+\end{quote}
+introducing the key exchange protocol SIDH, and
+\begin{quote}
+  Luca De Feo, Jean Kieffer and Benjamin Smith. %
+  ``Towards practical key exchange from ordinary isogeny graphs''. %
+  \emph{Proceedings of AsiaCrypt 2018}~\cite{cryptoeprint:2018:485}.
+\end{quote}
+on improvements to the Couveignes--Rostovtsev--Stolbunov key exchange
+protocol. %
+
+Finally, this document also wants to serve as a snapshot of the
+current state of the research in the various areas it touches. %
+For this reason, each chapter is terminated by a section called
+``Perspectives'', pointing to interesting related research topics,
+both easy and hard.
+
+I hope that you will appreciate the topics I have selected, enjoy the
+flow of the presentation, and forgive me for omissions and
+approximations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4246,4 +4408,5 @@ As short as possible. Necessary?
 % LocalWords:  surjection subfields exponentiations Lenstra SageMath
 % LocalWords:  Kummer Shoup composita monomial automorphisms
 % LocalWords:  Allombert Allombert's reproducibility combinatorial
-% LocalWords:  quaternion automorphism
+% LocalWords:  quaternion automorphism monography Rostovtsev
+% LocalWords:  Stolbunov
