@@ -64,6 +64,11 @@
 \cfoot{\doclicenseThis}
 \lfoot{\LaTeX{} source code available at \url{https://github.com/defeo/hdr/}.}
 
+% TODO: License
+
+\tableofcontents{}
+\clearpage
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Introduction}
@@ -1029,6 +1034,7 @@ fields, studying Galois-invaraint morphisms of $T_ℓ(E)$ is the same as
 studying rational isogenies of $E$.
 
 \begin{theorem}[{Tate~\cite{Tate}}]
+  \label{th:tate}
   Let $\F_q$ be a finite field of characteristic $p$, and let $ℓ≠p$ be
   a prime. %
   Let $E,E'$ be elliptic curves defined over $\F_q$, the canonical
@@ -1492,7 +1498,7 @@ significantly the computation of endomorphism rings, but let's be
 optimistic and imagine a sci-fi scenario. %
 In the same way that Schoof's algorithm computes the trace of $π$
 modulo many small primes to find its value in $ℤ$, one may hope that
-there is some sort of ``global'' description of $π|\prod_ℓT_ℓ(E)$ that
+there is some sort of ``global'' description of $π|\prod_ℓ'T_ℓ(E)$ that
 can be reconstructed from $π|T_{ℓ'}(E)$ for many small primes $ℓ'$. %
 If this description could be computed in polynomial time, then we
 would have a polynomial time algorithm for the endomorphism ring. %
@@ -2231,7 +2237,7 @@ called \emph{transposition
   principle}~\cite{shoup99,bostan+lecerf+schost:tellegen},
 transforming an algorithm to evaluate $M_b$ into one to evaluate
 $M_b^t$ \emph{at the same cost}. %
-Said otherwise, we derive an effcient projection algorithm by
+Said otherwise, we derive an efficient projection algorithm by
 \emph{transposing} the embedding one. %
 
 In conclusion, our techniques allow to compute embeddings and
@@ -2957,7 +2963,7 @@ Writing $\a·E$ for the isomorphism class of the image of $ϕ_\a$, we
 get an action $·:\mathcal{I}(\O)×\Ell_q(\O)→\Ell_q(\O)$ of the group
 of invertible ideals of $\O$ on $\Ell_q(\O)$. %
 It is then apparent that endomorphisms of $E$ correspond to principal
-ideals in $\O$, and act trivially on $\Ell_q$. %
+ideals in $\O$, and act trivially on $\Ell_q(\O)$. %
 Recall that the \emph{class group} $\Cl(O)$ is defined as the quotient
 of $\mathcal{I}(\O)$ by the subgroup $\mathcal{P}(\O)$ of principal
 ideals; since the above action factors through $\mathcal{P}(\O)$, it
@@ -3093,25 +3099,95 @@ literature~\cite{couveignes+morain94}.
 
 \section{Quaternion algebras}
 
-% TODO
-%
-% We have already seen that any supersingular curve over $\bar{\F}_p$ is isomorphic to
-% a curve defined over $\F_{p^2}$, and that all isogenies are defined
-% over $\bar{\F}_{p^2}$, thus the 
-% Thus, there is only a finite number of
-% There are
-% \begin{equation*}
-%   \lfloor\frac{p}{12}\rfloor +
-%   \begin{cases}
-%     0 &\text{if $p=1\mod 12$}\\
-%     1 &\text{if $p=5,7\mod 12$}\\
-%     2 &\text{if $p=11\mod 12$}
-%   \end{cases}
-% \end{equation*}
-% isomorphism classes of supersingular elliptic curves over
-% $\bar\F_p$;
+Supersingular curves, outside those with trace zero, are not covered
+by the theory of complex multiplication. %
+For them, indeed, the Frobenius endomorphism acts like an element of
+$ℤ$, instead of acting like a \emph{complex multiplier}. %
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+Supersingular curves are defined by the fact that multiplication by
+$p$ is purely inseparable, i.e., $E[p]$ is trivial. %
+This implies that the curve $E^{(p^2)}$ is isomorphic to $E$, and thus
+that both are isomorphic to a curve defined over $\F_{p^2}$. %
+
+If $E/\F_{p^2}$ is a supersingular curve, its Frobenius endomorphism
+must satisfy $π^2-tπ+p^2=0$, with $t$ a multiple of $p$; hence, by
+Hasse's theorem, $t∈\{0,±p,±2p\}$. %
+The cases $t∈\{0,±p\}$ only happen for a very limited number of curves
+with $j$-invariant $0$ or $1728$; we are thus mostly interested in the
+case $t=±2p$, i.e., $π=±p$. %
+In this case, $π|T_ℓ(E)$ acts like a scalar matrix for any $ℓ≠p$,
+hence, by \hyperref[th:tate]{Tate's theorem}, $\End(E)⊗ℚ_ℓ$ is
+isomorphic to the full space of $2×2$ matrices over $ℚ_ℓ$. %
+With a little more work, we can prove that $\End(E)⊗ℚ$ is isomorphic
+to the quaternion algebra $B_{p,∞}$ ramified at $p$ and at infinity. %
+
+With more effort, we can prove that $\End(E)$ is isomorphic to a
+\emph{maximal} order $\O⊂B_{p,∞}$. %
+Like the CM case, isogenies are in correspondence with (left) ideals
+of $\O$. %
+Unlike the CM case, $B_{p,∞}$ has more than one maximal order, and
+there is no concept of \emph{depth}, thus no ascending, descending or
+horizontal isogenies. %
+
+More precisely, let $\a⊂Β_{p,∞}$ a lattice, the left order of $\a$ is
+the ring $\O(\a)=\{x∈B_{p,∞}\mid x\a⊂\a\}$. %
+Two lattices $\a,\frak b$ are said to be right isomorphic if
+$\a=\frak b x$ for some $x∈B_{p,∞}$. %
+If $\O⊂B_{p,∞}$ is an order, $\a$ is called a left ideal of $\O$ if
+$\O⊂\O(\a)$; the \emph{left class set} $\Cl(\O)$ is the set of right
+ideal classes of left ideals of $\O$. %
+The order $\#\Cl(\O)$ only depends on the quaternion algebra, and is
+called the \emph{class number} of $B_{p,∞}$. %
+Analogous definitions can be given by swapping left and right; we
+refer to~\cite[Chapter~42]{Voight2018} for more properties and
+definitions. %
+
+Like in the CM case, the set $\Cl(\O)$ is in bijection with the vertex
+set of a supersingular graph. %
+
+\begin{theorem}
+  Let $B_{p,∞}$ be the quaternion algebra ramified at $p$ and
+  infinity, and let $\O⊂B_{p,∞}$ be a maximal order. %
+  Let $E_0/F_{p^2}$ be a supersingular elliptic curve with
+  $\End(E_0)≃\O$. %
+  \begin{enumerate}
+  \item The number of isomorphism classes of supersingular elliptic
+    curves is equal to the class number of $B_{p,∞}$.
+  \item There is a one-to-one correspondence $\a↦\a·E_0$ between
+    $\Cl(\O)$ and the set of isomorphism classes of supersingular
+    elliptic curves, such that $\End(\a·E_0)$ is isomorphic to the
+    right order of $\a$.
+  \end{enumerate}
+\end{theorem}
+
+This theorem can be turned in an equivalence of categories,
+see~\cite[Theorem~45]{kohel}. %
+Thanks to the Eichler mass formula, we obtain the exact size of the
+isogeny class. %
+
+\begin{corollary}
+  The number of isomorphism classes of supersingular elliptic curves
+  is equal to
+  \begin{equation*}
+    \left\lfloor\frac{p}{12}\right\rfloor +
+    \begin{cases}
+      0 &\text{if $p=1\mod 12$,}\\
+      1 &\text{if $p=5,7\mod 12$,}\\
+      2 &\text{if $p=11\mod 12$.}
+    \end{cases}
+  \end{equation*}
+\end{corollary}
+
+We thus have a bound on the size of a supersingular isogeny graph over
+$\F_{p^2}$. %
+Since the Frobenius acts like a scalar, all isogenies are defined over
+$\F_{p^2}$, hence supersingular $ℓ$-isogeny graphs are necessarily
+$ℓ+1$-regular. %
+In the next section we will learn that the supersingular $ℓ$-isogeny
+graph has a unique connected component. %
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Expander graphs from isogenies}
 
@@ -3211,11 +3287,17 @@ $(\Cl(\O),S)$; an example is shown in Figure~\ref{fig:cayley}. %
 
 The theorem is readily generalized to trace zero supersingular
 curves. %
-But supersingular curves also provide us with a different
-construction, not based on a Cayley graph. %
-An example is shown in Figure~\ref{fig:sup-97-2-3}. %
 
-\begin{theorem}[{Pizer~\cite{pizer1,pizer2}}]
+A radically different construction of expander graphs is given by
+graphs of supersingular curves \emph{defined over $\F_{p^2}$} with
+$ℓ$-isogenies, for a \emph{single} prime $ℓ≠p$. %
+Two examples of such graphs are shown in
+Figure~\ref{fig:sup-97-2-3}. %
+This construction is related to LPS
+graphs~\cite{LubPS,Lub,cryptoeprint:2018:593}, but is not isomorphic
+to a Cayley graph. %
+
+\begin{theorem}[{Mestre~\cite{mestre86}, Pizer~\cite{pizer1,pizer2}}]
   \label{th:ss-exp}
   Let $\ell≠p$ be two primes. %
   The $ℓ$-isogeny graph of supersingular curves in $\bar\F_p$, is
@@ -4133,7 +4215,7 @@ As short as possible. Necessary?
 - projective space, projective varieties,
 - elliptic curves, torsion
 - ordinary, supersingular (how many?)
-- endomorphism ring, quadratic fields
+- endomorphism ring, quadratic fields, quaternion alebras
 - function fields, algebraic maps, frobenius, degree
 - differentials? pullbacks?
 - modular polynomial?
@@ -4164,3 +4246,4 @@ As short as possible. Necessary?
 % LocalWords:  surjection subfields exponentiations Lenstra SageMath
 % LocalWords:  Kummer Shoup composita monomial automorphisms
 % LocalWords:  Allombert Allombert's reproducibility combinatorial
+% LocalWords:  quaternion automorphism
