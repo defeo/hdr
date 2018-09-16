@@ -1216,30 +1216,38 @@ By explicitly computing this representation we obtain an
 \emph{effective version of Tate's theorem}; one that lets us, in
 Kohel's words, ``probe the depths''. %
 
+In what follows, we let $K=ℚ(π)$ be an imaginary quadratic number
+field where we identify the Frobenius $π$ to one root of $x^2-tx+q$;
+we let $Δ_π=t^2-4q$ be the \emph{discriminant} of $ℤ[π]$, and $Δ_K$
+the \emph{fundamental discriminant} of $\O_K$. %
+In particular, $[\O_K:ℤ[π]]=\sqrt{Δ_π/Δ_K}$. %
+
+\begin{proposition}[{Miret \emph{et al.}~\cite{MIRET200867},
+    Hugounenq~\cite{hugounenq:tel-01635463}}]
+  \label{th:tate-matrix-gen}
+  Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
+  endomorphism~$π$, and let $h=v_ℓ(\sqrt{Δ_π/Δ_K})>0$. %
+  There exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
+  conjugate, over~$ℤ_ℓ$, to a matrix $M=\mat{a&ℓ^e\\c&d}$ with
+  $ad∧ℓ=1$, $a=d\pmod{ℓ^h}$, and $v_ℓ(Δ_π)\mid cℓ^e$. %
+  In particular, $M=\mat{a&ℓ^e\\0&a}\pmod{ℓ^h}$. %
+  
+  Moreover, $h=v_ℓ([\O_K:ℤ[π]])$ is the height of the graph of $E$:
+  if~$E$ lies at the surface, otherwise $h - e$~is the depth of~$E$.
+\end{proposition}
+
+In the case where $π^2-tπ+q$ splits in $ℤ_ℓ$, i.e., when
+$\leg{Δ_K}{ℓ}=1$, we have a more precise statement.
+
 \begin{proposition}[{D., Hugounenq, Plût~\cite{defeo2016explicit}}]
   \label{th:tate-matrix-elkies}
   Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
   endomorphism~$π$. %
   Assume that the characteristic polynomial of~$π$ has two distinct
-  roots~$λ, μ$ in~$ℤ_ℓ$, and let $h=v_ℓ(λ-μ)$. %
+  roots~$λ, μ$ in~$ℤ_ℓ$, and let $h=v_ℓ(λ-μ)=v_ℓ(\sqrt{Δ_π/Δ_K})$. %
   Then there exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
   conjugate, over~$ℤ_ℓ$, to the matrix $\mat{λ&ℓ^e\\0&μ}$. %
-  
-  Moreover, $h=v_ℓ([\End(E):ℤ[π]])$ is the height of the graph of $E$:
-  if~$E$ lies at the surface, $e = h$ and $π|T_ℓ(E)$ is also conjugate
-  over~$ℤ_ℓ$ to $\mat{λ&0\\0&μ}$; otherwise $h - e$~is the depth
-  of~$E$.
 \end{proposition}
-
-% \begin{proposition}
-%   \label{th:tate-matrix-atkin}
-%   TODO: similar statement for Atkin and ramified primes. Conjecture:
-%   about the same, but only true modulo $ℓ^h$. See Cyril's thesis.
-% \end{proposition}
-
-Note that the number of roots of the characteristic polynomial of $π$
-in $ℤ_ℓ$ is conveniently computed as $1+\leg{Δ_K}{ℓ}$, where $Δ_K$ is
-the \emph{fundamental discriminant} of the polynomial. %
 
 We thus have an effective \emph{bathymeter} to navigate the isogeny
 graph: it is indeed sufficient to compute $π|T_ℓ(E)$ up to precision
