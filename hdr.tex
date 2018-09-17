@@ -3069,7 +3069,7 @@ many distinct $ℓ$-isogeny graphs are there?
 
 The first question is easy to answer for the Atkin and the ramified
 case: we know indeed that isogeny volcanoes have height
-$h=v_ℓ(Δ_π/Δ_K)/2$, therefore an Atkin volcano contains
+$h=v_ℓ(\sqrt{Δ_π/Δ_K})$, therefore an Atkin volcano contains
 $((ℓ+1)^{h+1}-1)/ℓ$ curves, whereas a ramified volcano contains
 $2(ℓ+1)^h$ curves. %
 In order to determine the size of the crater in the Elkies case, and
@@ -3090,7 +3090,7 @@ primitive, known by the name of CSIDH. %
 Finally, by pushing the study of supersingular graphs further, we will
 get to the primitive known as SIDH, the building block of
 SIKE~\cite{SIKE}, one of the candidates to the NIST call for
-post-quantum public key encryption. %
+post-quantum public key encryption~\cite{NIST2016}. %
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -3115,7 +3115,7 @@ nevertheless use the name for the special case of trace zero curves.
 We now present a group action on the set of all curves having complex
 multiplication by a fixed order $\O$. %
 We will denote by $\Ell_q(\O)$ the set of isomorphism classes over
-$\bar{\F}_q$ of ordinary curves with complex multiplication by $\O$,
+$\bar{\F}_q$ of curves with complex multiplication by $\O$,
 and we will assume that it is non-empty. %
 
 Let $\a$ be an invertible ideal in $\End(E)≃\O$, of norm coprime to
@@ -3276,7 +3276,7 @@ literature~\cite{couveignes+morain94}.
 Supersingular curves, outside those with trace zero, are not covered
 by the theory of complex multiplication. %
 For them, indeed, the Frobenius endomorphism acts like an element of
-$ℤ$, instead of acting like a \emph{complex multiplier}. %
+$ℤ$, instead of acting like a ``complex multiplier''. %
 
 Supersingular curves are defined by the fact that multiplication by
 $p$ is purely inseparable, i.e., $E[p]$ is trivial. %
@@ -3303,11 +3303,11 @@ Unlike the CM case, $B_{p,∞}$ has more than one maximal order, and
 there is no concept of \emph{depth}, thus no ascending, descending or
 horizontal isogenies. %
 
-More precisely, let $\a⊂Β_{p,∞}$ a lattice, the left order of $\a$ is
+More precisely, let $\a⊂Β_{p,∞}$ a lattice, the \emph{left order} of $\a$ is
 the ring $\O(\a)=\{x∈B_{p,∞}\mid x\a⊂\a\}$. %
-Two lattices $\a,\frak b$ are said to be right isomorphic if
+Two lattices $\a,\frak b$ are said to be \emph{right isomorphic} if
 $\a=\frak b x$ for some $x∈B_{p,∞}$. %
-If $\O⊂B_{p,∞}$ is an order, $\a$ is called a left ideal of $\O$ if
+If $\O⊂B_{p,∞}$ is an order, $\a$ is called a \emph{left ideal} of $\O$ if
 $\O⊂\O(\a)$; the \emph{left class set} $\Cl(\O)$ is the set of right
 ideal classes of left ideals of $\O$. %
 The order $\#\Cl(\O)$ only depends on the quaternion algebra, and is
@@ -3334,7 +3334,7 @@ set of a supersingular graph. %
   \end{enumerate}
 \end{theorem}
 
-This theorem can be turned in an equivalence of categories,
+This theorem can be turned into an equivalence of categories,
 see~\cite[Theorem~45]{kohel}. %
 Thanks to the Eichler mass formula, we obtain the exact size of the
 isogeny class. %
@@ -3356,7 +3356,7 @@ We thus have a bound on the size of a supersingular isogeny graph over
 $\F_{p^2}$. %
 Since the Frobenius acts like a scalar, all isogenies are defined over
 $\F_{p^2}$, hence supersingular $ℓ$-isogeny graphs are necessarily
-$ℓ+1$-regular. %
+$(ℓ+1)$-regular. %
 In the next section we will learn that the supersingular $ℓ$-isogeny
 graph has a unique connected component. %
 
@@ -3434,7 +3434,7 @@ Cayley graphs~\cite{LubPS,chung1989diameters,Goldreich2011}. %
   implies $s^{-1}∈S$). %
   The \emph{Cayley graph} of $(G,S)$ is the undirected graph whose
   vertices are the elements of $G$, and such that there is an edge
-  between $g$ and $sg$ whenever $s∈S$. %
+  between $g$ and $sg$ if and only if $s∈S$. %
 \end{definition}
 
 In our case, we will construct a Cayley graph by ``gluing many isogeny
@@ -3528,8 +3528,9 @@ Both of these isogeny graphs will be used in the next sections to
 build key exchange protocols. %
 For reasons that will be apparent soon, there will only be a mild
 connection between the expansions properties of the graphs and the
-security of the protocols; the theorems will mostly serve as a
-blueprint for devising good cryptosystems. %
+security of the protocols: the expansion theorems will mostly serve as
+a blueprint for devising good cryptosystems, but will have no provable
+impact. %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
@@ -3568,7 +3569,7 @@ The analogy with classic group-based Diffie--Hellman is evident.
 
 Couveignes suggested to use $\Ell_q(\O)$ as an instance of a HHS: the
 system parameters are a starting curve $E/\F_q$, and the associated
-class group $\Cl(\O)$; the secrets keys are random elements of
+class group $\Cl(\O)$; the secret keys are random elements of
 $\Cl(\O)$, and public keys are $j$-invariants of curves in
 $\Ell_q(\O)$. %
 However, given a generic element of $\Cl(\O)$, the best
@@ -3745,7 +3746,7 @@ The best technique at our disposal consists in taking random curves
 $E/\F_q$ and computing $\#E$, until a suitable one is found. %
 
 In~\cite{cryptoeprint:2018:485} we go at great length optimizing the
-search for a good curve, using \emph{modular curves}, and an
+search for a good curve, using \emph{modular curves} and an
 \emph{early abort} variation on the SEA point counting algorithm. %
 Despite all our efforts, the search is still extremely hard, and the
 best curve we could find in 17,000 CPU-hours satisfies the constraints
@@ -3792,7 +3793,7 @@ the 128 bits security level in only 0.1 seconds. %
 Now, I would love to add~\cite{cryptoeprint:2018:383} to the appendix,
 but it seems that the rules do not allow me to. %
 I strongly encourage the reader to look for the paper online and read
-it for herself. %
+it for themselves. %
 
 In the next section we are going to present another key exchange
 protocol based on supersingular isogeny graphs. %
@@ -4027,7 +4028,7 @@ typical isogeny class\footnote{Including the isogeny class of trace
 The best generic attack against the \nameref{prob:hiwp} problem is a
 Pollard-rho style algorithm, performing random walks from $E$ and $E'$
 until a collision is found~\cite{GHS}. %
-Its average complexity is $O(\sqrt{h(O_k)})$, thus $O(q^{1/4})$ for a
+Its average complexity is $O(\sqrt{h(\O_K)})$, thus $O(q^{1/4})$ for a
 typical isogeny class. %
 This justifies choosing a prime $q$ of $4n$ bits, for a security level
 of $2^n$, and this is indeed what we do
@@ -4224,7 +4225,7 @@ Instead, we have zero-knowledge identification schemes for
 SIDH~\cite{defeo+jao+plut12,cryptoeprint:2017:186,cryptoeprint:2016:1154}
 and, very recently, CSIDH~\cite{cryptoeprint:2018:824}. %
 From these, we can derive signature schemes via the Fiat--Shamir
-transform, but this are either slow, or have large signatures, or
+transform, but these are either slow, or have large signatures, or
 both. %
 It is currently an open problem to build a compact and efficient
 signature scheme from isogeny primitives. %
@@ -4250,11 +4251,12 @@ have been broken~\cite{tillich2008collisions,quis}. %
 
 As another example, groupoids of maximal orders of quaternion albebras
 are isomorphic to supersingular isogeny graphs; however it has been
-shown that the equivalent of the~\ref{prob:iwp} in these groupoids can
-be solved in (classical) polynomial time~\cite{kohel2014quaternion}.%
-\footnote{The complex multiplication equivalent to this result would
-  be solving the discrete logarithm problem of $\Cl(\O)$ in classical
-  polynomial time.} %
+shown that the equivalent of the~\nameref{prob:iwp} in these groupoids
+can be solved in (classical) polynomial
+time~\cite{kohel2014quaternion}.%
+\footnote{To put this result into perspective, note that the its
+  equivalent for the CM case would amount to solve the discrete
+  logarithm problem of $\Cl(\O)$ in classical polynomial time!} %
 We do not know how to use this result to break SIDH, however it has
 been employed in various security
 reductions~\cite{galbraithsecurity,cryptoeprint:2017:962}.
