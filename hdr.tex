@@ -124,7 +124,7 @@ We shall start our exploration by diving in the sea. %
 We will discover nearby underwater elliptic curves, linked to our
 island by \emph{isogenies}. %
 We will enter our \emph{Nautilus}, and, equipped with an
-\emph{algebraic bathymeter}, we will dive to the sea floor, to explore
+\emph{algebraic bathymeter}, we will dive to the sea floor to explore
 the slopes of an underwater \emph{volcano}. %
 
 Next, we shall climb to the top of the island to gain a vantage point
@@ -144,7 +144,7 @@ night, we will miss a fundamental tool: a telemeter to keep track of
 the distance between elliptic curves. %
 A blessing and a curse, the lack of a telemeter will let us hide
 \emph{secrets} in the isogeny graph, confident that any pirate seeking
-them will be condemned to wander aimlessly through the islands for
+them will be condemned to wander aimlessly through the archipelago for
 centuries to come.
 
 Breaking out of the metaphors, Chapter~\ref{cha:tate} deals with
@@ -186,7 +186,7 @@ algorithms for irreducible polynomials. %
 
 The goal of this chapter is not only to be a review in computational
 complexity, but also to explore the practical implementation aspects
-of the presented algorithms. %
+of the algorithms. %
 All along the exposition, we will refer to the available
 implementations in the most popular computer algebra systems and
 libraries (Magma, SageMath, PARI/GP, Nemo, Flint, NTL, \dots), and
@@ -316,9 +316,8 @@ determines the ``folding'' of the isogeny graph. %
 Even knowing the structure of an isogeny graph, it is not always easy
 to navigate it. %
 An \emph{effective version} of Tate's theorem will provide us with a
-tool to ``probe the depth'' of a curve inside an isogeny graph;
-appropriately, we shall call this tool a \emph{bathymeter}. %
-Armed with our brand new bathymeter, we will conclude the chapter by
+tool to ``probe the depth'' of a curve inside an isogeny graph. %
+Armed with our brand new tool, we will conclude the chapter by
 presenting the algorithm with the best known complexity to compute an
 isogeny between two given elliptic curves. %
 
@@ -511,7 +510,7 @@ It turns out there is a pretty natural way to define one.
 
 Since $ϕ$ is separable, $ϕ^*$ is an isomorphism of vector spaces of
 dimension one. %
-I.e., if $ϕ$ is not normalized, then it is only ``off'' by a
+Said otherwise, if $ϕ$ is not normalized, then it is only ``off'' by a
 (non-zero) constant $ϕ^*(ω_{E'})=cω_E$, and we can easily normalize
 $ϕ$ by a change of variables. %
 This also shows that, for fixed $E$ and $\ker ϕ$, the normalized
@@ -538,7 +537,7 @@ prove the following useful facts. %
   \end{enumerate}
 \end{corollary}
 
-Slightly less more work is required to prove the following,
+Slightly more work is required to prove the following,
 fundamental, theorem (the difficulty comes essentially from the
 inseparable part, see~\cite[III.6.1]{silverman:elliptic} for a
 detailed proof).
@@ -562,7 +561,7 @@ detailed proof).
 
 Note that, since $[m]^*(ω)=mω$, if $ϕ$ is normalized $\hat{ϕ}$ almost
 never is. %
-The computational counterpart to the kernel-isogeny correspondence, is
+The computational counterpart to the kernel-isogeny correspondence is
 given by Vélu's much celebrated formulas. %
 
 \begin{proposition}[{Vélu~\cite{velu71}}]
@@ -595,7 +594,7 @@ We say that an isogeny $ϕ:E→ E'$ is \emph{defined over $k$}, or
 Galois group of $\bar{k}/k$. %
 This is equivalent to $ϕ$ being defined by rational maps with
 coefficients in $k$, and implies\footnote{The converse is only true up
-  to \emph{twist}} that $\ker ϕ$ is stable under $\Gal(\bar{k}/k)$. %
+  to \emph{twist}.} that $\ker ϕ$ is stable under $\Gal(\bar{k}/k)$. %
 It implies that $E'$ is defined over $k$, but the converse is not
 true. %
 
@@ -729,7 +728,7 @@ becomes harder, even for finite fields. %
 
 The \emph{modular polynomial} helps solve this problem. %
 Assuming $ℓ$ is prime, the $ℓ$-th modular polynomial, denoted by
-$Φ_ℓ(x,y)$, it is a bivariate polynomial with coefficients in $ℤ$,
+$Φ_ℓ(x,y)$, is a bivariate polynomial with coefficients in $ℤ$,
 symmetric in $x$ and $y$, of degree $ℓ+1$ in each variable, with the
 following property: two elliptic curves $E,E'$ are $ℓ$-isogenous if
 and only if $Φ_ℓ(j(E),j(E'))=Φ_ℓ(j(E'),j(E))=0$. %
@@ -827,7 +826,7 @@ one group into the other, and \emph{interpolate} the isogeny. %
 If the guess was right, the computed isogeny can be verified through
 Vélu's formulas; if not a new guess is made. %
 Given that the $p^k$-torsion groups are cyclic, at most $φ(p^k)$
-different guess must be made. %
+different guesses must be made. %
 
 Despite its simplicity, Couveignes' algorithm requires some heavy
 computer algebra artillery to achieve a decent complexity, but with
@@ -844,7 +843,7 @@ algorithm~\cite{satoh00,kedlaya01,kedlaya04,lauder04,10.2307/24522768},
 interest in solutions to the explicit isogeny problem limited to such
 small characteristic started to fade. %
 Later, Lercier and Sirvent~\cite{lercier+sirvent08} explained how to
-extend Elkies' algorithm to finite fields of any characteristic, by
+extend Elkies' algorithm to finite fields of any characteristic by
 lifting the explicit isogeny problem to a $p$-adic field. %
 Their algorithm only has a logarithmic dependency in the
 characteristic, and gracefully degrades to Elkies' algorithm when $p$
@@ -1170,7 +1169,7 @@ the isogeny graph of $E/\bar{ℚ}$. %
 However, there is only a finite number of curves defined over $\F_q$,
 and not all isogenies will be $\F_q$-rational. %
 Thus, the infinite tree of $\PGL_2(ℚ_ℓ)$ must somehow ``fold'' to fit
-inside $\F_q$? %
+inside $\F_q$. %
 
 For example, if $E/\F_q$ is a supersingular curve, we shall see in
 Chapter~\ref{cha:crypto} that its isogeny graph ``folds'' to a finite
@@ -1216,24 +1215,25 @@ By explicitly computing this representation we obtain an
 \emph{effective version of Tate's theorem}; one that lets us, in
 Kohel's words, ``probe the depths''. %
 
-In what follows, we let $K=ℚ(π)$ be an imaginary quadratic number
-field where we identify the Frobenius $π$ to one root of $x^2-tx+q$;
-we let $Δ_π=t^2-4q$ be the \emph{discriminant} of $ℤ[π]$, and $Δ_K$
-the \emph{fundamental discriminant} of $\O_K$. %
+We again let $K=ℚ(π)$ be an imaginary quadratic number field where we
+identify the Frobenius $π$ to one root of $x^2-tx+q$; we let
+$Δ_π=t^2-4q$ be the \emph{discriminant} of $ℤ[π]$, and $Δ_K$ the
+\emph{fundamental discriminant} of $\O_K$. %
 In particular, $[\O_K:ℤ[π]]=\sqrt{Δ_π/Δ_K}$. %
 
 \begin{proposition}[{Miret \emph{et al.}~\cite{MIRET200867},
     Hugounenq~\cite{hugounenq:tel-01635463}}]
   \label{th:tate-matrix-gen}
   Let~$E/\F_q$ be an ordinary elliptic curve with Frobenius
-  endomorphism~$π$, and let $h=v_ℓ(\sqrt{Δ_π/Δ_K})>0$. %
+  endomorphism~$π$, and let $h=v_ℓ(\sqrt{Δ_π/Δ_K})$. %
   There exists a unique $e ∈ \{0,h\}$ such that $π|T_ℓ(E)$~is
   conjugate, over~$ℤ_ℓ$, to a matrix $M=\mat{a&ℓ^e\\c&d}$ with
   $ad∧ℓ=1$, $a=d\pmod{ℓ^h}$, and $v_ℓ(Δ_π) ≤ v_ℓ(c) + e$. %
   In particular, $M=\mat{a&ℓ^e\\0&a}\pmod{ℓ^h}$. %
   
-  Moreover, $h=v_ℓ([\O_K:ℤ[π]])$ is the height of the graph of $E$:
-  if~$E$ lies at the surface, otherwise $h - e$~is the depth of~$E$.
+  Moreover, $h=v_ℓ([\O_K:ℤ[π]])$ is the height of the graph of $E$;
+  if~$E$ lies at the surface, then $e=h$, otherwise $h - e$~is the
+  depth of~$E$.
 \end{proposition}
 
 In the case where $π^2-tπ+q$ splits in $ℤ_ℓ$, i.e., when
@@ -1311,10 +1311,10 @@ This is summarized in Table~\ref{tab:periodic-table}. %
     \multicolumn{3}{c|}{} & \multicolumn{3}{c}{Isogeny types}\\
     \multicolumn{3}{c|}{} & $→$ & $↑$ & $↓$\\
     \hline
-    $\leg{Δ_π}{ℓ}≠0$ & $ℓ\nmid[\O_K:\O]]$ & $ℓ\nmid[\O:ℤ[π]]$ & $1+\leg{Δ_K}{ℓ}$& &\\
+    $v_ℓ(Δ_π/Δ_K)=0$ & $ℓ\nmid[\O_K:\O]]$ & $ℓ\nmid[\O:ℤ[π]]$ & $1+\leg{Δ_K}{ℓ}$& &\\
     \hline
     & $ℓ\nmid[\O_K:\O]]$ & $ℓ\mid[\O:ℤ[π]]$ &$1+\leg{Δ_K}{ℓ}$& &$ℓ-\leg{Δ_K}{ℓ}$\\
-    $\leg{Δ_π}{ℓ}=0$ & $ℓ\mid[\O_K:\O]]$ & $ℓ\mid[\O:ℤ[π]]$ &  &$1$&$ℓ$\\
+    $v_ℓ(Δ_π/Δ_K)>1$ & $ℓ\mid[\O_K:\O]]$ & $ℓ\mid[\O:ℤ[π]]$ &  &$1$&$ℓ$\\
     & $ℓ\mid[\O_K:\O]]$ & $ℓ\nmid[\O:ℤ[π]]$ & &$1$& 
   \end{tabular}
   \caption{Number and types of $ℓ$-isogenies, according to splitting
@@ -1327,16 +1327,16 @@ look like $ℓ$-regular complete trees of bounded height, with $ℓ$
 descending isogenies at every level except the floor. %
 However, the surface has a more varied structure:
 \begin{itemize}
-\item[(0)] If $\leg{Δ_K}{ℓ}=-1$, there are no horizontal isogenies: the
-  isogeny graph is just a complete tree of degree $ℓ+1$ at the surface
-  and degree $ℓ$ at all other levels. %
+\item[(0)] If $\leg{Δ_K}{ℓ}=-1$, there are no horizontal isogenies:
+  the isogeny graph is just a complete tree of degree $ℓ+1$ (in the
+  graph theoretic sense) at each level but the last. %
   We call this the \emph{Atkin case}, as it is an extension of the
   Atkin case in the SEA point counting algorithm.
 \item[(1)] If $\leg{Δ_K}{ℓ}=0$, there is exactly one horizontal
   isogeny $ϕ:E→E'$ at the surface. %
   Since $E'$ also has one horizontal isogeny, it necessarily is
   $\hat{ϕ}$, so the surface only contains two elliptic curves, each
-  the root of an $ℓ$-regular complete tree. %
+  the root of a complete tree. %
   We call this the \emph{ramified case}.
 \item[(2)] The case $\leg{Δ_K}{ℓ}=1$, is arguably the most interesting
   one. %
@@ -1351,7 +1351,7 @@ However, the surface has a more varied structure:
   cycle, independent of the starting point, and dual to one another. %
 
   Below each curve of the surface there are $ℓ-1$ curves, each the
-  root of an $ℓ$-regular tree. %
+  root of a complete tree. %
   We call this the \emph{Elkies case}, again by extension of point
   counting. %
 \end{itemize}
@@ -1435,7 +1435,7 @@ $r$, say $ℓ=2$. %
 However, a naive algorithm based on this would have a much worse
 complexity than Couveignes' original. %
 Indeed $E[p^k]$ is cyclic, thus there are only $φ(p^k)$ possible
-morphisms $E[p^k]→E'[p^k]$ to test; if each tests takes $p^{k+O(1)}$
+morphisms $E[p^k]→E'[p^k]$ to test; if each test takes $p^{k+O(1)}$
 operations, the whole algorithm takes $p^{2k+O(1)}=r^2p^{O(1)}$. %
 On the other hand, $E[ℓ^k]$ is of rank $2$, thus
 $\Hom(E[ℓ^k],E'[ℓ^k])$ is isomorphic to $\GL_2(ℤ/ℓ^kℤ)$ and has size
@@ -1484,11 +1484,10 @@ Although I must admit that the title cheats in two ways:
 \end{itemize}
 
 In my defense, artificial as Problem~\ref{prob:expl-isog-2} may seem,
-ours is the only algorithm the achieves quadratic complexity in the
+ours is the only algorithm that achieves quadratic complexity in the
 isogeny degree, beating even Lercier and Sirvent's algorithm. %
 Although its impact is purely theoretical, the techniques employed are
-of independent interest\footnote{As, I hope, I managed to convince the
-  reader so far.} and may find useful applications in other
+of independent interest and may find useful applications in other
 contexts. %
 
 Concerning the second problem, the difficulty comes from the fact that
@@ -1503,7 +1502,7 @@ do exist, although they are ``rare''.%
 
 Before we close this chapter, let us summarize the steps of our
 ``ℓ-adic Couveignes' algorithm''. %
-Note that to run the algorithm we need an Elkies prime $ℓ$ for $E$. %
+Note that, to run the algorithm, we need an Elkies prime $ℓ$ for $E$. %
 It would be easy to find one if we knew the order of $E$, but this
 would be cheating, since one of the goals of Couveignes' algorithm is
 to help count the points of $E$. %
@@ -1572,7 +1571,7 @@ the best algorithm for this~\cite{sutherland10:modpol}, a
 multi-modular approach exploiting the structure of isogeny volcanoes,
 only achieves quasi-optimal storage, but still requires $\tildO(ℓ^3)$
 binary operations. %
-Even better, one could compute $Φ_ℓ(j(E), X)$ directly, as Sutherland
+Even better, one could compute $Φ_ℓ(j(E), y)$ directly, as Sutherland
 does~\cite{sutherland2013evaluation}, however even for this problem we
 only have an algorithm with quasi-optimal storage, but the same cubic
 complexity. %
@@ -1580,9 +1579,10 @@ complexity. %
 The same problem is felt, even more strongly, for curves of higher
 genus. %
 Indeed, even for the case of genus two curves, modular polynomials are
-% TODO: cite something: Marco? Andreas? Drew?
-so unwieldy that they do not allow improving upon the basic
-Schoof-Pila algorithm~\cite{pila90}. %
+so
+unwieldy~\cite{gaudry2000algorithmique,dupont2006moyenne,Broeker2009,milio_2015,milio:hal-01520262}
+that they do not allow improving upon the basic Schoof-Pila
+algorithm~\cite{pila90}. %
 
 To the present day, the only known techniques to enumerate isogenous
 curves of a fixed degree are based on factoring the division
@@ -1594,7 +1594,6 @@ SEA algorithm using Tate's isogeny theorem alone, however it is
 certainly interesting to try to combine it with other ideas, in the
 hope of getting a breakthrough in point counting, especially for
 higher genus curves.
-% TODO: cite higher genus graphs, Benjamin
 
 \paragraph{Couveignes' algorithm.}
 Moving to Problem~\ref{prob:expl-isog-2} and to the ``$ℓ$-adic
@@ -1608,7 +1607,7 @@ restriction to Elkies primes in the algorithm; hopefully having it run
 in quadratic time for any elliptic curve. %
 To be more precise, our paper uses~\cite{Shparlinski2014} to show that
 one can find an Elkies prime $ℓ=O(\log q)$ for almost all finite
-fields $\F_q$ and curve $E/\F_q$. %
+fields $\F_q$ and curves $E/\F_q$. %
 In his PhD thesis~\cite{hugounenq:tel-01635463}, C.~Hugounenq
 partially solves this problem by giving a quadratic time algorithm
 when $\leg{Δ_π}{ℓ}=-1$, i.e. when $ℓ$ is an Atkin prime and the
@@ -4333,7 +4332,17 @@ to be reached. %
 Concerning SIDH, it is interesting that the only recent result on
 generic attacks shows that SIDH is potentially \emph{more} secure than
 originally thought~\cite{cryptoeprint:2018:313}. %
-However, none of the known attacks exploits the ``auxiliary''
+It is known that an efficient algorithm to compute endomorphism rings
+of supersingular curves would also break
+SIDH~\cite{galbraithsecurity}, however the currently best algorithms
+for this problem~\cite{citeulike:10772345,kohel} have much worse
+complexity than other attacks on SIDH. %
+It would be extremely interesting to look for sub-exponential
+algorithms for computing endomorphism rings of supersingular curves,
+or alternatively produce convincing arguments for why this is not
+possible.
+
+However, none of the known attacks on SIDH exploits the ``auxiliary''
 information transmitted by the protocol in the form of torsion
 points. %
 Some work in this direction has been done by
