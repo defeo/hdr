@@ -1787,7 +1787,7 @@ Three different approaches are known. %
 The first one, and the simplest, consists in taking random monic
 polynomials until an irreducible one is found. %
 The density of irreducible polynomials of a given degree $n$ is
-$\sim 1/n$, thus this approach will lead to an irreducible polynomials
+$\sim 1/n$, thus this approach will lead to an irreducible polynomial
 in $O(n)$ tries on average. %
 Testing irreducibility of random polynomials can be done in
 $\tildO(n\log p)$ operations on average, using Ben-Or's
@@ -1843,10 +1843,10 @@ has an exponential dependency in $\log p$.
 
 In many contexts, such as when manipulating geometrical objects, it is
 natural to work in many extensions of $\F_p$ at once. %
-More generally, the algebraic closure $\bar{\F}_p$ is the (infinite)
-reunion of all the finite extensions of $\F_p$; it is thus sufficient
-to represent all finite extensions of $\F_p$ in a \emph{compatible}
-way in order to represent $\bar{\F}_p$.
+We may push this to the limit: the algebraic closure $\bar{\F}_p$ is
+the (infinite) reunion of all the finite extensions of $\F_p$; it is
+thus sufficient to represent all finite extensions of $\F_p$ in a
+\emph{compatible} way in order to represent $\bar{\F}_p$.
 
 A natural choice to represent a collection of extensions of $\F_p$ is
 as a \emph{towers of extensions}: for example, $\F_{p^2}$ may be
@@ -1854,13 +1854,13 @@ represented as $\F_{p}[X_1]/f_1(X_1)$, then $\F_{p^6}$ as
 $\F_{p^2}[X_2]/f_2(X_2)$, and so on. %
 In general, the polynomial $f_i$ will have coefficients over the
 previous field. %
-\emph{Flattening} the tower, we may rewrite the system of extension
+``Flattening'' the tower, we may rewrite the system of extension
 fields as a quotient
 \begin{equation}
   \label{eq:triangular}
   \F_p[X_1,\dots,X_k] /
   \left|\begin{array}{l}
-          X_n^{n_k} - \tilde{f}_k(X_1,\dots,X_k),\\
+          X_k^{n_k} - \tilde{f}_k(X_1,\dots,X_k),\\
           \qquad\vdots\\
           X_1^{n_1} - \tilde{f}_1(X_1),
         \end{array}\right.
@@ -1906,35 +1906,38 @@ On the other hand, the tower of extensions paradigm is not adapted to
 all situations: for example, a field $\F_{p^{mn}}$ with $m∧n=1$ can be
 seen both as an extension of $\F_{p^n}$ and as one of $\F_{p^m}$. %
 
-Ideally, we would like to have a way to represent \emph{arbitrary
-  collections} of extensions of $\F_p$, in such a way that any
-extension is represented in optimal space (i.e., $O(n)$ coefficients
-for an element of an extension of degree $n$), and that arithmetic
-operations are performed in quasi-optimal time (i.e., $\tildO(n)$
-operations). %
-We would also like to have \emph{compatibility}: for any pair of
-extensions $\F_p⊂k⊂K$, we want to take an element $x∈k$ and represent
-it as an element of $K$, and, reciprocally, we want to be able to test
-whether an element $y∈K$ belongs to $k$, and in that case compute its
-representation as an element of the smaller field. %
+Ideally, we would like to have a \emph{data structure} to represent
+\emph{arbitrary collections} of extensions of $\F_p$, in such a way
+that any extension is represented in optimal space (i.e., $O(n)$
+coefficients for an element of an extension of degree $n$), and that
+arithmetic operations are performed in quasi-optimal time (i.e.,
+$\tildO(n)$ operations). %
+To this end, we now name several useful properties that we are going
+to seek.
 
-Finally, we want to compute all the data associated with this
-representation (e.g., the irreducible polynomials) efficiently, and,
-possibly, \emph{incrementally}, i.e., we want to be able to add more
-field extensions to the collection without having to recompute
-everything. %
-The last requirement is necessary to represent $\bar{\F}_p$
-effectively. %
+\begin{description}
+\item[\emph{Compatibility:}] For any pair of extensions $\F_p⊂k⊂K$,
+  there is an algorithm that takes an element $x∈k$ and outputs its
+  representation as an element of $K$. Reciprocally, there is an
+  algorithm that tests whether an element $y∈K$ belongs to $k$, and in
+  that case outputs its representation as an element of the smaller
+  field. %
+\item[\emph{Incrementality:}] The data associated with an extension
+  (e.g., its irreducible polynomial, change-of-basis matrices, \dots)
+  must be computable efficiently and \emph{incrementally}, i.e.,
+  adding a new field extensions to the collection does not require
+  recomputing data for all extensions already represented. %
+\item[\emph{Uniqueness:}] Any extension is determined by an
+  irreducible polynomial whose definition only depends on the
+  characteristic $p$ and the degree of the extension. %
+\end{description}
 
-Another often sought requirement is \emph{uniqueness}, i.e., that any
-field extension is determined by an irreducible polynomial whose
-definition only depends on the characteristic $p$ and the degree of
-the extension, thus providing a \emph{standard} way to represent
-$\bar{\F}_p$. %
-More advanced features, such as computing normal bases, vector space
-isomorphisms, evaluating Frobenius morphisms, etc., are also
-(terribly) interesting, but they are out of the scope of this
-document. %
+Note that both incrementality and uniqueness are optional, however the
+former is necessary to represent the algebraic closure effectively,
+and the latter provides a \emph{standard} way to represent it. %
+More advanced features, such as computing normal bases, evaluating
+Frobenius morphisms, etc., are also (terribly) interesting, but they
+are out of the scope of this document. %
 
 The reader may be surprised to learn that no such representation is
 known! %
@@ -2124,8 +2127,9 @@ $\F_p$ as the infinite field
 $\F_p^{(ℓ)} = \bigcup_{i\ge 0}\F_{p^{ℓ^i}}$.
 
 To represent $\F_p^{(ℓ)}$, we want to define an infinite family of
-irreducible polynomials of degree $ℓ^i$ for $i>0$, and algorithms for
-the corresponding embeddings. %
+irreducible polynomials of degree $ℓ^i$ for $i>0$, and algorithms to
+evaluate the corresponding embeddings
+$\F_{p^{ℓ^{i-1}}}⊂\F_{p^{ℓ^{i}}}$. %
 
 Here is a simple example: suppose that $ℓ$ divides $p-1$, then the
 $ℓ$-th power map is not injective on $\F_p$, and thus $\F_p$ contains
@@ -2191,7 +2195,7 @@ define irreducible polynomials $X^ℓ-η$ whenever $η$ is an $ℓ$-adic
 non-residue. %
 Does this ring a bell?
 
-We saw at the beginning of the last chapter that an isogeny $ϕ:E→E'$
+We saw at the beginning of this document that an isogeny $ϕ:E→E'$
 is a degree $ℓ$ map, surjective on $E'(\bar{\F}_p)$, but not on
 $E'(\F_p)$ whenever $\ker ϕ⊂E(\F_p)$. %
 If we choose an elliptic curve $E/\F_p$ such that $π|E[ℓ]$ acts like
@@ -2206,8 +2210,8 @@ kernel, using Vélu's formulas, and find a point $P∈E'(\F_p)$ not in
 $ϕ(E(\F_p))$. %
 The irreducible polynomial defining $\F_{p^ℓ}$ is then deduced from
 the fiber $ϕ^{-1}(P)$, for example by projecting onto the $x$-axis. %
-This is easily generalized to arbitrary primary extensions
-$\F_{p^{ℓ^i}}$. %
+By iterating the process, we easily generalize to arbitrary primary
+extensions $\F_{p^{ℓ^i}}$. %
 
 The drawback of this technique is the high cost involved in the search
 for a suitable elliptic curve: if $ℓ<p^{1/4}$ about one curve in $ℓ$
@@ -2228,7 +2232,7 @@ Although this trick salvages the asymptotic complexity of the method,
 I am not sure anyone has ever dared implement it. %
 
 So far, we have only mentioned the construction of the irreducible
-polynomials, without specifying how we compute embeddings. %
+polynomials, without talking about compatibility. %
 In the work ``Fast Algorithms for $ℓ$-adic Towers over Finite Fields''
 written with J.~Doliskani and É.~Schost~\cite{DeDoSc13}, we provide
 algorithms to efficiently evaluate embeddings, both for Shoup's and
@@ -2238,7 +2242,7 @@ The techniques are relatively simple generalizations of the Kummer
 case, leveraging fast algorithms for polynomial composition and
 decomposition, and we will not detail them. %
 Suffice to say that they are very efficient, both asymptotically and
-in practice, and achieve quasi-optimal embeddings for the
+in practice, and achieve compatibility in quasi-linear time for the
 Couveignes--Lercier construction. %
 Experiments in~\cite{DeDoSc13} show that they beat other techniques by
 orders of magnitude, in particular when constructing a primary tower
@@ -2343,7 +2347,7 @@ where $X_i^*$ are defined by
     0 &\text{otherwise,}
   \end{cases}
 \end{equation*}
-where $\Tr$ denotes the trace from $\F_{p^m}$ to $\F_p$. %
+$\Tr$ denoting the trace from $\F_{p^m}$ to $\F_p$. %
 Given the polynomial $f$, conversions between the monomial and the
 dual basis can be performed very efficiently at a cost of $\tildO(n)$
 operations, thus we allow ourselves to switch freely between the two
@@ -2478,7 +2482,8 @@ extended version~\cite{ffisom-long} of~\cite{brieulle2018computing}. %
 The algorithms for embedding description are very similar to those to
 compute irreducible polynomials. %
 For simplicity, we shall only discuss here isomorphisms, i.e.,
-$k≃K$; we refer to the appendix for the general problem. %
+$k≃K$. %
+We refer to the appendix for the general problem. %
 
 There essentially exist two big families: the ``Kummer family'', a
 generalization of the ``Kummer case'' for primary towers discussed in
@@ -2524,7 +2529,7 @@ according to these categories. %
 
 We will now describe Kummer-type algorithms first, then
 cyclotomic-type. %
-The common principle for all of them, is to compute a special element,
+The common principle for all of them is to compute a special element,
 say in $\F_{p^n}$, uniquely defined up to automorphisms of
 $\F_{p^n}$. %
 
@@ -2532,13 +2537,13 @@ $\F_{p^n}$. %
 In~\cite{LenstraJr91}, Lenstra proved that the isomorphism problem can
 be solved in deterministic polynomial time, without focusing much on
 getting the best possible complexity. %
-In~\cite{Allombert02}, Allombert modified Lenstra's algorithm to
+In~\cite{Allombert02,Allombert02-rev}, Allombert modified Lenstra's algorithm to
 obtain an efficient one; in doing so, he replaced some routines with
 polynomial factorization, thus dropping determinism. %
 In~\cite{brieulle2018computing}, we give several variants of
 Allombert's algorithm that are more efficient, both asymptotically and
 in practice. %
-Allombert has included in PARI/GP both his variant and ours. %
+Allombert has included in PARI/GP both his variants and ours. %
 
 The Lenstra--Allombert algorithm is similar in spirit to Shoup's
 algorithm for computing irreducible
@@ -2647,7 +2652,7 @@ unity; then the roots of the cyclotomic polynomial $Φ_ℓ$ generate both
 $k$ and $K$ over $\F_p$. %
 However, the roots of $Φ_ℓ$ are only uniquely defined (up to
 isomorphism) if $Φ_ℓ$ is irreducible over $\F_p$, i.e., if $n=φ(ℓ)$. %
-In order to uniquely define an element of $k,K$, Rains' suggested
+In order to uniquely define an element of $k,K$ in general, Rains suggested
 using \emph{Gaussian periods}, i.e., traces of roots of unity in a
 number field. %
 
@@ -2767,7 +2772,7 @@ algebraic closure $\bar{\F}_p$. %
 We saw how special families of polynomials can be used to represent
 finite extensions of $\F_p$ in a \emph{compatible},
 \emph{incremental}, and possibly \emph{unique} way, and thus can also
-be used the whole $\bar{\F}_p$. %
+be used to represent the whole $\bar{\F}_p$. %
 At the opposite end of the spectrum we have the possibility of
 representing finite extensions of $\F_p$ by arbitrary polynomials, and
 provide compatibility through a general purpose embedding algorithm
@@ -2818,26 +2823,26 @@ unity are in $\F_{5^2}$. %
 
 The \emph{tour de force} by Bosma, Cannon and Steel consists in
 showing that it is always possible to construct compatible lattices,
-if one constructs the lattice carefully. %
+if one does so carefully. %
 They define six conditions that the lattice must satisfy in order to
 ensure compatibility; we paraphrase them below:
-\begin{enumerate}
-\item \emph{Unicity:} For every pair of fields $k,K$ in the lattice,
+\begin{description}
+\item[\emph{Uniqueness:}] For every pair of fields $k,K$ in the lattice,
   there is at most one embedding $k\hookrightarrow K$.
-\item \emph{Reflexivity:} Every field is embedded in itself through
+\item[\emph{Reflexivity:}] Every field is embedded in itself through
   the identity morphism.
-\item \emph{Prime subfield:} $\F_p$ is embedded in every field via the
+\item[\emph{Prime subfield:}] $\F_p$ is embedded in every field via the
   canonical embedding.
-\item \emph{Invertibility:} If $k≃K$, then the embeddings
+\item[\emph{Invertibility:}] If $k≃K$, then the embeddings
   $k\hookrightarrow K$ and $K\hookrightarrow k$ are inverse to one
   another.
-\item \emph{Transitivity:} For any triple $k⊂K⊂L$ the embeddings
+\item[\emph{Transitivity:}] For any triple $k⊂K⊂L$ the embeddings
   $ϕ_{k,K}:k→K$, $ϕ_{K,L}:K→L$, $ϕ_{k,L}:k→L$, are compatible, i.e.,
   $ϕ_{k,L}=ϕ_{K,L}∘ϕ_{k,K}$.
-\item \emph{Intersection:} For any triple $k,K,L$ such that $k⊂L$ and
+\item[\emph{Intersection:}] For any triple $k,K,L$ such that $k⊂L$ and
   $K⊂L$, the subfield $k∩K$ is also in the lattice and is compatibly
   embedded in $k,K,L$.
-\end{enumerate}
+\end{description}
 
 By maintaining these properties throughout a session, Magma is able to
 ensure compatibility regardless of the number of finite fields created
@@ -2957,7 +2962,7 @@ system (two different systems, the same system but different sessions,
 or versions, ...), and obtain the same results. %
 Thus, for a unique construction of irreducible polynomials to be
 accepted, it must be simple enough that all systems can implement it
-correctly, and test it easily, and it must also be popular enough that
+correctly, test it easily, and it must also be popular enough that
 all systems \emph{want to} implement it. %
 
 I am afraid that the Couveignes--Lercier construction does not fit the
@@ -4426,4 +4431,4 @@ are another obvious target for research.
 % LocalWords:  Kummer Shoup composita monomial automorphisms
 % LocalWords:  Allombert Allombert's reproducibility combinatorial
 % LocalWords:  quaternion automorphism monography Rostovtsev
-% LocalWords:  Stolbunov
+% LocalWords:  Stolbunov computable
