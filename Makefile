@@ -4,7 +4,7 @@ hdr.pdf: hdr.tex preamble.tex hdr.bib
 cv.pdf: cv.tex
 	pdflatex cv.tex
 
-hdr++.pdf: 
+hdr++.pdf: hdr.pdf
 	pdftk hdr.pdf \
 		../Two_curves_on_a_volcano/explicit-isogenies.pdf \
 		../ff_compositum/embed.pdf \
