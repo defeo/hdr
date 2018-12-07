@@ -37,6 +37,11 @@
   edgecomp/.style={thick, lightgray}
 }
 
+\usepackage{algorithm,stmaryrd} % explicit_isogenies
+\usepackage{bm,mdwlist} % ff_compositum
+\usepackage{enumitem,subcaption} % ffisom
+\usepackage[ruled, vlined, linesnumbered, algo2e]{algorithm2e} % crs
+
 % theorem environments
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
@@ -48,6 +53,7 @@
 \newtheorem{example}[theorem]{Example}
 \newtheorem{problem}{Problem}
 \newtheorem{conjecture}{Conjecture}
+\newtheorem{remark}{Remark}
 
 \include{preamble}
 
@@ -4386,26 +4392,6 @@ Given the intended use of these protocols, proofs of quantum security
 are another obvious target for research.
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \appendix
-
-% \chapter{Finite fields and elliptic curves}
-
-% As short as possible. Necessary?
-
-% - projective space, projective varieties,
-% - elliptic curves, torsion
-% - ordinary, supersingular (how many?)
-% - endomorphism ring, quadratic fields, quaternion alebras
-% - function fields, algebraic maps, frobenius, degree
-% - differentials? pullbacks?
-% - modular polynomial?
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -4413,6 +4399,18 @@ are another obvious target for research.
 \clearpage
 \bibliographystyle{plain}
 \bibliography{hdr}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+
+{\include{explicit_isogenies/explicit_isogenies}}
+{\include{ff_compositum/ff_compositum}}
+{\include{ffisom/ffisom}}
+{\include{sidh/sidh}}
+{\include{crs/crs}}
 
 \end{document}
 
