@@ -1,0 +1,3 @@
+[submodule "isogenies.bib"]
+	path = isogenies.bib
+	url = git://github.com/defeo/isogenies.bib.git
