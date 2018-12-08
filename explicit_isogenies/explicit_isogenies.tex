@@ -169,7 +169,7 @@ multiplications, we often say that we have computed $ψ$ whenever we
 have computed $h$, and conversely.
 
 This paper focuses on the explicit isogeny problem for \emph{ordinary}
-elliptic curves over finite fields. A famous theorem by Tate~\cite{tate1966endomorphisms} states
+elliptic curves over finite fields. A famous theorem by Tate~\cite{Tate} states
 that two curves are isogenous over a finite field if and only if they
 have the same cardinality over that field. The explicit isogeny
 problem stated here appears naturally in the Schoof-Elkies-Atkin point
@@ -183,7 +183,7 @@ Many algorithms
 have been suggested over the years to solve the explicit isogeny
 problem. Early algorithms were due to Atkin~\cite{atkin91} and
 Charlap, Coley and
-Robbins~\cite{charlap1991enumeration}. Elkies'~\cite{elkies98,Bostan}
+Robbins~\cite{charlap1991enumeration}. Elkies'~\cite{elkies98,bostan+morain+salvy+schost08}
 was the first algorithm targeted to finite fields (of large enough
 characteristic). Assuming $r$ is prime, its complexity is dominated by
 the computation of the modular polynomial $\Phi_r$, which is an object
@@ -408,7 +408,7 @@ terms of operations in $\F_q$.
 \item multiplication and Euclidean division of polynomials of degree
   at most $d$ in $F_i[x]$ using $O(\MM(dℓ^i))$ operations, via
   Kronecker's
-  substitution, as already done in e.g.~\cite{vzgathen+shoup92};
+  substitution, as already done in e.g.~\cite{vzgathen+shoup92:journal};
 \item computing a $(\#F_j)$-th power in $F_i$ using $O(ℓ^{i-1}\MM(ℓ))$
   operations, after a precomputation that uses $O(ℓ\MM(ℓ)\log(q))$
   operations.
@@ -1128,7 +1128,7 @@ be known yet, we need to be able to compute the height $h$ of the
 volcano, the shape of its crater, as well as the shortest $ℓ$-isogeny
 chain from~$E$ to the crater.
 
-The algorithms of Fouquet and Morain~\cite{volcano} compute the height
+The algorithms of Fouquet and Morain~\cite{fouquet+morain02} compute the height
 $h$ and find a curve $E_{\max}$ on the crater at the cost of $O(ℓh^2)$
 factorizations of the $ℓ$-th modular polynomial $Φ_ℓ$. The polynomial
 $Φ_ℓ$ is computed using $\tildO(ℓ³\log(ℓ))$ boolean operations, then
@@ -1260,7 +1260,7 @@ By definition of~$k$, we know that~$ℓ^{2k} ∈ O(rℓ^2)$.
 \label{sub:complexity}
 
 By a result of Shparlinski and
-Sutherland~\cite[Theorem~1]{shparlinski2014distribution},
+Sutherland~\cite[Theorem~1]{Shparlinski2014},
 for almost all primes $q$ and curves $E/\F_q$, for $L≥\log(q)^ε$ for any $ε>0$,
 asymptotically half of the primes $ℓ ≤ L$ are Elkies primes.
 Hence, we expect to have enough small Elkies primes to apply our algorithm.
@@ -1275,7 +1275,7 @@ The following theorem states a worst case bound depending on~$r$ and~$q$ alone.
 \begin{proof}
   Given a curve $E$, we search for the smallest Elkies prime
   satisfying the conditions of Proposition~\ref{prop:full-complexity}.
-  As a special case of~\cite[Theorem~1]{shparlinski2014distribution},
+  As a special case of~\cite[Theorem~1]{Shparlinski2014},
   we can take $L∈O(\log(q))$ such that the product of all
   Elkies primes $ℓ≤L$ exceeds $Ω(√q)$.
 On the other hand, we discard those primes~$ℓ ≤ L$ for which

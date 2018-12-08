@@ -346,7 +346,7 @@ in the complexity estimates.
 
 Multiplying and dividing polynomials of degree at most $s$ in $k[Z]$
 is done in $O(\MM(sm))$ operations in $\F_q$, using Kronecker's
-substitution~\cite{moenck76,kaltofen87,vzGG,von1992computing,harvey09}.
+substitution~\cite{moenck76,kaltofen87,vzGG,vzgathen+shoup92:journal,harvey09}.
 Multiplication in $k[Z]/h(Z)$ is also done in $O(\MM(sm))$ operations using the
 technique in~\cite{pascal+schost06}. By the same techniques, gcds of
 degree $m$ polynomials in $k[Z]$ and inverses in $k[Z]/h(Z)$ are
@@ -389,7 +389,7 @@ would yield a complexity of, e.g., $O(d\log(q))$ multiplications in $Q$
 for the first expression.
 
 To do better, we use a recursive approach that goes back
-to~\cite{von1992computing}, with further ideas borrowed from~\cite{shoup94,kaltofen+shoup97}.
+to~\cite{vzgathen+shoup92:journal}, with further ideas borrowed from~\cite{shoup94,kaltofen+shoup97}.
 For $i \ge 1$, define integers $A_i, B_i$ as follows
 \begin{equation*}
   q^i = A_ic + B_i, \quad 0\le B_i < c.
@@ -402,7 +402,7 @@ interested in $\sigma_d,\tau_d$ and $\mu_d$, using an addition chain
 for $d$, we are left to perform $O(\log(d))$ steps as above.
 
 To perform these operations, we will make a heavy use of a technique
-originating in~\cite{von1992computing}. In its simplest form, it
+originating in~\cite{vzgathen+shoup92:journal}. In its simplest form, it
 amounts to the following: if $Q=\F_q[X]/f(X)$, for some polynomial $f$
 in $\F_q[X]$, and $\beta$ is in $Q$, we can compute $\beta^{q}$ by
 means of the modular composition $\beta(\xi)$, where $\xi = x^{q}$ and
@@ -650,7 +650,7 @@ to factor some special polynomials in $k[Z]$: we are interested in
 finding one factor of a polynomial that splits into factors of the
 same, known, degree. This problem is known as \emph{equal degree
   factorization} (EDF), and the best generic algorithm for it is the
-Cantor--Zassenhaus method~\cite{cantor1981,von1992computing}, which
+Cantor--Zassenhaus method~\cite{cantor1981,vzgathen+shoup92:journal}, which
 runs in $O(\MM(sm)(dm\log(q) + \log(sm)))$ operations in
 $\F_q$~\cite[Th.~14.9]{vzGG}, where $s$ is the degree of the
 polynomial to factor, and $d$ is the degree of the factors.
@@ -1275,7 +1275,7 @@ O(\MM(r^2)\log(r) + \MM(r)\log(q))
   The values $\sigma(a),\dots,\sigma^{r-1}(a)$ can be computed by
   binary powering using $O(r\MM(r)\log(q))$. %
   We can do slightly better using the iterated Frobenius technique of
-  von~zur~Gathen and Shoup~\cite[Algorithm~3.1]{von1992computing} (see
+  von~zur~Gathen and Shoup~\cite[Algorithm~3.1]{vzgathen+shoup92:journal} (see
   also~\cite[Ch.~14.7]{vzGG}), which costs of
   $O(\MM(r^2)\log(r) + \MM(r)\log(q))$ operations. %
   The final reduction modulo $h$ costs $O(r\MM(r)\log(r))$ operations,

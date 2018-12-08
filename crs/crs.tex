@@ -366,7 +366,7 @@ between them (again up to isomorphism).
 %Because of the dual isogeny theorem, isogeny graphs are typically
 %considered undirected.  %% BS: removed this sentence because we never use it.
 The use of isogeny graphs for algorithmic applications 
-goes back to Mestre and Oesterlé~\cite{Mestre},
+goes back to Mestre and Oesterlé~\cite{mestre86},
 followed notably by Kohel~\cite{kohel},
 and has been continued by many
 authors~\cite{Gal,fouquet+morain02,GHS,MiretMSTV06,jao+miller+venkatesan09}.
@@ -421,7 +421,7 @@ using $j$-invariants in $\F_q$ for vertices in the
 $\F_q$-graph.\footnote{%
     The situation is much more complicated for supersingular graphs,
     because the curve and its twist are in the same component
-    of the graph; see~\cite[\S2]{DelfsG16} for details.
+    of the graph; see~\cite[\S2]{Delfs2016} for details.
 }
 This is not just a mathematical convenience:
 we will see in \S\ref{sec:keyex} below 
@@ -814,7 +814,7 @@ this is the main practical contribution of our work.
 	%$K\gets$ Kernel of the $\ell$-isogeny from $E$ to some $E_1$ with $j(E_1) = j_1$ \label{line:kernel}\;
     \label{line:kernel}
     $K\gets \algstyle{KernelPolynomial}(\algstyle{Isogeny}(E,j_1,\ell))$ 
-    \tcp*{e.g.~BMSS algorithm~\cite{BMSS08}}
+    \tcp*{e.g.~BMSS algorithm~\cite{bostan+morain+salvy+schost08}}
     %
 	$Q\gets$ a nonzero point in $K$ %\;
     \tcp*{e.g. $(x,y)\in E(\F_q[x,y]/(y^2-f_E(x),K(x)))$}
@@ -942,7 +942,7 @@ or alternative, lower-degree modular polynomials
 with minimal adaptation to the algorithms.
 In practice, $\Phi_\ell$ is precomputed and stored:
 several publicly available databases exist
-(see~\cite{Echidna} and~\cite{SutherlandDatabase,BrokerLS12,BruinierOS16}, for example).
+(see~\cite{Echidna} and~\cite{SutherlandDatabase,sutherland10:modpol,BruinierOS16}, for example).
 
 Given a $j$-invariant $j(E)$,
 we can compute its two neighbours in the $\ell$-isogeny graph
@@ -969,7 +969,7 @@ In Algorithm~\ref{alg:ElkiesFirstStep}
 we choose one of the two candidates for $\phi_{\frak s}$ arbitrarily,
 and compute its kernel polynomial.
 This costs $\softO(\ell)$ $\F_q$-operations
-using the Bostan--Morain--Salvy--Schost algorithm~\cite{BMSS08}
+using the Bostan--Morain--Salvy--Schost algorithm~\cite{bostan+morain+salvy+schost08}
 with asymptotically fast polynomial arithmetic.
 We then compute an element $Q$ of $\ker\phi_\frak{s}$
 over an extension of $\F_q$ of degree at most $\frac{\ell-1}{2}$,
@@ -1053,7 +1053,7 @@ to use Vélu steps when we can, and Elkies steps for some other primes.
 In practice, Algorithm~\ref{alg:VéluStep} can be improved
 by using elliptic curve models with more efficient arithmetic.
 In our implementation (see \S\ref{sec:exp}),
-we used $x$-only arithmetic on Montgomery models~\cite{Montgomery87,CostelloSmith2017},
+we used $x$-only arithmetic on Montgomery models~\cite{montgomery,CostelloSmith2017},
 which also have convenient Vélu formul\ae~\cite{CostelloH17,Renes2018}.
 %On the other hand, the Weierstrass model is classical and universal, 
 %and is usually the considered model in the literature
@@ -2145,7 +2145,7 @@ Julia packages\footnote{The main code is available at
   \url{https://github.com/defeo/hhs-keyex/}, and the additional
   dependencies at \url{https://github.com/defeo/EllipticCurves.jl/}
   and \url{https://github.com/defeo/ClassPolynomials.jl/}.}, built
-upon the computer algebra package Nemo~\cite{nemo}.
+upon the computer algebra package Nemo~\cite{Fieker:2017:NCA:3087604.3087611}.
 Experiments were conducted
 using Julia 0.6 and Nemo 0.7.3 on Linux, with an Intel Core i7-5600U cpu at 2.60GHz.
 

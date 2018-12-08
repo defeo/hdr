@@ -263,7 +263,7 @@ introducing the key exchange protocol SIDH, and
 \begin{quote}
   Luca De Feo, Jean Kieffer and Benjamin Smith. %
   ``Towards practical key exchange from ordinary isogeny graphs''. %
-  \emph{Proceedings of AsiaCrypt 2018}~\cite{cryptoeprint:2018:485}.
+  \emph{Proceedings of AsiaCrypt 2018}~\cite{10.1007/978-3-030-03332-3_14}.
 \end{quote}
 on improvements to the Couveignes--Rostovtsev--Stolbunov key exchange
 protocol. %
@@ -3710,7 +3710,7 @@ Is it possible to do better? %
 One idea that comes to mind is to use Vélu's formulas instead. %
 This idea was explored in ``Towards practical key exchange from
 ordinary isogeny graphs'', written with J.~Kieffer and
-B.~Smith~\cite{cryptoeprint:2018:485}, and included in the appendix to
+B.~Smith~\cite{10.1007/978-3-030-03332-3_14}, and included in the appendix to
 this document. %
 Suppose, for example, that $π|E[ℓ]$ acts like $\mat{1&0\\0&μ}$, with
 $μ≠1$. %
@@ -3754,7 +3754,7 @@ finding a curve $E/\F_q$ with a specific trace $t$. %
 The best technique at our disposal consists in taking random curves
 $E/\F_q$ and computing $\#E$, until a suitable one is found. %
 
-In~\cite{cryptoeprint:2018:485} we go at great length optimizing the
+In~\cite{10.1007/978-3-030-03332-3_14} we go at great length optimizing the
 search for a good curve, using \emph{modular curves} and an
 \emph{early abort} variation on the SEA point counting algorithm. %
 Despite all our efforts, the search is still extremely hard, and the
@@ -3789,7 +3789,7 @@ either $ℤ[\sqrt{-p}]$ or $ℤ[(1+\sqrt{-p})/2]$. %
 For such a curve, every prime such that $\leg{-4p}{ℓ}=1$ is an Elkies
 prime, with eigenvalues equal to $±\sqrt{-p}$.
 
-In~\cite{cryptoeprint:2018:383}, Castryck, Lange, Martindale, Panny
+In~\cite{csidh}, Castryck, Lange, Martindale, Panny
 and Renes present CSIDH\footnote{Pronounced ``sea-side''.}: a variant
 of the Couveignes--Rostovtsev--Stolbunov system where all isogenies
 can be computed using Vélu's formulas. %
@@ -3799,7 +3799,7 @@ $π|E[ℓ_i]=\mat{1&0\\0&-1}$ for all $ℓ_i$. %
 By cleverly optimizing computations, they achieve a key-exchange at
 the 128 bits security level in only 0.1 seconds. %
 
-Now, I would love to add~\cite{cryptoeprint:2018:383} to the appendix,
+Now, I would love to add~\cite{csidh} to the appendix,
 but it seems that the rules do not allow me to. %
 I strongly encourage the reader to look for the paper online and read
 it for themselves. %
@@ -4041,8 +4041,8 @@ Its average complexity is $O(\sqrt{h(\O_K)})$, thus $O(q^{1/4})$ for a
 typical isogeny class. %
 This justifies choosing a prime $q$ of $4n$ bits, for a security level
 of $2^n$, and this is indeed what we do
-in~\cite{cryptoeprint:2018:485} and what CSIDH
-does~\cite{cryptoeprint:2018:383}.
+in~\cite{10.1007/978-3-030-03332-3_14} and what CSIDH
+does~\cite{csidh}.
 
 However, we must also ensure that the key space covers the whole
 $\Ell_q(\O_K)$, possibly approaching the uniform distribution. %
@@ -4058,7 +4058,7 @@ apply Theorem~\ref{th:ord-exp}. %
 We may as well live with it, changing our security assumptions to take
 into account the biased distributions given by random walks in graphs
 that are not known to be expanders, as it is done
-in~\cite{cryptoeprint:2018:485}. %
+in~\cite{10.1007/978-3-030-03332-3_14}. %
 
 \paragraph{Security of SIDH.}
 Things are quite different in SIDH. %
@@ -4188,7 +4188,7 @@ The actual constant depends on the variant of Kuperberg's algorithm,
 and various parameters such as available quantum memory; its exact
 value is currently debated, but it appears that taking $\log q$
 somewhere between $512$ and $1024$ bits grants a security of $2^{64}$
-quantum gates~\cite{cryptoeprint:2018:383,cryptoeprint:2018:485,BS18}.
+quantum gates~\cite{csidh,10.1007/978-3-030-03332-3_14,BS18}.
 
 For SIDH, on the other hand, there is no group action%
 \footnote{Outside of the subgraph of $\F_p$-rational curves, but the
@@ -4326,7 +4326,7 @@ Note that, while $p$ must grow like $O(n^2)$ due to Kuperberg's
 algorithm, the key space is only forced to grow at a much slower rate
 of $O(n)$, the best available attacks being the same claw finding
 algorithms used against SIDH. %
-While the authors of~\cite{cryptoeprint:2018:383} have the key-space
+While the authors of~\cite{csidh} have the key-space
 grow at the same rate as the prime $p$, it is more convenient for
 signatures to have a smaller key space~\cite{cryptoeprint:2018:824}. %
 This of course leads to a probability distribution on $\Ell_q(\O)$
@@ -4351,7 +4351,7 @@ originally thought~\cite{cryptoeprint:2018:313}. %
 It is known that an efficient algorithm to compute endomorphism rings
 of supersingular curves would also break
 SIDH~\cite{galbraithsecurity}, however the currently best algorithms
-for this problem~\cite{citeulike:10772345,kohel} have much worse
+for this problem~\cite{cervino04,kohel} have much worse
 complexity than other attacks on SIDH. %
 It would be extremely interesting to look for sub-exponential
 algorithms for computing endomorphism rings of supersingular curves,
