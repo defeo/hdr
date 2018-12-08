@@ -8,6 +8,9 @@
 \usepackage[type={CC},modifier={by-nc-sa},imagemodifier={-eu},version={4.0},imagewidth=5em]{doclicense}
 \usepackage{fancyhdr}
 
+\usepackage[style=alphabetic,refsegment=chapter,maxnames=20]{biblatex}
+\bibliography{isogenies_bib/isogenies,hdr}
+
 \usepackage{algorithmic}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -37,6 +40,7 @@
   edgecomp/.style={thick, lightgray}
 }
 
+%% Used by included papers
 \usepackage{algorithm,stmaryrd} % explicit_isogenies
 \usepackage{bm,mdwlist} % ff_compositum
 \usepackage{enumitem,subcaption} % ffisom
@@ -4396,21 +4400,23 @@ are another obvious target for research.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\clearpage
-\bibliographystyle{plain}
-\bibliography{isogenies.bib/isogenies,hdr,sidh/refs,crs/refs,explicit_isogenies/refs,ffisom/refs,ff_compositum/refs}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \appendix
 
-{\include{explicit_isogenies/explicit_isogenies}}
-{\include{ff_compositum/ff_compositum}}
-{\include{ffisom/ffisom}}
-{\include{sidh/sidh}}
-{\include{crs/crs}}
+\defbibheading{subbib}[References]{\section{#1}}
+\def\article#1{{
+  \include{#1}
+  \printbibliography[segment=\therefsegment,heading=subbib]
+}}
+
+\article{explicit_isogenies/explicit_isogenies}
+\article{ff_compositum/ff_compositum}
+\article{ffisom/ffisom}
+\article{sidh/sidh}
+\article{crs/crs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\printbibliography
 
 \end{document}
 

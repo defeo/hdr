@@ -935,7 +935,7 @@ Their correctness
 follows from the definition of the modular polynomial $\Phi_\ell$:
 a cyclic $\ell$-isogeny exists between two elliptic
 curves $E$ and $E'$ if and only if $\Phi_\ell(j(E), j(E')) = 0$
-(see~\cite[\S6]{schoof95} and~\cite[\S3]{Elkies98} for the relevant theory).
+(see~\cite[\S6]{schoof95} and~\cite[\S3]{elkies98} for the relevant theory).
 One may use the classical modular polynomials here,
 or alternative, lower-degree modular polynomials
 (Atkin polynomials, for example)
@@ -1025,7 +1025,7 @@ then the $t_r$ satisfy the recurrence
 $t_r = t\cdot t_{r-1} - q\cdot t_{r-2}$. 
 
 We compute the quotient curve in Line~\ref{line:quotient} 
-with Vélu's formul\ae~\cite{Velu71} in $O(\ell)$ $\F_q$-operations.
+with Vélu's formul\ae~\cite{velu71} in $O(\ell)$ $\F_q$-operations.
 Since $\log C_r\simeq r\log q$, provided $\ell = O(\log q)$,
 the costly step in Algorithm~\ref{alg:VéluStep} is the scalar
 multiplication at Line~\ref{line:scalarmult}, which costs
@@ -1309,7 +1309,7 @@ completely until a convenient one is found, but it still does not allow us
 to use the full power of Algorithm~\algstyle{VéluStep}.
 
 \paragraph{Early-abort SEA.}
-The SEA algorithm~\cite{schoof95,Morain95}
+The SEA algorithm~\cite{schoof95,morain95}
 is the state-of-the-art point-count\-ing algorithm
 for elliptic curves over large-characteristic finite fields.
 In order to compute $N = \# E(\F_p)$, it computes $N$ modulo a series
