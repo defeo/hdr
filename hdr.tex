@@ -549,7 +549,7 @@ prove the following useful facts. %
 
 Slightly more work is required to prove the following,
 fundamental, theorem (the difficulty comes essentially from the
-inseparable part, see~\cite[III.6.1]{silverman:elliptic} for a
+inseparable part, see~\cite[III.6.1]{Sil} for a
 detailed proof).
 
 \begin{theorem}[Dual isogeny theorem]
@@ -1082,7 +1082,7 @@ Since the $E[ℓ^n]$ are $ℤ/ℓ^nℤ$-modules, $T_ℓ(E)$ has a $ℤ_ℓ$-modu
 structure, where $ℤ_ℓ$ denotes the $ℓ$-adic integers. %
 Any isogeny $ϕ:E→E'$ induces a morphism $ϕ_ℓ:T_ℓ(E)→T_ℓ(E')$ on the
 Tate modules, and we may prove that \emph{no information is lost} in
-the process (see \cite[III,~Th~7.4]{silverman:elliptic}). %
+the process (see \cite[III,~Th~7.4]{Sil}). %
 
 \begin{theorem}
   \label{th:pre-tate}
@@ -1779,7 +1779,7 @@ arithmetic operations can be performed in $\tildO(n)$ elementary
 algebraic operations using fast polynomial multiplication, Euclidean
 division, and extended Euclidean algorithm (see again~\cite{vzGG}). %
 Most popular software libraries for number theory, e.g.,
-Flint~\cite{flint}, NTL~\cite{shoup2003ntl}, PARI/GP~\cite{Pari},
+Flint~\cite{Hart2010}, NTL~\cite{shoup2003ntl}, PARI/GP~\cite{Pari},
 Magma~\cite{MAGMA}, use this representation%
 \footnote{Givaro~\cite{givaro} is one notable exception, employing
   Zech logarithms. %
@@ -3789,7 +3789,7 @@ either $ℤ[\sqrt{-p}]$ or $ℤ[(1+\sqrt{-p})/2]$. %
 For such a curve, every prime such that $\leg{-4p}{ℓ}=1$ is an Elkies
 prime, with eigenvalues equal to $±\sqrt{-p}$.
 
-In~\cite{csidh}, Castryck, Lange, Martindale, Panny
+In~\cite{10.1007/978-3-030-03332-3_15}, Castryck, Lange, Martindale, Panny
 and Renes present CSIDH\footnote{Pronounced ``sea-side''.}: a variant
 of the Couveignes--Rostovtsev--Stolbunov system where all isogenies
 can be computed using Vélu's formulas. %
@@ -3799,7 +3799,7 @@ $π|E[ℓ_i]=\mat{1&0\\0&-1}$ for all $ℓ_i$. %
 By cleverly optimizing computations, they achieve a key-exchange at
 the 128 bits security level in only 0.1 seconds. %
 
-Now, I would love to add~\cite{csidh} to the appendix,
+Now, I would love to add~\cite{10.1007/978-3-030-03332-3_15} to the appendix,
 but it seems that the rules do not allow me to. %
 I strongly encourage the reader to look for the paper online and read
 it for themselves. %
@@ -4042,7 +4042,7 @@ typical isogeny class. %
 This justifies choosing a prime $q$ of $4n$ bits, for a security level
 of $2^n$, and this is indeed what we do
 in~\cite{10.1007/978-3-030-03332-3_14} and what CSIDH
-does~\cite{csidh}.
+does~\cite{10.1007/978-3-030-03332-3_15}.
 
 However, we must also ensure that the key space covers the whole
 $\Ell_q(\O_K)$, possibly approaching the uniform distribution. %
@@ -4174,7 +4174,7 @@ Regev~\cite{regev04} solves it in subexponential quantum time
 $\exp(\sqrt{\log\#G})$. %
 
 As first noted in~\cite{childs2014constructing} and then improved
-in~\cite{BS18,BIJ18,Jao-etal-kuperberg-2018}, Kuperberg's algorithm
+in~\cite{cryptoeprint:2018:537,BIJ18,Jao-etal-kuperberg-2018}, Kuperberg's algorithm
 can be used to solve the \nameref{prob:hiwp} as follows: let $E,E'$ be
 the two curves with complex multiplication by $\O_K$, define two
 functions $f_0,f_1:\Cl(\O_K)\to\Ell_q(\O_K)$ as $f_0(\a)=\a·E$ and
@@ -4188,7 +4188,7 @@ The actual constant depends on the variant of Kuperberg's algorithm,
 and various parameters such as available quantum memory; its exact
 value is currently debated, but it appears that taking $\log q$
 somewhere between $512$ and $1024$ bits grants a security of $2^{64}$
-quantum gates~\cite{csidh,10.1007/978-3-030-03332-3_14,BS18}.
+quantum gates~\cite{10.1007/978-3-030-03332-3_15,10.1007/978-3-030-03332-3_14,cryptoeprint:2018:537,cryptoeprint:2018:1059}.
 
 For SIDH, on the other hand, there is no group action%
 \footnote{Outside of the subgraph of $\F_p$-rational curves, but the
@@ -4231,7 +4231,7 @@ Signatures are another soft spot of isogeny-based cryptography. %
 No analogue of Schnorr signatures is known for any of the primitives
 presented so far. %
 Instead, we have zero-knowledge identification schemes for
-SIDH~\cite{defeo+jao+plut12,cryptoeprint:2017:186,cryptoeprint:2016:1154}
+SIDH~\cite{defeo+jao+plut12,10.1007/978-3-319-70972-7_9,10.1007/978-3-319-70694-8_1}
 and, very recently, CSIDH~\cite{cryptoeprint:2018:824}. %
 From these, we can derive signature schemes via the Fiat--Shamir
 transform, but these are either slow, or have large signatures, or
@@ -4268,7 +4268,7 @@ time~\cite{kohel2014quaternion}.%
   logarithm problem of $\Cl(\O)$ in classical polynomial time!} %
 We do not know how to use this result to break SIDH, however it has
 been employed in various security
-reductions~\cite{galbraithsecurity,cryptoeprint:2017:962}.
+reductions~\cite{galbraithsecurity,10.1007/978-3-319-78372-7_11}.
 
 An obvious generalization of isogeny based protocols would consist in
 replacing elliptic curves with higher dimensional varieties. %
@@ -4326,7 +4326,7 @@ Note that, while $p$ must grow like $O(n^2)$ due to Kuperberg's
 algorithm, the key space is only forced to grow at a much slower rate
 of $O(n)$, the best available attacks being the same claw finding
 algorithms used against SIDH. %
-While the authors of~\cite{csidh} have the key-space
+While the authors of~\cite{10.1007/978-3-030-03332-3_15} have the key-space
 grow at the same rate as the prime $p$, it is more convenient for
 signatures to have a smaller key space~\cite{cryptoeprint:2018:824}. %
 This of course leads to a probability distribution on $\Ell_q(\O)$
@@ -4342,7 +4342,7 @@ This means, of course, working on attacks. %
 A fundamental topic, at the moment, is establishing the quantum
 security of CSIDH. %
 Some preliminary work has been done
-in~\cite{BS18,BIJ18,Jao-etal-kuperberg-2018}, but a consensus has yet
+in~\cite{cryptoeprint:2018:537,BIJ18,Jao-etal-kuperberg-2018}, but a consensus has yet
 to be reached. %
 
 Concerning SIDH, it is interesting that the only recent result on
@@ -4385,7 +4385,7 @@ Finally, more security proofs would help consolidate trust in
 isogenies. %
 The security assumption of SIDH being so \emph{ad hoc}, more work on
 security reductions, such
-as~\cite{galbraithsecurity,cryptoeprint:2017:962}, could help build
+as~\cite{galbraithsecurity,10.1007/978-3-319-78372-7_11}, could help build
 trust by reducing security to more ``natural'' problems. %
 CSIDH, on the other hand, benefits from a much nicer hardness
 assumption, although key distribution is often an issue for security

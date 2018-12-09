@@ -1494,7 +1494,7 @@ K(\zeta)$. So we have an $\F_q(\zeta)$-embedding
 \[ \phi: k(\zeta) \xrightarrow{\sim} \F_q(\zeta)[Y] / (Y^r - \eta) \xrightarrow{\sim} K(\zeta) \]
 that sends $\theta_1$ to $\theta_2$. Let $\alpha = \trace_{k(\zeta) / k}(\theta_1)$ and $\beta = 
 \trace_{K(\zeta) / K}(\theta_2)$. Then $k = \F_q(\alpha)$ and $K = F_q(\beta)$, see \cite[Algorithm 
-13]{shoup93} and the proof of \cite[Theorem 2.1]{Shoup90}. Since $\phi$ commutes with traces, the 
+13]{shoup93} and the proof of \cite[Theorem 2.1]{Shoup_1990}. Since $\phi$ commutes with traces, the 
 map $\alpha\mapsto\beta$ defines an isomorphism.
 
 The main difficulty in applying such an algorithm resides in computing efficiently $v$-th roots in 
@@ -2330,7 +2330,7 @@ Allombert's algorithm available in PARI/GP 2.8.0~\cite{Pari}, and to
 that of Rains' algorithm available in Magma 2.22-7~\cite{MAGMA}. %
 The variants of Allombert's algorithm described in
 Section~\ref{sec:fast-kummer} were implemented in C on top of the
-Flint library, version 2.5.2~\cite{hart2010flint}. %
+Flint library, version 2.5.2~\cite{Hart2010}. %
 Rains' cyclotomic and elliptic algorithms were implemented in
 SageMath, version 7.5.rc0~\cite{Sage} (which itself uses PARI and
 Flint to implement finite fields), with critical code rewritten in

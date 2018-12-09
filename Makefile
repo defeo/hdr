@@ -1,4 +1,4 @@
-hdr.pdf: hdr.tex preamble.tex hdr.bib
+hdr.pdf: hdr.tex preamble.tex hdr.bib isogenies_bib/isogenies.bib
 	latexmk --pdf hdr.tex
 
 cv.pdf: cv.tex

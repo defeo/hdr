@@ -154,7 +154,7 @@
 
 Several computer algebra systems or libraries, such as
 Magma~\cite{MAGMA}, Sage~\cite{Sage}, NTL~\cite{shoup2003ntl},
-PARI~\cite{Pari} or Flint~\cite{hart2010flint}, offer built-in
+PARI~\cite{Pari} or Flint~\cite{Hart2010}, offer built-in
 features to build and compute in arbitrary finite fields. At the core
 of these designs, one finds algorithms for building irreducible
 polynomials and algorithms to compute embeddings and isomorphisms.
@@ -195,7 +195,7 @@ must be {\em compatible}~\cite{bosma+cannon+steel97}). However, most
 algorithms use linear algebra techniques.
 
 To bypass these issues, we use an approach inspired by Shoup's
-algorithm for computing irreducible polynomials~\cite{Shoup90,shoup94}
+algorithm for computing irreducible polynomials~\cite{Shoup_1990,shoup94}
 (see also~\cite{couveignes+lercier11,lenstra+desmit08-stdmodels}):
 first reduce to the case of prime power degrees, then use composita
 techniques, in a manner that ensures compatibility of the embeddings
@@ -240,7 +240,7 @@ different values of $\ell$. This is the purpose of this paper.
 
 \smallskip\noindent{{\bf \rm Our contribution.}} The algorithms used
 to construct towers are inspired by those used
-in~\cite{Shoup90,shoup94,couveignes+lercier11} to build irreducible
+in~\cite{Shoup_1990,shoup94,couveignes+lercier11} to build irreducible
 polynomials. Also used in these references is the following idea: let
 $Q_m(x)$ and $Q_n(y)$ be irreducible polynomials over $\F_p$, with
 coprime degrees $m,n>1$, and having respectively $(a_i)_{1 \le i
@@ -1106,7 +1106,7 @@ field with $p^m$ elements, and that if we consider terms $x_m$ and
 $x_n$, with $m$ dividing $n$, then $x_m$ is in $\F_p(x_n)$.
 
 Note that this process of constructing irreducible polynomials over
-$\F_p$ is already in~\cite{Shoup90,shoup94,couveignes+lercier11}.
+$\F_p$ is already in~\cite{Shoup_1990,shoup94,couveignes+lercier11}.
 
 \smallskip\noindent{{\bf \rm Embedding and change of basis.}}
 Consider a sequence $e=(e_1,\dots,e_t)$ of positive integers, and let
@@ -1190,7 +1190,7 @@ Sage 6.
 
 Our implementation is limited to finite fields of word-sized
 characteristic.  It is based on the C library
-Flint~\cite{hart2010flint}, and we make it available as a Sage module
+Flint~\cite{Hart2010}, and we make it available as a Sage module
 in an experimental fork at
 \url{https://github.com/defeo/sage/tree/ff_compositum}. We plan to
 make it available as a standard Sage module, as well as a separate C

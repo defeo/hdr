@@ -250,7 +250,7 @@ alternative to SIDH.
 While preparing this paper we were informed of
 recent work by Castryck, Lange, Martindale, Panny, and Renes,
 introducing CSIDH, 
-an efficient post-quantum primitive based on CRS~\cite{csidh}.
+an efficient post-quantum primitive based on CRS~\cite{10.1007/978-3-030-03332-3_15}.
 Their work builds upon the ideas presented in
 \S\S\ref{sec:keyex}--\ref{sec:initcurve}, using them in a
 different homogeneous space where they apply effortlessly.  Their
@@ -272,7 +272,7 @@ but they are beyond the scope of this work.
 %We recall here basic facts on isogenies of elliptic curves defined
 We begin by recalling some basic facts on isogenies of elliptic curves 
 over finite fields. For an in-depth introduction to these concepts, we
-refer the reader to~\cite{silverman:elliptic}. For a general
+refer the reader to~\cite{Sil}. For a general
 overview of isogenies and their use in cryptography, we
 suggest~\cite{defeo2017isogenybased}.
 
@@ -285,7 +285,7 @@ be elliptic curves defined over $\F_q$.
 A homomorphism $ϕ:E→E'$ is an
 algebraic map sending $0_E$ to $0_{E'}$;
 it induces a group homomomorphism from
-$E(\Fbar_q)$ to $E'(\Fbar_q)$~\cite[III.4]{silverman:elliptic}.
+$E(\Fbar_q)$ to $E'(\Fbar_q)$~\cite[III.4]{Sil}.
 An \emph{endomorphism} is a homomorphism from a curve to itself.
 The endomorphisms of $E$ form a ring $\End(E)$,
 with the group law on $E$ for addition
@@ -490,7 +490,7 @@ then $\End(E)$ is isomorphic to an
 \emph{order}\footnote{%
     An \emph{order} is a subring which is a $ℤ$-module of rank $2$.
 } in the quadratic imaginary field
-$ℚ(\sqrt{Δ_π})$ (see~\cite[III.9]{silverman:elliptic}).
+$ℚ(\sqrt{Δ_π})$ (see~\cite[III.9]{Sil}).
 A curve whose endomorphism ring is isomorphic to an order $\O$ is said to
 have \emph{complex multiplication} by $\O$.
 For a detailed treatment of the theory of complex multiplication,
@@ -790,7 +790,7 @@ Algorithms~\ref{alg:ElkiesFirstStep} and~\ref{alg:ElkiesNextStep}.
 The introduction of \algstyle{VéluStep}, 
 % very different in spirit from Algorithm~\algstyle{ElkiesStep} and
 inspired by SIDH and related protocols
-(and now a key ingredient in the CSIDH protocol~\cite{csidh}),
+(and now a key ingredient in the CSIDH protocol~\cite{10.1007/978-3-030-03332-3_15}),
 speeds up our protocol by a considerable factor;
 this is the main practical contribution of our work. 
 
@@ -1054,7 +1054,7 @@ In practice, Algorithm~\ref{alg:VéluStep} can be improved
 by using elliptic curve models with more efficient arithmetic.
 In our implementation (see \S\ref{sec:exp}),
 we used $x$-only arithmetic on Montgomery models~\cite{montgomery,CostelloSmith2017},
-which also have convenient Vélu formul\ae~\cite{CostelloH17,Renes2018}.
+which also have convenient Vélu formul\ae~\cite{10.1007/978-3-319-70697-9_11,10.1007/978-3-319-79063-3_11}.
 %On the other hand, the Weierstrass model is classical and universal, 
 %and is usually the considered model in the literature
 %about isogeny computations.
@@ -2122,7 +2122,7 @@ but highly efficient for protocols based on the CRS construction.
 This stands in stark contrast to the case of SIDH,
 where key validation is known to be
 problematic~\cite{galbraithsecurity}, and even conjectured to be as
-hard as breaking the system~\cite{cryptoeprint:2018:336}.
+hard as breaking the system~\cite{Urbanik:2018:SPL:3197507.3197516}.
 
 Thanks to this efficient key validation, 
 we can obtain CCA-secure encryption from the
@@ -2130,7 +2130,7 @@ CRS action without resorting to generic transforms such as
 Fujisaki--Okamoto~\cite{10.1007/3-540-48405-1_34}, unlike the case of
 SIKE~\cite{SIKE,10.1007/978-3-319-70500-2_12}. This in turn enables
 applications such as non-interactive key exchange, for which no
-practical post-quantum scheme was known prior to~\cite{csidh}.
+practical post-quantum scheme was known prior to~\cite{10.1007/978-3-030-03332-3_15}.
 
 
 \section{Experimental results}
@@ -2355,7 +2355,7 @@ is the difficulty of generating optimal system parameters:
 even with a lot of computational power,
 we cannot expect to produce ordinary curve parameters
 that allow us to use \emph{only} Vélu steps. 
-In this regard, the CSIDH protocol~\cite{csidh}, 
+In this regard, the CSIDH protocol~\cite{10.1007/978-3-030-03332-3_15}, 
 which overcomes this problem using
 supersingular curves instead of ordinary ones, is promising.
 

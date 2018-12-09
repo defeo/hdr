@@ -114,7 +114,7 @@ proposed a Diffie-Hellman type system based on the difficulty of
 computing isogenies between ordinary elliptic curves, with the stated
 aim of obtaining quantum-resistant cryptographic protocols.  The
 fastest known (classical) probabilistic algorithm for solving this
-problem is the algorithm of Galbraith and Stolbunov~\cite{gs}, based
+problem is the algorithm of Galbraith and Stolbunov~\cite{galbraith+stolbunov11}, based
 on the algorithm of Galbraith, Hess, and Smart~\cite{GHS}. This
 algorithm is exponential, with a worst-case running time of
 $O(\sqrt[4]{q})$. However, on a quantum computer, recent work of
@@ -1662,12 +1662,12 @@ In the context of cryptography, the problem of computing an isogeny
 between isogenous supersingular curves was first considered by
 Galbraith~\cite{Gal} in 1999. The first published cryptographic
 primitive based on supersingular isogeny graphs is the hash function
-proposal of Charles et al.~\cite{CGL}, which remains unbroken to date
+proposal of Charles et al.~\cite{charles+lauter+goren09}, which remains unbroken to date
 (the cryptanalysis of~\cite{quis} applies only to the LPS graph-based
-hash function from~\cite{CGL}, and not to the supersingular isogeny
+hash function from~\cite{charles+lauter+goren09}, and not to the supersingular isogeny
 graph-based hash functions). The fastest known algorithm for finding
 isogenies between supersingular curves in general takes $O(\sqrt{p}
-\log^2 p)$ time~\cite[\S 5.3.1]{CGL}; however our problem is less
+\log^2 p)$ time~\cite[\S 5.3.1]{charles+lauter+goren09}; however our problem is less
 general because the degree of the isogeny is known in advance and is
 smooth. In addition, the distribution of isogenous
   curves obtained
