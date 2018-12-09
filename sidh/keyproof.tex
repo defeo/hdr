@@ -51,7 +51,7 @@ $\mathcal{I}$ correctly guesses $b$, and define \[
 
 The definition of security is as follows:
 
-\begin{definition}\label{def:kep}
+\begin{definition}\label{sidh:def:kep}
 A key exchange protocol $\Pi$ in security parameter $k$ is said to be
 \emph{session-key secure} in the authenticated-links adversarial model
 of Canetti and Krawczyk if for any polynomial-time adversary $\mathcal{I}$,
@@ -64,7 +64,7 @@ of Canetti and Krawczyk if for any polynomial-time adversary $\mathcal{I}$,
 
 \begin{algorithm}[t]
 \caption{SSDDH distinguisher}
-\label{alg:distinguisher}
+\label{sidh:alg:distinguisher}
 \begin{algorithmic}[1]
 \REQUIRE $E_A, E_B, \phi_A(P_B), \phi_A(Q_B), \phi_B(P_A),
 \phi_B(Q_A), E$
@@ -87,27 +87,27 @@ $\phi_B(Q_A)$ to Alice, where $i$ is the session identifier.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{proof}[Proof of Theorem~\ref{thm:kep-proof}]
+\begin{proof}[Proof of Theorem~\ref{sidh:thm:kep-proof}]
 We adapt the proof given by Canetti and Krawczyk~\cite[\S
   5.1]{canetti} for two-party Diffie-Hellman over $\ZZ_q^*$. A similar
 strategy was used by Stolbunov~\cite{stolbunov-red} in the case of
 ordinary elliptic curves.
 
-It has been shown in Section~\ref{sec:kep} that two uncorrupted
+It has been shown in Section~\ref{sidh:sec:kep} that two uncorrupted
 parties in matching sessions output the same session key, and thus the
-first part of Definition~\ref{def:kep} is satisfied. To show that the
+first part of Definition~\ref{sidh:def:kep} is satisfied. To show that the
 second part of the definition is satisfied, assume that there is a
 polynomial-time adversary $\mathcal{I}$ with a non-negligible advantage
-$\varepsilon$. We claim that Algorithm~\ref{alg:distinguisher} forms a
+$\varepsilon$. We claim that Algorithm~\ref{sidh:alg:distinguisher} forms a
 polynomial-time distinguisher for SSDDH having non-negligible
 advantage.
 
 To prove the claim, we must show that
-Algorithm~\ref{alg:distinguisher} has non-negligible advantage (it is
+Algorithm~\ref{sidh:alg:distinguisher} has non-negligible advantage (it is
 clear that it runs in polynomial time). We consider separately the
 cases where the $r$-th session is (respectively, is not) chosen by
 $\mathcal{I}$ as the test session. If the $r$-th session is not the
-test session, then Algorithm~\ref{alg:distinguisher} outputs a random
+test session, then Algorithm~\ref{sidh:alg:distinguisher} outputs a random
 bit, and thus its advantage in solving the SSDDH is $0$. If the
 $r$-th session is the test session, then $\mathcal{I}$ will succeed
 with advantage $\varepsilon$, since the simulated protocol provided to

@@ -123,7 +123,7 @@
 %%%%%%%%%%%%%%%
 
 \section{Introduction}
-\label{sec:introduction}
+\label{expi:sec:introduction}
 
 Isogenies are non-zero morphisms of elliptic curves, that is,
 non-constant rational maps preserving the identity element. They are
@@ -146,7 +146,7 @@ $E$ and $E'$ such that $j(E)=j$ and $j(E')=j'$. The
 \emph{explicit isogeny} problem has many incarnations. In this paper,
 we are interested in the variant defined below.
 
-\begin{problem}[Explicit isogeny problem] \label{prob:isogeny-problem}
+\begin{problem}[Explicit isogeny problem] \label{expi:prob:isogeny-problem}
   Given two $j$-invariants $j$ and $j'$, and a positive integer
   $r$, determine if they are $r$-isogenous. In that case, compute
   curves $E$, $E'$ with $j(E)=j$ and $j(E')=j'$, and the
@@ -254,7 +254,7 @@ of~\cite[Chapter~8.3]{vzGG}. Using FFT multiplication, one can take
 $\MM(n)∈ O(n\log(n)\loglog(n))$.
 
 \subsection{Couveignes' algorithm and our contribution}
-\label{sec:couv-algor}
+\label{expi:sec:couv-algor}
 
 Couveignes' isogeny algorithm takes as input two \emph{ordinary}
 $j$-invariants $j,j'∈\F_q$, and a positive integer $r$ not
@@ -264,16 +264,16 @@ isogeny $ψ$ must put $E[p^k]$ in bijection with $E'[p^k]$, in a way
 that is compatible with their structure as cyclic groups.
 It proceeds in three steps
 \begin{enumerate}
-\item\label{alg:orig-couveignes:tower} Compute generators $P,P'$ of
+\item\label{expi:alg:orig-couveignes:tower} Compute generators $P,P'$ of
   $E[p^k]$ and $E'[p^k]$ respectively, for $k$ large enough;
-\item\label{alg:orig-couveignes:interp} Compute the interpolation
+\item\label{expi:alg:orig-couveignes:interp} Compute the interpolation
   polynomial $L$ sending $x(P)$ to $x(P')$, and the abscissas of
   their scalar multiples accordingly;
-\item\label{alg:orig-couveignes:rational} Deduce a rational fraction $g(x)/h(x)$
+\item\label{expi:alg:orig-couveignes:rational} Deduce a rational fraction $g(x)/h(x)$
   that coincides with $L$ at all points of $E[p^k]$, and verify that
   it defines the $x$-component of an isogeny of degree $r$. If it
   does, return it; otherwise, replace $P'$ with a scalar multiple of
-  itself and go back to Step~\ref{alg:orig-couveignes:interp}.
+  itself and go back to Step~\ref{expi:alg:orig-couveignes:interp}.
 \end{enumerate}
 
 For this algorithm to succeed, enough interpolation points are
@@ -286,8 +286,8 @@ successors go at great length in studying the arithmetic of
 \emph{Artin-Schreier towers}~\cite{couveignes00,df+schost12}, and the
 adaptation of the fast interpolation algorithm to that
 setting~\cite{df10}.  Using these highly specialized constructions,
-Steps~\ref{alg:orig-couveignes:tower}
-and~\ref{alg:orig-couveignes:interp} are both executed in time
+Steps~\ref{expi:alg:orig-couveignes:tower}
+and~\ref{expi:alg:orig-couveignes:interp} are both executed in time
 $\tildO(p^{k+O(1)})=\tildO(rp^{O(1)})$. However the last step only
 succeeds for one pair of torsion points $P,P'$, in general, thus
 $O(r)$ trials are expected on average.
@@ -312,23 +312,23 @@ thus yielding an
 algorithm of complexity $O(ℓ^{6k})=O(r³)$ at best.
 
 To avoid this pitfall, we carefully study
-in Section~\ref{sec:isogeny-volcanoes} the structure of
+in Section~\ref{expi:sec:isogeny-volcanoes} the structure of
 $E[ℓ^k]$, and its relationship with the Frobenius endomorphism $π$.
 With that knowledge, we can put some restrictions on the generators $P,Q$,
-as explained in Section~\ref{sec:acti-frob-endm},
+as explained in Section~\ref{expi:sec:acti-frob-endm},
 thus limiting the number of trials to $O(ℓ^{2k})$.
-In Section~\ref{sec:interpolation}
+In Section~\ref{expi:sec:interpolation}
 we present an interpolation algorithm adapted to the setting of
-$ℓ$-adic towers, and in Section~\ref{sec:complete-algorithm} we put
+$ℓ$-adic towers, and in Section~\ref{expi:sec:complete-algorithm} we put
 all steps together and analyze the full algorithm. Finally in
-Section~\ref{sec:implem} we discuss our implementation and the
+Section~\ref{expi:sec:implem} we discuss our implementation and the
 performance of the algorithm.
 
 
 %%%%%%%%%%%%%%%
 
 \subsection{Towers of finite fields}
-\label{sub:towers}
+\label{expi:sub:towers}
 
 The algorithms presented next operate on elements defined in finite
 extensions of $\F_q$. Specifically, we will work in a \emph{tower} of finite
@@ -361,7 +361,7 @@ by a simple rearrangement of the coefficients. Another fundamental
 operation can be done much more efficiently than in generic finite
 fields, as the following generalization of~\cite[\S2.3]{DoSc12} shows.
 
-\begin{lem}\label{lemma:frob-ell}
+\begin{lem}\label{expi:lemma:frob-ell}
   Let $F_0⊂\cdots⊂F_n$ be a Kummer tower as defined above, and let
   $a∈F_i$ for some $0≤i≤n$. For any integer $j$, we can compute the
   $(\#F_j)$-th power of $a$ using $O(ℓ^{i-1}\MM(ℓ))$ operations in
@@ -433,7 +433,7 @@ Coppersmith-Winograd algorithm). In any case, $\RR(i)$ is between
 linear and quadratic in the degree $\ell^{i}$.
 
 \section{The Frobenius and the volcano}
-\label{sec:isogeny-volcanoes}
+\label{expi:sec:isogeny-volcanoes}
 
 In this section we explore some fundamental properties of ordinary
 elliptic curves over finite fields: the structure of their isogeny
@@ -447,7 +447,7 @@ reader to~\cite{sutherland2013isogeny}.  We recall here, without their
 proof, two results about $ℓ$-isogenies between ordinary elliptic
 curves.
 
-\begin{prop}[{\cite[Proposition~21]{kohel}}] \label{prop:isogeny-asc-desc}
+\begin{prop}[{\cite[Proposition~21]{kohel}}] \label{expi:prop:isogeny-asc-desc}
 Let~$ϕ: E → E'$ be an $ℓ$-isogeny between ordinary elliptic curves
 and~$\mathcal O, \mathcal O'$ be their endomorphism rings.
 Then one of the three following cases is true:
@@ -460,7 +460,7 @@ in which case we call $ϕ$ \emph{descending};
 in which case we call $ϕ$ \emph{horizontal}.
 \end{enumerate}
 \end{prop}
-\begin{prop}[{\cite[Proposition~23]{kohel}; \cite[Lemma~6]{sutherland2013isogeny}}] \label{prop:isogeny-count}
+\begin{prop}[{\cite[Proposition~23]{kohel}; \cite[Lemma~6]{sutherland2013isogeny}}] \label{expi:prop:isogeny-count}
 Let~$E$ be an ordinary elliptic curve with endomorphism ring~$\mathcal O$.
 \begin{enumerate}
 \item If $\mathcal O$~is $ℓ$-maximal then
@@ -477,14 +477,14 @@ of the graph of rational $ℓ$-isogenies between curves defined on~$\mathbb F_q$
 The \emph{crater} is the subgraph corresponding to curves
 having an $ℓ$-maximal endomorphism ring.
 The shape of the crater is given by the Kronecker symbol~$(d_K/ℓ)$,
-as per Proposition~\ref{prop:isogeny-count}.
+as per Proposition~\ref{expi:prop:isogeny-count}.
 For any~$k ≥ 0$, an $ℓ^k$-isogeny is \emph{horizontal}
 if it is the composite of $k$~horizontal $ℓ$-isogenies.
 The \emph{depth} of a curve is its distance from the crater.
 It is also the $ℓ$-adic valuation of the conductor
 of~$\mathcal O = \mathrm{End}(E)$.
 We illustrate the three possible shapes for a volcano in
-Figure~\ref{fig:volcanology}.
+Figure~\ref{expi:fig:volcanology}.
 
 		\begin{figure}[h]
 		\begin{center}
@@ -564,7 +564,7 @@ Figure~\ref{fig:volcanology}.
 		\end{tikzpicture}
 		%\end{center}
 		\caption{The three shapes of volcanoes of $2$-isogenies }
-                \label{fig:volcanology}
+                \label{expi:fig:volcanology}
 		\end{center} 
 		\end{figure}
 \kern -2ex
@@ -578,7 +578,7 @@ which we write~$π|T_ℓ(E)$, has two distinct eigenvalues~$λ ≠ μ$.
 The depth of the volcano of $\F_q$-rational $ℓ$-isogenies
 is~$h = v_ℓ(λ-μ)$~\cite[Theorem 7(iv)]{sutherland2013isogeny}.
 
-\begin{prop}\label{prop:matrice-frobenius}
+\begin{prop}\label{expi:prop:matrice-frobenius}
 Let~$E$ be an ordinary elliptic curve with Frobenius endomorphism~$π$.
 Assume that the characteristic polynomial of~$π$
 has two distinct roots~$λ, μ$ in~$ℤ_ℓ$,
@@ -622,7 +622,7 @@ showing the link between two related notions of diagonalization.
   horizontal.
 \end{defi}
 
-\begin{prop} \label{prop:diagonal-horizontal}
+\begin{prop} \label{expi:prop:diagonal-horizontal}
 Let~$E$ be a curve lying on the crater and~$P$ be a point of~$E[ℓ^k]$
 such that $ℓ^h P$~is an eigenvector of~$π$.
 Then $ℓ^h P$~is horizontal if, and only if, $P$~is an eigenvector for~$π$.
@@ -660,7 +660,7 @@ there exists a basis of~$T_ℓ(E')$
 in which $ϕ_R$ has matrix~$ℓ^k M_R^{-1}$.
 Therefore, in that basis of~$T_ℓ(E')$,
 the matrix of~$π|T_ℓ(E')$ is $M_R^{-1} · Π · M_R^{}$.
-\begin{proof}[of Proposition~\ref{prop:diagonal-horizontal}]
+\begin{proof}[of Proposition~\ref{expi:prop:diagonal-horizontal}]
 Fix a basis~$(R, S)$ of~$E[ℓ^k]$ that diagonalizes~$π$.
 We can write $P = x R + y S$;
 without loss of generality we may assume $y=1$.
@@ -677,12 +677,12 @@ so that $P$~is an eigenvector on the same condition~$v_{ℓ}(x) ≥ k-h$.
 While horizontal bases are our main interest,
 diagonal bases are easier to compute in practice.
 Algorithms computing both kind of bases
-are given in Section~\ref{sec:acti-frob-endm}.
+are given in Section~\ref{expi:sec:acti-frob-endm}.
 The main tool for this is the next proposition:
 given a horizontal point of order~$ℓ^k$,
 it allows us to compute a horizontal point of order~$ℓ^{k+1}$.
 
-\begin{prop}\label{prop:push-horizontal}
+\begin{prop}\label{expi:prop:push-horizontal}
 Let~$ψ: E → E'$ be a horizontal $ℓ$-isogeny with direction~$λ$.
 For any point~$Q ∈ E[ℓ^∞]$,
 if $ℓ Q$~is horizontal with direction~$μ$,
@@ -693,21 +693,21 @@ Let~$Q' = ψ(Q)$ and~$\widehat{ψ}$ be the isogeny dual to~$ψ$.
 Since both $\widehat{ψ}$~and~$\widehat{ψ}(Q') = ℓ Q$ are horizontal
 with direction~$μ$, $Q'$~is also horizontal.
 \end{proof}
-\begin{prop}\label{prop:parallel}
+\begin{prop}\label{expi:prop:parallel}
 Let~$ψ: E → E'$ be an isogeny of degree~$r$ prime to~$ℓ$.
 \begin{enumerate}
 \item The curves~$E$ and~$E'$ have the same depth
 in their $ℓ$-isogeny volcanoes.
-\item\label{prop:parallel:func} For any point~$P ∈ E[ℓ^k]$,
+\item\label{expi:prop:parallel:func} For any point~$P ∈ E[ℓ^k]$,
 the isogenies with kernel $\chev{P}$ and~$\chev{ψ(P)}$ have the same type
 (ascending, descending, or horizontal with the same direction).
-\item\label{prop:parallel:ascent} If $P ∈ E[ℓ]$ and $P' ∈ E'[ℓ]$ are both ascending,
+\item\label{expi:prop:parallel:ascent} If $P ∈ E[ℓ]$ and $P' ∈ E'[ℓ]$ are both ascending,
 or both horizontal with the same direction,
 then $E/P$ and~$E'/P'$ are again $r$-isogenous.
 \end{enumerate}
 \end{prop}
 \begin{proof}
-Points~(i) and~(ii) are consequences of Proposition~\ref{prop:matrice-frobenius}
+Points~(i) and~(ii) are consequences of Proposition~\ref{expi:prop:matrice-frobenius}
 and of the fact that $ψ$, being rational and of degree prime to~$ℓ$,
 induces an isomorphism between the Tate modules of~$E$ and~$E'$,
 commuting to the Frobenius endomorphisms.
@@ -727,8 +727,8 @@ let~$α=v_2(λ^2-1)-1$ and~$β = v_2(μ^2-1)-1$, and assume without loss
 of generality that $α ≥ β$.  Since $λ ≢ μ \pmod{ℓ^{h+1}}$, it is
 impossible that $λ ≡ μ ≡ 1 \pmod{ℓ^h}$, so that one at least of the two
 valuations~$α, β$ is~$≤ h$, and therefore~$β ≤ h$.
-\label{sub:classes}
-\begin{prop}\label{prop:classes}
+\label{expi:sub:classes}
+\begin{prop}\label{expi:prop:classes}
 For any~$k$, let~$d_k$ be the degree of the smallest field extension $F/\F_q$
 such that~$E[ℓ^k]⊂E(F)$. Then:
 \begin{enumerate}
@@ -741,7 +741,7 @@ $ d_k = ℓ^{\min (v_ℓ (d_1), k - β)}$.
 % $d_k = \mathrm{lcm}(d_2, ℓ^{k-β})$.
 $d_k = ℓ^{\min (v_ℓ (d_2), k - β)}$.
 \item Let $[F:\F_q]=d_1ℓ^n$, the group $E[ℓ^{∞}](F)$ is isomorphic to~$(ℤ/ℓ^{n+α} ℤ) × (ℤ/ℓ^{n+β} ℤ)$.
-\item\label{prop:classes:count} The group~$E[ℓ^k]$ contains at most
+\item\label{expi:prop:classes:count} The group~$E[ℓ^k]$ contains at most
 $k · ℓ^{k+β}$ Galois conjugacy classes over~$F_1 = \F_{q^{d_1}}$.
 \end{enumerate}
 \end{prop}
@@ -772,32 +772,32 @@ corresponding classes.
 Summing this over all~$i$ proves~(v).
 \end{proof}
 \section{Computing the action of the Frobenius endomorphism}
-\label{sec:acti-frob-endm}
+\label{expi:sec:acti-frob-endm}
 
 
 We continue here our study on the action of the Frobenius $π$ on
 $E[ℓ^k]$.  Given an ordinary elliptic curve~$E$ with $ℓ$-maximal endomorphism
 ring, we explicitly compute diagonal and horizontal bases of $E[ℓ^k]$
 as defined in the previous section.  We will use the latter basis of
-$E[ℓ^k]$ in Section~\ref{sub:final-interp}, to put restrictions on the
+$E[ℓ^k]$ in Section~\ref{expi:sub:final-interp}, to put restrictions on the
 interpolation problem of our algorithm.
 
-We suppose that $k \geqslant h$. By Proposition~\ref{prop:classes}, there exists a Kummer tower
+We suppose that $k \geqslant h$. By Proposition~\ref{expi:prop:classes}, there exists a Kummer tower
 $F₀⊂\cdots⊂F_{k-\beta}$ such that all the points of~$E[ℓ^k]$ are
 rational over~$F_{k-\beta}$. The algorithms presented next assume that
 the tower has already been computed.
 
 \subsection{Computation of a diagonal basis}
-\label{ss:diagonal}
+\label{expi:ss:diagonal}
 
-In Algorithm~\ref{alg:diagonal} below, we describe how to compute
+In Algorithm~\ref{expi:alg:diagonal} below, we describe how to compute
 eigenvalues of the Frobenius $\bmod \ell^k$ and corresponding
 eigenvectors in the $\ell^{k}$-torsion subgroup.  We
 write~$Q ← \sfdiv(ℓ, P)$ for the computation of a preimage of~$P$ by
 multiplication by~$ℓ$.
 
 \begin{algorithm}
-\caption{\label{alg:diagonal}Computing a diagonal basis of $E[ℓ^k]$}
+\caption{\label{expi:alg:diagonal}Computing a diagonal basis of $E[ℓ^k]$}
 \begin{algorithmic}[1]
 \REQUIRE $E$: an ordinary, $ℓ$-maximal elliptic curve;
 $k$: a positive integer;
@@ -807,20 +807,20 @@ such that $\pi(P_k)= λ P_k$, $ \pi(Q_k)= μ Q_k$.
 % \STATE Compute $(P_1,Q_1)$, a basis of $E[ℓ]$
 \STATE{$λ ← 0$; $μ ← 0$; $P_0, Q_0 ← $ neutral element of~$E[ℓ]$.}
 \FOR {$i=0$  to  $k-1$}
-\STATE\label{alg:diagonal:divide}
+\STATE\label{expi:alg:diagonal:divide}
   $P' ← \sfdiv(\ell, P_{i})$; $Q' ← \sfdiv (\ell, Q_{i})$.
-\STATE\label{alg:diagonal:frobenius}
+\STATE\label{expi:alg:diagonal:frobenius}
   compute $\pi|(P',Q')=\left( \begin{smallmatrix}
 λ + aℓ^{i} & bℓ^{i}\\
 cℓ^{i} & μ + dℓ^{i} \end{smallmatrix} \right) \pmod {ℓ^{i+1}}.$
-\STATE\label{alg:diagonal:solve1}
+\STATE\label{expi:alg:diagonal:solve1}
   \textbf{if} $b = 0$ \textbf{then} $x ← 0$;
   solve equation~$c ℓ^{i} + ((d-a) ℓ^{i} + μ-λ) y = 0$;
-\STATE\label{alg:diagonal:solve2}
+\STATE\label{expi:alg:diagonal:solve2}
   \textbf{else} solve equation
   $c ℓ^{i} x^2 + ((d-a) ℓ^{i}+ μ-λ) x - b ℓ^{i} = 0$;
   $y ← -cx/b$; \textbf{end if}.
-\STATE\label{alg:diagonal:upd-P}
+\STATE\label{expi:alg:diagonal:upd-P}
   $P_{i+1} ← P' + y Q'$; $Q_{i+1} ← x P' + Q'$.
 \STATE{$λ ← λ + ℓ^{i} (a + bx)$; $μ ← μ + ℓ^{i} (d + cy)$.}
 \ENDFOR
@@ -830,7 +830,7 @@ cℓ^{i} & μ + dℓ^{i} \end{smallmatrix} \right) \pmod {ℓ^{i+1}}.$
 
 %% \kern -4ex
 % \begin{algorithm}%<<<
-% \caption{\label{alg:diagonal}Computing a diagonal basis of $E[ℓ^k]$}
+% \caption{\label{expi:alg:diagonal}Computing a diagonal basis of $E[ℓ^k]$}
 % \begin{algorithmic}[1]
 % \REQUIRE $E$: an ordinary, $ℓ$-maximal elliptic curve;
 % $k$: an integer~$≥ h$.
@@ -840,8 +840,8 @@ cℓ^{i} & μ + dℓ^{i} \end{smallmatrix} \right) \pmod {ℓ^{i+1}}.$
 % \STATE Compute $(P_1,Q_1)$, a basis of $E[ℓ]$
 % \STATE $h':=1, u:=1$
 % \FOR {$i=1$  to  $k-1$}
-% \STATE\label{alg:diagonal:divide} $P' \leftarrow \sfdiv(\ell, P_i)$; $Q' \leftarrow \sfdiv(\ell, Q_i)$.
-% \STATE\label{alg:diagonal:frobenius} compute $\pi|(P',Q')=\left( \begin{smallmatrix}
+% \STATE\label{expi:alg:diagonal:divide} $P' \leftarrow \sfdiv(\ell, P_i)$; $Q' \leftarrow \sfdiv(\ell, Q_i)$.
+% \STATE\label{expi:alg:diagonal:frobenius} compute $\pi|(P',Q')=\left( \begin{smallmatrix}
 % λ + a\ell^{i} & b\ell^{i}\\
 % c\ell^{i} & μ + d\ell^{i}
 % \end{smallmatrix}
@@ -859,57 +859,57 @@ cℓ^{i} & μ + dℓ^{i} \end{smallmatrix} \right) \pmod {ℓ^{i+1}}.$
 % \RETURN $(P_{k},Q_{k},λ,μ)$
 % \end{algorithmic}
 % \end{algorithm}%>>>
-\begin{prop}\label{th:diagonal}
-  Algorithm~\ref{alg:diagonal} computes a diagonal basis of~$E[ℓ^k]$
+\begin{prop}\label{expi:th:diagonal}
+  Algorithm~\ref{expi:alg:diagonal} computes a diagonal basis of~$E[ℓ^k]$
   using an expected
   $O(\RR(k-\beta) + ℓ^2\MM(ℓ^{k-β}) + ℓ\MM(\ell^2)\log(\ell)\log(\ell
   q))$ operations in $\F_q$.
 \end{prop}
 \begin{proof}
-The equation at line~\ref{alg:diagonal:solve1} or~\ref{alg:diagonal:solve2}
+The equation at line~\ref{expi:alg:diagonal:solve1} or~\ref{expi:alg:diagonal:solve2}
 is first divided out by the largest power of~$ℓ$ possible,
 which is~$ℓ^{\min (h, i)}$, then solved modulo $ℓ$.
 For~$i ≤ h-1$, since~$a = d$ and~$b = c = 0$,
 the solutions are~$x = y = 0$, and
-steps~\ref{alg:diagonal:solve1} to~\ref{alg:diagonal:upd-P} do nothing.
+steps~\ref{expi:alg:diagonal:solve1} to~\ref{expi:alg:diagonal:upd-P} do nothing.
 A straightforward calculation shows that after each loop the basis
 $(P_{i+1},Q_{i+1})$ is diagonal.
 
-For~$i = 0$, the basis of~$E[ℓ](F_1)$ at step~\ref{alg:diagonal:divide}
+For~$i = 0$, the basis of~$E[ℓ](F_1)$ at step~\ref{expi:alg:diagonal:divide}
 is computed by factoring the $ℓ$-division polynomial
 at an expected cost of $O(ℓ\MM(\ell^2)\log(\ell)\log(\ell q))$
 operations using the Cantor-Zassenhaus algorithm.
   Once $E[ℓ]$ has been computed, we can factor the
   multiplication-by-$ℓ$ map as a product of two $ℓ$-isogenies. Then,
   for any $P$ defined in $E(F_{i-β})$, the computation of
-  $\sfdiv(ℓ, P)$ at Step~\ref{alg:diagonal:divide} costs $O(\RR(i-β+1))$
+  $\sfdiv(ℓ, P)$ at Step~\ref{expi:alg:diagonal:divide} costs $O(\RR(i-β+1))$
   operations.
-  Evaluating~$π(P')$ in Step~\ref{alg:diagonal:frobenius} has a cost
+  Evaluating~$π(P')$ in Step~\ref{expi:alg:diagonal:frobenius} has a cost
   of~$O(\ell^{i-\beta}\MM(\ell))$.
   Writing~$π(P')$ as a linear combination~$α P' + β Q'$ needs at
   most~$ℓ^2$ point additions, with a cost of~$ℓ^2
   \mathsf{M}(ℓ^{i-\beta+1})$.
-  The cost of solving the equations at Steps~\ref{alg:diagonal:solve1}
-  and~\ref{alg:diagonal:solve2} by exhaustive search is negligible, as
+  The cost of solving the equations at Steps~\ref{expi:alg:diagonal:solve1}
+  and~\ref{expi:alg:diagonal:solve2} by exhaustive search is negligible, as
   are the remaining operations.  Since the cost of each loop grows
   geometrically, the last loop dominates all others, and gives the
   stated complexity.
 \end{proof}
 
 \subsection{Computation of a horizontal basis}
-\label{ss:horizontal}
+\label{expi:ss:horizontal}
 
 Using the previous algorithm
 we can compute a diagonal basis of~$E[ℓ^{h+1}]$.
-By Proposition~\ref{prop:diagonal-horizontal},
+By Proposition~\ref{expi:prop:diagonal-horizontal},
 this gives us a horizontal basis of~$E[ℓ]$.
-Thanks to Proposition~\ref{prop:push-horizontal},
+Thanks to Proposition~\ref{expi:prop:push-horizontal},
 we can use this information to improve horizontal points of~$E[ℓ^i]$
 into horizontal points of~$E[ℓ^{i+1}]$, as illustrated in
-Algorithm~\ref{alg:horizontal}.
+Algorithm~\ref{expi:alg:horizontal}.
 
 \begin{algorithm}
-\caption{\label{alg:horizontal}Computing a horizontal point of order~$ℓ^k$}
+\caption{\label{expi:alg:horizontal}Computing a horizontal point of order~$ℓ^k$}
 \begin{algorithmic}[1]
 \REQUIRE $(P_0, Q_0)$: a diagonal basis of~$E[ℓ^{h+1}]$; $k$: an integer,
 $k ≥ h + 1$.\\
@@ -917,17 +917,17 @@ $k ≥ h + 1$.\\
 \FOR{$i = 1$ to~$k-1$}
 \STATE $ϕ_i \gets $ isogeny with kernel~$\chev{ℓ^{h} P_{i-1}}$
 \STATE $Q_{i} \gets ϕ_i(Q_{i-1})$
-\STATE\label{alg:horizontal:divide} $P' \gets \sfdiv(\ell, ϕ_i(P_{i-1}))$.
-\STATE\label{alg:horizontal:frob} Write~$π(P') = λ P' + b Q_i$ for~$b ∈ ℤ/ℓℤ$ and
+\STATE\label{expi:alg:horizontal:divide} $P' \gets \sfdiv(\ell, ϕ_i(P_{i-1}))$.
+\STATE\label{expi:alg:horizontal:frob} Write~$π(P') = λ P' + b Q_i$ for~$b ∈ ℤ/ℓℤ$ and
 let $P_{i} \gets P' - (b/μ) Q_i$.
 \ENDFOR
-\RETURN\label{alg:horizontal:final} $R = \widehat{ϕ}_1 ∘ … ∘ \widehat{ϕ}_{k-1}
+\RETURN\label{expi:alg:horizontal:final} $R = \widehat{ϕ}_1 ∘ … ∘ \widehat{ϕ}_{k-1}
   (\sfdiv( ℓ^{k-(h+1)}, P_{k-1}) )$. 
 \end{algorithmic}
 \end{algorithm}
 %\par\kern -4ex
-\begin{prop}\label{th:horizontal}
-  Algorithm~\ref{alg:horizontal} is correct and computes its output
+\begin{prop}\label{expi:th:horizontal}
+  Algorithm~\ref{expi:alg:horizontal} is correct and computes its output
   using an expected $O(\RR(k-\beta) + k\RR(h-β+1) + kℓ^2\MM(ℓ^{h-β+1}))$
   operations in $\F_q$.
 \end{prop}
@@ -937,26 +937,26 @@ We check that at step~$i$ of the loop,
 the points~$(P_i, Q_i)$ form a diagonal basis of~$E_i[ℓ^{h+1}]$,
 and $ϕ_i$~has direction~$λ$.
 The fact that $R$~is horizontal is then a consequence
-of Proposition~\ref{prop:push-horizontal}.
+of Proposition~\ref{expi:prop:push-horizontal}.
 The two most expensive operations in the loop are
-Steps~\ref{alg:horizontal:divide} and~\ref{alg:horizontal:frob},
+Steps~\ref{expi:alg:horizontal:divide} and~\ref{expi:alg:horizontal:frob},
 costing respectively $O(\RR(h-β+1))$ and $O(ℓ^2\MM(ℓ^{h-β+1}))$, as
-discussed in the proof of Proposition~\ref{th:diagonal}. They are
-repeated $k$ times. Finally, Step~\ref{alg:horizontal:final} is
+discussed in the proof of Proposition~\ref{expi:th:diagonal}. They are
+repeated $k$ times. Finally, Step~\ref{expi:alg:horizontal:final} is
 dominated by the last $\sfdiv$ operation, which costs $O(\RR(k-β))$.
 \end{proof}
 
-One application of Algorithm~\ref{alg:diagonal} (with input~$k ← h+1$)
-and two applications of Algorithm~\ref{alg:horizontal} allow us
+One application of Algorithm~\ref{expi:alg:diagonal} (with input~$k ← h+1$)
+and two applications of Algorithm~\ref{expi:alg:horizontal} allow us
 to compute a horizontal basis of~$E[ℓ^k]$.
-This could be done directly with Algorithm~\ref{alg:diagonal} instead,
+This could be done directly with Algorithm~\ref{expi:alg:diagonal} instead,
 but that would require computing in an extension $F_{k+h-\beta}$.
 
 
 %%%%%%%%%%%%%%%
 
 \section{Interpolation step}
-\label{sec:interpolation}
+\label{expi:sec:interpolation}
 
 
 After constructing bases $(P,Q)$ of $E[ℓ^k]$ and $(P',Q')$ of
@@ -988,7 +988,7 @@ Using a fast interpolation algorithm~\cite[Chapter~10.2]{vzGG}, the
 polynomials $T$ and $L$ could be computed in
 $O\bigl(n\MM(ℓ^{2n})\log(ℓ)\bigr)$ operations in $\F_q$. We can do
 much better by exploiting the form of the Kummer tower, and the
-Frobenius algorithm given in Lemma~\ref{lemma:frob-ell}.
+Frobenius algorithm given in Lemma~\ref{expi:lemma:frob-ell}.
 
 Following~\cite{df10}, we first compute $T$, starting from
 $T^{(0)}=x-v$.  We let $\sigma_i$ be the map that takes all the
@@ -1000,7 +1000,7 @@ $T^{(i,j)}= \sigma_i^j\bigl (T^{(i)} \bigr)$
 for $0 \le j \le \ell-1$,
 and define
 \begin{equation}
-  \label{eq:interp}
+  \label{expi:eq:interp}
   T^{(i+1)}=\prod_{j=0}^{b} T^{(i,j)}
   \qquad\text{with}\qquad
   b = \begin{cases}
@@ -1011,14 +1011,14 @@ and define
 One easily sees that
 $T^{(i+1)}$ is the minimal polynomial of $v$ over $F_{n-i+1}$.
 
-\begin{lem}\label{lemma:interpolation:minpoly}
+\begin{lem}\label{expi:lemma:interpolation:minpoly}
   The cost of computing $T$ is $O(n\MM(ℓ^{n+1})\log(ℓ))$
   operations in $\F_q$.
 \end{lem}
 
 \begin{proof}
   At each step $i$, from the knowledge of $T^{(i)}$ we compute all
-  $T^{(i,j)}$ using Lemma~\ref{lemma:frob-ell}. The cost for a single
+  $T^{(i,j)}$ using Lemma~\ref{expi:lemma:frob-ell}. The cost for a single
   polynomial $T^{(i,j)}$ is of $O(ℓ^iℓ^{n-i-1}\MM(ℓ))$ operations,
   \emph{i.e.} $O(ℓ^n\MM(ℓ))$ for all $O(\ell)$ of them.
   From the $T^{(i,j)}$'s we compute $T^{(i+1)}$ using a subproduct
@@ -1035,7 +1035,7 @@ suppose we know a polynomial $L^{(i)}$ in $F_{n-i}[x]$ of degree less
 than $\ell^i$. We compute the polynomials $L^{(i,j)}$ given by
 $L^{(i,j)}= \sigma_i^j\bigl(L^{(i)}\bigr)$ and
 \[L^{(i+1)} = \sum_{j=0}^{b} L^{(i,j)}\frac{T^{(i+1)}}{T^{(i,j)}},
-  \qquad\text{$b$ defined as in Eq.~\eqref{eq:interp}}.\]
+  \qquad\text{$b$ defined as in Eq.~\eqref{expi:eq:interp}}.\]
 As shown in~\cite{df10}, $L^{(n)}$ is the
 polynomial $L$ we are looking for.
 
@@ -1052,14 +1052,14 @@ polynomial $L$ we are looking for.
   $T'(v) = (((T' \bmod T^{(1)}) \bmod T^{(2)}) \cdots \bmod T^{(n)})$.
   At stage $i$, we have to compute the Euclidean division of a
   polynomial of degree $O(ℓ^{n-i+1})$ by one of degree $O(ℓ^{n-i})$ in
-  $F_i[x]$. Using the complexities from Section~\ref{sub:towers} we
+  $F_i[x]$. Using the complexities from Section~\ref{expi:sub:towers} we
   deduce that each division can be done in time $O(\MM(ℓ^{n+1}))$, for
   a total of $O(n\MM(ℓ^{n+1}))$ operations. Then, computing
   $w' = w/T'(v)$ takes $O(\MM(\ell^n)\log(\ell^n))$ operations.
 
   Finally, at each step $i$, the polynomials $L^{(i,j)}$ are computed
   at a cost of $O(ℓ^n\MM(ℓ))$, as in the proof of
-  Lemma~\ref{lemma:interpolation:minpoly}.  The computation of
+  Lemma~\ref{expi:lemma:interpolation:minpoly}.  The computation of
   $L^{(i+1)}$ uses the same subproduct tree as for the computation of
   $T^{(i)}$, requiring $O(\log ℓ)$ additions, multiplications and
   divisions of polynomials of degree $O(ℓ^{i+1})$ with coefficients in
@@ -1070,7 +1070,7 @@ polynomial $L$ we are looking for.
 We end with the general problem of interpolating a polynomial in
 $\F_q[x]$ at points of $F_n$.
 
-\begin{prop}\label{prop:interpol}
+\begin{prop}\label{expi:prop:interpol}
   Let $(v_1,w_1),\dots,(v_s,w_s)$ be pairs of elements of $F_n$, let
   $t_i$ be the degree of the minimal polynomial of $v_i$, and let
   $t=\sum t_i$. The polynomials
@@ -1108,12 +1108,12 @@ $\F_q[x]$ at points of $F_n$.
 
 
 \section{The complete algorithm}
-\label{sec:complete-algorithm}
+\label{expi:sec:complete-algorithm}
 
 We finally come to the description of the full algorithm. Given two
 $j$-invariants, defining two elliptic curves $E$ and $E'$, and an
 integer $r$, we want to compute an isogeny $ψ:E→E'$ of degree $r$.
-Since the algorithms of Section~\ref{sec:acti-frob-endm} apply to
+Since the algorithms of Section~\ref{expi:sec:acti-frob-endm} apply to
 curves on top of volcanoes with cyclic crater, we first need to
 determine a small Elkies prime $ℓ$ for $E$ and $E'$, and then reduce
 to an explicit isogeny problem on the crater of the
@@ -1121,7 +1121,7 @@ $ℓ$-volcanoes. These steps are discussed and analyzed next.
 
 %%%%%%%%%%%%%%%
 \subsection{Finding a suitable $ℓ$-volcano}
-\label{sub:shape-volcano}
+\label{expi:sub:shape-volcano}
 
 Our algorithm uses an Elkies prime~$ℓ$.  Since~$d_K$ is not assumed to
 be known yet, we need to be able to compute the height $h$ of the
@@ -1141,16 +1141,16 @@ of $ℓ$-isogenies~$α: E → E_{\max}$, $α': E' → E'_{\max}$ linking the
 curves~$E, E'$ to the craters.
 We still have to determine the
 shape of these craters.  Since the height~$h$ of the volcano is known,
-using Algorithm~\ref{alg:diagonal} we can compute a matrix of
+using Algorithm~\ref{expi:alg:diagonal} we can compute a matrix of
 $π|E_{\max}[ℓ^{h+1}]$.  If this matrix has two distinct eigenvalues then the
 crater is cyclic, otherwise it is not.
 
 %% Note that these computations do not depend on the isogeny
 %% degree $r$ and can be reused to compute many isogenies on $E$.
 
-By Proposition~\ref{prop:parallel}, the depth of~$E$ and $E'$ below
+By Proposition~\ref{expi:prop:parallel}, the depth of~$E$ and $E'$ below
 their respective craters is the same.  By
-Proposition~\ref{prop:parallel}~\ref{prop:parallel:ascent}, the
+Proposition~\ref{expi:prop:parallel}~\ref{expi:prop:parallel:ascent}, the
 curves~$E_{\max}$ and~$E'_{\max}$ are again $r$-isogenous; we can use
 our algorithm to compute such an isogeny~$ψ_{\max}$.  Then, 
 since $ℓ$ is coprime to $r$, $ψ =
@@ -1160,7 +1160,7 @@ be computed in $O(h\MM(ℓr)\log(ℓr))$ operations by evaluating the dual isoge
 on the kernel of $ψ_{\max}$ via a sequence of resultants.
 
 \subsection{Interpolating the isogeny}
-\label{sub:final-interp}
+\label{expi:sub:final-interp}
 
 We now assume that both curves~$E, E'$
 have $ℓ$-maximal endomorphism rings.
@@ -1176,7 +1176,7 @@ however, $ℤ/ℓ^k ℤ$~is not an integral domain
 and $π$~is congruent, modulo~$ℓ^h$, to the scalar matrix~$λ$,
 so we can only say that~$ψ\pmod{ℓ^{k-h}}$ is diagonal.
 If on the other hand we choose \emph{horizontal} bases
-of~$E[ℓ^k], E'[ℓ^k]$ then, by Proposition~\ref{prop:parallel}~\ref{prop:parallel:func},
+of~$E[ℓ^k], E'[ℓ^k]$ then, by Proposition~\ref{expi:prop:parallel}~\ref{expi:prop:parallel:func},
 we know that $ψ$~is a diagonal matrix.
 
 We then enumerate all the $ℓ^{2k-2}$ invertible diagonal matrices; for
@@ -1195,20 +1195,20 @@ that~$ℓ^{2k}-1 > 4r$.
 Summarizing, our algorithm for two
 $ℓ$-maximal curves proceeds as follows:
 \begin{enumerate}
-\item\label{alg:ours:horizontal} Use Algorithms~\ref{alg:diagonal}
-  and~\ref{alg:horizontal} to compute horizontal bases $(P,Q), (P', Q')$
+\item\label{expi:alg:ours:horizontal} Use Algorithms~\ref{expi:alg:diagonal}
+  and~\ref{expi:alg:horizontal} to compute horizontal bases $(P,Q), (P', Q')$
   of $E[ℓ^k], E'[ℓ^k]$;
-\item\label{alg:ours:T} Compute the polynomial~$T$ vanishing
+\item\label{expi:alg:ours:T} Compute the polynomial~$T$ vanishing
   on the abscissas of $\langle P,Q\rangle$ as in
-  Section~\ref{sec:interpolation};
-\item\label{alg:ours:for} For each invertible diagonal matrix
+  Section~\ref{expi:sec:interpolation};
+\item\label{expi:alg:ours:for} For each invertible diagonal matrix
   $\smat{a&0\\0&b}$ in $(ℤ/ℓ^k ℤ)^{2×2}$:
   \begin{enumerate}
-  \item\label{alg:ours:interp} compute the interpolation polynomial
+  \item\label{expi:alg:ours:interp} compute the interpolation polynomial
     $L_{a,b}$ such that
     $L_{a,b} (x (u P + v Q)) = x(a\, u\,P' + b\,v\, Q')$ for all
     $u, v ∈ ℤ/ℓ^k ℤ$;
-  \item\label{alg:ours:cauchy} Use the \emph{Cauchy interpolation
+  \item\label{expi:alg:ours:cauchy} Use the \emph{Cauchy interpolation
       algorithm} of~\cite[Chapter~5.8]{vzGG} to compute a rational
     fraction $F_{a,b}≡L_{a,b}\pmod{T}$ of degrees~$(r, r-1)$;
   \item If $F_{a,b}$ defines an isogeny of degree $r$, return it and
@@ -1217,36 +1217,36 @@ $ℓ$-maximal curves proceeds as follows:
 \end{enumerate}
 
 \begin{prop}
-  \label{prop:full-complexity}
+  \label{expi:prop:full-complexity}
   Assuming that $ℓ^h<√ r$, the algorithm above
   computes an isogeny ${ψ:E→E'}$ in expected time
 $O\Bigl(\bigl(r ℓ^2\MM(rℓ^4) +  \MM(rℓ^3)\log(ℓq)\bigr)\log(r)\log(ℓ) \Bigr).$
 \end{prop}
 \begin{proof}
 By definition of~$k$, we know that~$ℓ^{2k} ∈ O(rℓ^2)$.
-  By Proposition~\ref{prop:classes}, there is a $β<h$ such that
+  By Proposition~\ref{expi:prop:classes}, there is a $β<h$ such that
   $E[ℓ^k]$ is contained in $E(F_n)$ with $n=k-β$. We thus construct
   the Kummer tower $F₀⊂\cdots⊂F_n$, and we do the precomputations
-  required by Lemma~\ref{lemma:frob-ell} at a cost of
+  required by Lemma~\ref{expi:lemma:frob-ell} at a cost of
   $O(ℓ\MM(ℓ)\log(q))$.
 
-  Bounding $h$ by $k-1$, Step~\ref{alg:ours:horizontal} costs on average
+  Bounding $h$ by $k-1$, Step~\ref{expi:alg:ours:horizontal} costs on average
   $O(k\RR(k-\beta) + kℓ^2\MM(ℓ\sqrt{r}) + ℓ\MM(ℓ^2)\log(ℓ)\log(ℓq))$ according to
-  Propositions~\ref{th:diagonal} and~\ref{th:horizontal}.
+  Propositions~\ref{expi:th:diagonal} and~\ref{expi:th:horizontal}.
   Using the most pessimistic estimates of
-  Section~\ref{sub:towers}, we see that this cost is bounded by
+  Section~\ref{expi:sub:towers}, we see that this cost is bounded by
   $O(\MM(rℓ^3)\log(r)\log(ℓ)\log(ℓq))$.
 
-  By Proposition~\ref{prop:classes}~\ref{prop:classes:count}, there
+  By Proposition~\ref{expi:prop:classes}~\ref{expi:prop:classes:count}, there
   are at most~$O(k· ℓ^{k+β})$ Galois classes in~$E[ℓ^k]$. In order to
-  apply the algorithms of Section~\ref{sec:interpolation}, we need to
+  apply the algorithms of Section~\ref{expi:sec:interpolation}, we need to
   compute a representative for each class. Each representative is
   computed from the basis $(P,Q)$ using point multiplication by two
   scalars $≤ℓ^k$ in the field $F_n$, which costs
   $O(\MM(ℓ^n)\log(ℓ^k))$ operations. We thus have a total cost of
   $O(k\MM(ℓ^{2k})\log(ℓ^k)) ⊂ O(\MM(rℓ^2)\log(r)^2)$ to compute all such representatives.
 
-  Then, using Proposition~\ref{prop:interpol}, where the total degree
+  Then, using Proposition~\ref{expi:prop:interpol}, where the total degree
   is~$t = (ℓ^{2k}-1)/2∈O(r ℓ^2)$, and the number of interpolation points
   is $s∈O(k·ℓ^{k+β})$, we can compute the polynomials~$T$
   and~$L_{a,b}$ at a cost of~$O(\MM(r ℓ^4)\log(r)\log(ℓ))$.  The cost
@@ -1257,7 +1257,7 @@ By definition of~$k$, we know that~$ℓ^{2k} ∈ O(rℓ^2)$.
 \end{proof}
 
 \subsection{Overall complexity}
-\label{sub:complexity}
+\label{expi:sub:complexity}
 
 By a result of Shparlinski and
 Sutherland~\cite[Theorem~1]{Shparlinski2014},
@@ -1274,7 +1274,7 @@ The following theorem states a worst case bound depending on~$r$ and~$q$ alone.
 
 \begin{proof}
   Given a curve $E$, we search for the smallest Elkies prime
-  satisfying the conditions of Proposition~\ref{prop:full-complexity}.
+  satisfying the conditions of Proposition~\ref{expi:prop:full-complexity}.
   As a special case of~\cite[Theorem~1]{Shparlinski2014},
   we can take $L∈O(\log(q))$ such that the product of all
   Elkies primes $ℓ≤L$ exceeds $Ω(√q)$.
@@ -1292,17 +1292,17 @@ so that in the worst case $ℓ ∈ O(\log(q))$.
 %   there will be enough good Elkies primes left in the interval $\llbracket 1,L\rrbracket$.
 %   Therefore in the worst case~$ℓ = O(\log(q))$.
 
-  The most expensive steps in Section~\ref{sub:shape-volcano} are
+  The most expensive steps in Section~\ref{expi:sub:shape-volcano} are
   the computation and the factorization of the modular polynomials
   for all primes up to $ℓ$.
   This is well within~$O(\log(q)^6)$.
   The stated complexity follows then from
   substituting~$ℓ = O(\log(q))$
-  in Proposition~\ref{prop:full-complexity}.
+  in Proposition~\ref{expi:prop:full-complexity}.
 \end{proof}
 
 \section{Conclusion and experimental results}
-\label{sec:implem}
+\label{expi:sec:implem}
 
 In the previous sections we have obtained a Las Vegas algorithm with
 an interesting asymptotic complexity.  In particular, in the favorable
@@ -1334,7 +1334,7 @@ favorable case where $p = 1 \bmod 4$. Source code and benchmark data
 are available in the GitHub project
 \url{https://github.com/Hugounenq-Cyril/Two_curves_on_a_volcano/}.
 
-\begin{figure}%\label{fig:p=101}
+\begin{figure}%\label{expi:fig:p=101}
 \centering
 \includegraphics[width=0.49\textwidth]{explicit_isogenies/graphe-101.pdf}
 \hfill
@@ -1344,21 +1344,21 @@ are available in the GitHub project
   increasing $r$. Right: Comparison of one interpolation phase for
   $\F_{101}$, $\F_{2^{30}+669}$, $\F_{2^{62}+189}$ and $\F_{2^{252}+421}$, and increasing
   $r$. Plots in logarithmic scale.}
-\label{fig:benchs}
+\label{expi:fig:benchs}
 \end{figure}
 
 We ran benchmarks on an Intel Xeon E5530 CPU clocked at 2.4GHz. We
 fixed a base field $\F_q$ and an elliptic curve $E$ with height $h=3$ and $\beta=2$,
 then ran our algorithm to compute the multiplication-by-$r$ isogeny
 $E→E$, for $r$ increasing.  The torsion levels involved in the
-computations varied from $2^3$ to $2^8$.  Figure~\ref{fig:benchs}
+computations varied from $2^3$ to $2^8$.  Figure~\ref{expi:fig:benchs}
 (left) shows the running times for the computation of the horizontal
 basis of $E[ℓ^k]$, and for one execution of the interpolation
 step. Running times are close to linear in $r$,
 as expected. The staircase behavior of our algorithm is apparent from
 the plot. Since the interpolation steps must be repeated $\sim r$ times,
 we focus on this step to compare the running
-time for different base fields. In Figure~\ref{fig:benchs} (right)
+time for different base fields. In Figure~\ref{expi:fig:benchs} (right)
 we observe that the dependency in $q$, although much better than in
 Couveignes' original algorithm, is higher than what the theoretical 
 analysis would predict. This may due to low-level implementation details
@@ -1384,11 +1384,11 @@ algorithm by allowing it to work in smaller extension fields.
 %\appendix
 
 \section{Galois classes in~$E[ℓ^k]$}
-\label{ap:galois}
+\label{expi:ap:galois}
 
 We give here the full decomposition of $E[ℓ^k]$ in Galois classes.
-This is a more precise form of Proposition~\ref{prop:classes}~(v).
-\begin{prop}\label{prop:orbites-l-torsion}
+This is a more precise form of Proposition~\ref{expi:prop:classes}~(v).
+\begin{prop}\label{expi:prop:orbites-l-torsion}
 Let~$E$ be an elliptic curve with $ℓ$-maximal endomorphism ring.
 Assume $ℓ ≠ 2$, $λ ≡ μ ≡ 1 \pmod{ℓ}$ and let~$α = v_ℓ(λ-1), β=v_ℓ(μ-1)$.
 Write~$ν(x, y) = \min (x+y, x+β-1, y+α-1)$
@@ -1445,7 +1445,7 @@ the sets~$V(i, c) · P$ and~$V(j,d) · Q$.
 We now state the equivalent proposition when~$ℓ = 2$.
 The proof is much the same as in the odd case.
 
-\begin{prop}\label{prop:orbites-2-torsion}
+\begin{prop}\label{expi:prop:orbites-2-torsion}
 Let~$E$ be an elliptic curve with $2$-maximal endomorphism ring.
 Assume $λ ≡ μ ≡ 1 \pmod{4}$ and let~$α = v_2(λ-1), β=v_2(μ-1)$.
 Write~$ν_2(x, y) = \min (x+y, x+β-2, y+α-2)$
@@ -1465,7 +1465,7 @@ by replacing the base field by a quadratic extension,
 we can always ensure that the condition $λ ≡ μ ≡ 1 \pmod{4}$ is
 satisfied.
 % \begin{proof}%<<<
-% The proof is much the same as that of Prop.~\ref{prop:orbites-l-torsion}.
+% The proof is much the same as that of Prop.~\ref{expi:prop:orbites-l-torsion}.
 % The case~$ℓ = 2$ of~\cite[Théorème II.3.2]{Serre.Arith}
 % states that $f(x,y,z) = 2^x · (-1)^y · \exp (4z)$
 % is an isomorphism between~$ℤ × (ℤ/2ℤ) × ℤ_2$ and~$ℚ_2^×$.

@@ -139,7 +139,7 @@
 
 
 \section{Introduction}
-\label{sec:introduction}
+\label{ffisom:sec:introduction}
 
 Let $q$ be a prime power and let $\F_q$ be a field with $q$
 elements. Let $f$ and $g$ be irreducible polynomials over $\F_q$, with
@@ -236,7 +236,7 @@ existing algorithms and introduce several new variants. %
 After laying out the foundations in the next section, we start with
 algorithms for the embedding description problem. %
 
-Section~\ref{sec:kummer} describes the family of algorithms based
+Section~\ref{ffisom:sec:kummer} describes the family of algorithms based
 (more or less loosely) on Lenstra's work; we call these
 \emph{Kummer-type} algorithms. %
 In doing so, we pay a particular attention to Allombert's algorithm:
@@ -248,17 +248,17 @@ outperform them both in theory and practice. %
 One notable omission in this section is Narayanan's algorithm, which
 is, in our opinion, mostly of theoretical rather than practical
 interest. %
-We present instead in Subsection~\ref{sec:fast-algor-large} a simpler
+We present instead in Subsection~\ref{ffisom:sec:fast-algor-large} a simpler
 algorithm with essentially the same complexity.
 
-In Section~\ref{sec:rains-algorithm} we describe Rains' algorithm. %
+In Section~\ref{ffisom:sec:rains-algorithm} we describe Rains' algorithm. %
 Rains' original preprint~\cite{rains2008} went unpublished, thus we
 give here a complete description and analysis of his algorithm, for
 reference. %
 We also give new variants of Rains' algorithm of lesser
-interest in Appendix~\ref{app:rains-vars}.
+interest in Appendix~\ref{ffisom:app:rains-vars}.
 
-Then, in Section~\ref{sec:rains-elliptic} we present a generalization
+Then, in Section~\ref{ffisom:sec:rains-elliptic} we present a generalization
 of Rains' algorithm using elliptic curves. %
 The possibility of this algorithm was hinted at by Rains, but never
 fully developed; we show that it is indeed possible to use
@@ -275,16 +275,16 @@ extremely small, however we are not able to prove it formally. %
 Our experimental searches even seem to suggest that the failure
 probability might be, surprisingly, zero. %
 We state this as a conjecture on elliptic periods (see
-Conjecture~\ref{conj:ellperiods}).
+Conjecture~\ref{ffisom:conj:ellperiods}).
 
-Section~\ref{sec:selection} does a global comparison of all the
+Section~\ref{ffisom:sec:selection} does a global comparison of all the
 algorithms presented previously. %
 In particular, Rains' algorithm and variants require a non-trivial
 search for parameters, which we discuss thoroughly. %
 Then we present an algorithm to select the best performing embedding
 description algorithm from a practical point of view. %
 This theoretical study is complemented by the experimental
-Section~\ref{sec:experimental-results}, where we compare our
+Section~\ref{ffisom:sec:experimental-results}, where we compare our
 implementations of all the algorithms; our source code is made
 available through the Git repository
 \url{https://github.com/defeo/ffisom} for replication and further
@@ -302,10 +302,10 @@ embeddings of finite fields in a computer algebra system.
 
 
 \section{Preliminaries}
-\label{sec:preliminaries}
+\label{ffisom:sec:preliminaries}
 
 \subsection{Fundamental algorithms and complexity}
-\label{sec:fundamentalgo}
+\label{ffisom:sec:fundamentalgo}
 We review the fundamental building blocks that constitute the
 algorithms presented next.  We are going to measure all complexities
 in number of operations $+$, $\times$, $\div$ in $\F_q$, unless
@@ -366,7 +366,7 @@ algorithms competitive in practice is challenging; we are not aware of
 any implementation of them that would outperform Brent and Kung's
 algorithm. 
 
-\begin{note}\label{note:multimc}
+\begin{note}\label{ffisom:note:multimc}
 If we have several modular compositions of the form $e_1(g) \bmod
 h,\dots,$ $e_t(g) \bmod h$ to compute, we can slightly improve the obvious
 bound $O(ts^{(\omega+1)/2})$ (we discuss here $k=\F_q$, so $m=1$). If
@@ -414,7 +414,7 @@ allow us to compute the expressions $\sigma_d, \tau_d, \mu_d$ defined
 above.
 
 \begin{proposition}
-\label{prop:trace-like}
+\label{ffisom:prop:trace-like}
 Let $f \in \F_q[X]$ be a polynomial of degree $m$,
 and define the $\F_q$-algebra $Q = \F_q[X]/f(X)$.
 Let $h \in Q[Z]$ be a polynomial of degree $s$,
@@ -426,7 +426,7 @@ Denote by $T_Q, T_S, T_{Q'}$ the cost, in terms of $\F_q$-operations,
 of one modular composition in $Q, S, Q'$ respectively. %
 Also denote by $T_{Q,t}\le tT_Q$ (resp. $T_{S,t}, T_{Q',t}$) the cost of $t$
 modular compositions sharing the same polynomial (see
-Note~\ref{note:multimc}).
+Note~\ref{ffisom:note:multimc}).
 
 Then the expressions
 \[
@@ -539,7 +539,7 @@ The complexity estimates mostly rely on the complexity of modular composition.
   that $\beta^{q^i} = \sum_{j=0}^{s-1} c_j(x)^{q^i} \zeta_i^j.$ The
   $s$ coefficients $c_j(x)^{q^i}$ are computed by applying the
   previous algorithms in $Q$ to $s$ inputs. This takes time at most
-  $sT_Q$, but as pointed out in Note~\ref{note:multimc}, improvements 
+  $sT_Q$, but as pointed out in Note~\ref{ffisom:note:multimc}, improvements 
   are possible if we base our algorithm on modular composition;
   we thus denote the cost $T_{Q,s}$.
 
@@ -553,7 +553,7 @@ The complexity estimates mostly rely on the complexity of modular composition.
   In the last step, the cost $T_S$ of modular
   composition in $S$ is now that of $m$ modular compositions in degree
   $s$ (with the same argument), as detailed in
-  Note~\ref{note:multimc}, that we denote $T_{Q',m}$.
+  Note~\ref{ffisom:note:multimc}, that we denote $T_{Q',m}$.
   Similarly, the cost of multiplication in $S$ can be reduced
   from $O(\MM(ms))$ to $O(s\MM(m) + m\MM(s))$ operations.
 
@@ -612,7 +612,7 @@ Then $\alpha$ has a minimal polynomial of degree $m$
 over $\F_q$ with high probability. In other words, one needs $O(1)$ such random elements to find 
 one with degree $m$ minimal polynomial. Now, the trace
 \begin{equation}
-	\label{equ:trace-simple}
+	\label{ffisom:equ:trace-simple}
 	\trace_{k/L}(\alpha) = \alpha + \alpha^{q^r} + \cdots + \alpha^{q^{m - r}}
 \end{equation}
 has a minimal polynomial of degree $r$ over $\F_q$ with high
@@ -622,7 +622,7 @@ its minimal polynomial
 $g$, and $h$ the polynomial of degree less than $m$ representing $\beta$.
 
 \begin{proposition}
-	\label{prop:subfield}
+	\label{ffisom:prop:subfield}
 	Let $\F_q \subset k$ be a finite extension of degree $m$, and
         let $r$ be a divisor of $m$.  Computing an intermediate field
         $\F_q \subset L \subset k$ with $[L:\F_q]=r$ takes an expected
@@ -633,7 +633,7 @@ $g$, and $h$ the polynomial of degree less than $m$ representing $\beta$.
 \begin{proof}
   Computing the minimal polynomial of an element in $k$ takes
   $O(m^{(\omega+1)/2})$ operations in $\F_q$, see~\cite{shoup99}. %
-  The trace in Eq.~\eqref{equ:trace-simple} is computed as the
+  The trace in Eq.~\eqref{ffisom:equ:trace-simple} is computed as the
   expression $\tau_m$ of the previous paragraph (with $c=r$ and
   $d=m/r$), at a cost of $O(m^{(\omega+1)/2}\log(m)+\MM(m)\log(q))$
   operations in $\F_q$.
@@ -662,21 +662,21 @@ give an efficient algorithm which is as follows.
 
 \begin{algorithm}
   \caption{Kaltofen--Shoup EDF for extension fields}
-	\label{alg:ks}
+	\label{ffisom:alg:ks}
 	\begin{algorithmic}[1]
 		\REQUIRE A polynomial $h$  with irreducible factors of degree $d$ over $k=\F_q[X]/f(X)$.
 		\ENSURE An irreducible factor of $h$ over $k$.
 		\STATE If $\deg h = d$ return $h$.
 		\STATE Take a random polynomial $a_0\in k[Z]$ of degree less than $\deg h$,
-		\STATE\label{alg:ks-pseudotrace} Compute $\displaystyle a_1 
+		\STATE\label{ffisom:alg:ks-pseudotrace} Compute $\displaystyle a_1 
 		\leftarrow \sum_{i=0}^{md-1} a_0^{q^i} \mod h$,
 		\IF{$q$ is an even power $q=2^e$}
-		\STATE\label{alg:ks:even} Compute $\displaystyle a_2 \leftarrow 
+		\STATE\label{ffisom:alg:ks:even} Compute $\displaystyle a_2 \leftarrow 
 		\sum_{i=0}^{e-1} a_1^{2^i}\mod h$
 		\ELSE
-		\STATE\label{alg:ks:odd} Compute $a_2 \leftarrow a_1^{(q-1)/2}\mod h$
+		\STATE\label{ffisom:alg:ks:odd} Compute $a_2 \leftarrow a_1^{(q-1)/2}\mod h$
 		\ENDIF
-		\STATE\label{alg:ks:gcd} Compute $h_0\leftarrow\gcd(a_2,h)$ and 
+		\STATE\label{ffisom:alg:ks:gcd} Compute $h_0\leftarrow\gcd(a_2,h)$ and 
 		$h_1\leftarrow\gcd(a_2-1,h)$ and $h_{-1}\leftarrow h/(h_0h_1)$,
 		\STATE Apply recursively to the smallest non-constant polynomial among 
 		$h_0,h_1,h_{-1}$.
@@ -699,7 +699,7 @@ whereas the other one has a runtime that depends on $r$ and $s$,
 and will perform better for small values of $s$.
 
 \begin{proposition}
-  \label{prop:root-fpz}
+  \label{ffisom:prop:root-fpz}
   Let $r$ be a prime power and let $\zeta$ be a primitive $r$-th root of unity; let also $s = 
   [\F_q(\zeta): \F_q]$. One can take $r$-th roots in 
   $\F_q(\zeta)$ using either 
@@ -708,10 +708,10 @@ and will perform better for small values of $s$.
   $$O(\MM(s)\log(q) + r\MM(r)\log(s) + \MM(rs)\log(s)\log(r))$$ operations in $\F_q$. 
 \end{proposition}
 \begin{proof}
-We use Algorithm~\ref{alg:ks} with $k=\F_q(\zeta)$, to get a linear
+We use Algorithm~\ref{ffisom:alg:ks} with $k=\F_q(\zeta)$, to get a linear
 factor of the polynomial $Z^r-\alpha$, so that $d=1$ (note that
 $Z^r-\alpha$ splits into linear factors in $k[Z]$). We discuss
-Step~\ref{alg:ks-pseudotrace}, which is the dominant step. Let $f \in
+Step~\ref{ffisom:alg:ks-pseudotrace}, which is the dominant step. Let $f \in
 \F_q[X]$ be the defining polynomial of $\F_q(\zeta)$ and let $h$ be a
 factor of $Z^r-\alpha$ of degree $n$. 
 
@@ -727,9 +727,9 @@ $$O(\MM(s)\log(q) + n\MM(r)\log(s) + \MM(rs)\log(s))$$ operations in
 $\F_q$, where the first term accounts for computing $\alpha^{\lfloor
   q/r \rfloor}$ (so we need only compute it once).
 
-Steps~\ref{alg:ks:odd} and~\ref{alg:ks:even} are again an instance of
-Case~5, and their cost is subsumed by Step~\ref{alg:ks-pseudotrace}.
-The depth of the recursion in Algorithm~\ref{alg:ks} is $\log(r)$, and
+Steps~\ref{ffisom:alg:ks:odd} and~\ref{ffisom:alg:ks:even} are again an instance of
+Case~5, and their cost is subsumed by Step~\ref{ffisom:alg:ks-pseudotrace}.
+The depth of the recursion in Algorithm~\ref{ffisom:alg:ks} is $\log(r)$, and
 the degree $n$ is halved each time, so we obtain the desired result.
 \end{proof}
 
@@ -756,7 +756,7 @@ the reduction.
 
 \begin{algorithm}
 \caption{$v$-th root in $k(\zeta)$}
-\label{algorithm:new}
+\label{ffisom:algorithm:new}
 \begin{algorithmic}[1]
 \REQUIRE $a \in k(\zeta)^v$
 \ENSURE a $v$-th root of $a$
@@ -802,7 +802,7 @@ The root extraction in $\F_q(\zeta)$ is done as in the previous
 paragraph, and have a negligible cost, since we assumed that $s \le v
 \le \sqrt{r}$. Therefore, we arrive at the following result.
 
-\begin{proposition}\label{prop:root_high_degree_extension}
+\begin{proposition}\label{ffisom:prop:root_high_degree_extension}
 With $k$, $\zeta$ and $v$ as above, one can extract $v$-th roots in
 $k(\zeta)$ using an expected
 $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r) + s\MM(r)\log(q))$
@@ -824,7 +824,7 @@ equivalent to saying that $\alpha$ and $\beta$ have the same minimal polynomial.
 The most obvious way to solve this problem is to take the class of $X$
 in $k=\F_q[X]/f(X)$ for $\alpha$, and a root of $f$ in $K$ for
 $\beta$. Since $f$ splits completely in $K$, we can apply Algorithm
-\ref{alg:ks} for the special case $d = 1$. Using our discussion on the
+\ref{ffisom:alg:ks} for the special case $d = 1$. Using our discussion on the
 cost of Frobenius evaluation (precisely, Case~4), we obtain an upper
 bound of $O\bigl((nm^{(\omega+1)/2} + \MM(m)n^{(\omega+1)/2} +
 m\MM(n)\log(q))\log(m)\bigr)$ expected operations in $\F_q$ for the
@@ -851,12 +851,12 @@ or
 Moreover, to treat the general embedding description problem,
 it is sufficient to treat the case where $[k:\F_q]=[K:\F_q]=r$.
 Indeed, we can reduce to this situation by applying
-Proposition~\ref{prop:subfield}, at an additional cost of
+Proposition~\ref{ffisom:prop:subfield}, at an additional cost of
 $O(n^{(\omega+1)/2}\log(n) + \MM(n)\log(q))$ for each primary factor~$r$.
 Therefore, to simplify the exposition, we focus on algorithms
 solving the following problem.
 \begin{problem}
-\label{prob:embedding}
+\label{ffisom:prob:embedding}
 Let $r$ be a prime power and $k, K$ two extensions of $\F_q$
 of degree $r$.
 Describe an isomorphism between $k$ and $K$.
@@ -868,7 +868,7 @@ Galois group of $\F_q$) is uniquely (or \emph{almost} uniquely)
 defined.
 
 \section{Kummer-type algorithms}
-\label{sec:kummer}
+\label{ffisom:sec:kummer}
 
 In this section, we review what we call \emph{Kummer-type} approaches to the embedding problem for prime power degree extensions. 
 We briefly review the works of Lenstra~\cite{LenstraJr91},
@@ -878,9 +878,9 @@ As stated above, we let $k, K$ be degree $r$ extensions of $\F_q$,
 where $r$ is a prime power,
 and we let $p$ be their characteristic.
 We give our fast versions of the algorithms for two separate cases: the case $p \nmid r$
-is treated in Section~\ref{sec:fast-kummer}, the case $r = p^d$, where $d$ 
-is a positive integer, is treated in Section~\ref{sec:fast-artin-schreier}.
-Finally, in Section~\ref{sec:fast-algor-large} we give a variant of the case
+is treated in Section~\ref{ffisom:sec:fast-kummer}, the case $r = p^d$, where $d$ 
+is a positive integer, is treated in Section~\ref{ffisom:sec:fast-artin-schreier}.
+Finally, in Section~\ref{ffisom:sec:fast-algor-large} we give a variant of the case
 $p \nmid r$ better suited for the case where $r$ is a high-degree prime power.
 
 In~\cite{LenstraJr91}, Lenstra proves that 
@@ -951,7 +951,7 @@ on $\theta_1$ and $\theta_2$, he obtains an embedding $k \hookrightarrow K$.%
 
 
 \subsection{Allombert's algorithm}
-\label{sec:fast-kummer}
+\label{ffisom:sec:fast-kummer}
 
 In this section, we analyze the complexity of Allombert's original
 algorithm~\cite{Allombert02}, that of its revised version~\cite{Allombert02-rev},
@@ -963,7 +963,7 @@ as will become clear below.
 Whereas Allombert resorts to linear algebra, we rely instead on evaluation
 formulas that have a high probability of yielding a solution.
 Recently, Narayanan~\cite[Sec.~3]{narayanan2016fast} independently described 
-a variant which is similar to our Proposition~\ref{prop:xitheta}
+a variant which is similar to our Proposition~\ref{ffisom:prop:xitheta}
 in the special case $s=1$.
 
 \subsubsection{General strategy}
@@ -1001,7 +1001,7 @@ Let us restate the algorithm for clarity.
 		\STATE Let $\alpha, \beta$ be the constant terms of $\theta_1, c\theta_2$ respectively;
 		\RETURN The field embedding defined by $\alpha\mapsto\beta$.
 	\end{algorithmic}
-        \label{alog:allombert}
+        \label{ffisom:alog:allombert}
 \end{algorithm}
 
 %% , for an expected $O(\MM(r)\log(rq))$
@@ -1009,7 +1009,7 @@ Let us restate the algorithm for clarity.
 
 The cyclotomic polynomial $\Phi_r$ is factored over $\F_q$
 using~\cite[Theorem~9]{shoup94}, and $r$-th root extraction in
-$\F_q(\zeta)$ is done using Proposition~\ref{prop:root-fpz}, so we are
+$\F_q(\zeta)$ is done using Proposition~\ref{ffisom:prop:root-fpz}, so we are
 left with the problem of finding $\theta_1$ (and $\theta_2$), that is,
 instances of Hilbert's theorem 90.  
 
@@ -1029,7 +1029,7 @@ $k[\zeta]$; note that the usual property of \emph{$q$-polynomials}
 holds: $\widehat{AB} = \hat{A}\circ\hat{B}$.
 
 \subsubsection{Algorithms relying on linear algebra}
-\label{sec:algor-rely-line}
+\label{ffisom:sec:algor-rely-line}
 
 As some algorithmic details were omitted in Allombert's publications,
 and no precise complexity analysis was performed, we extracted the
@@ -1053,13 +1053,13 @@ operations in $\F_q$. This gives a total cost of $O(s \MM(r) \log(q) +
 Allombert's revision of his own algorithm~\cite{Allombert02-rev} uses
 the factorization
 \begin{equation}
-  \label{eq:allomb-b}
+  \label{ffisom:eq:allomb-b}
   h(S)=(S-\zeta) b(S).
 \end{equation}
 If we set $h(S)=S^s+\sum_{i=0}^{s-1}h_iS^i$, we can
 explicitly write $b$ as
 \begin{equation}
-  \label{eq:hprime}
+  \label{ffisom:eq:hprime}
   b(S)=\sum_{i=0}^{s-1}b_i(S)\zeta^i,\quad
   \text{where}\quad
   \left\{\begin{aligned}
@@ -1100,7 +1100,7 @@ $O(s r \MM(r))$ operations in $\F_q$.
 
 Given the matrix of $\hat{h}$ over $k$, computing an element in its
 kernel costs $O(r^\omega)$ operations in $\F_q$.  The final evaluation
-of $\hat{b}$ is done using Eq.~\eqref{eq:hprime} and the matrix of
+of $\hat{b}$ is done using Eq.~\eqref{ffisom:eq:hprime} and the matrix of
 $\sigma$ for Frobenius computations, for a cost of $O(s r^2)$ operations
 in $\F_q$.
 \end{proof}
@@ -1123,27 +1123,27 @@ $O(s \MM(r) \log(q) + \sqrt{s} r^\omega)$ operations in~$\F_q$.
 
 Although this complexity is not as good as the ones we will obtain
 next, this variant performs reasonably well in practice, as discussed
-in Section~\ref{sec:experimental-results}.
+in Section~\ref{ffisom:sec:experimental-results}.
 
 \subsubsection{Algorithms relying on polynomial arithmetic}
-\label{sec:algor-rely-polyn}
+\label{ffisom:sec:algor-rely-polyn}
 
 It is immediate to see that the minimal polynomial of $\sigma$ over $k[\zeta]$ is
 $S^r-1$; by direct calculation, we verify that it
 factors as
 \begin{equation}
-  \label{eq:theta90}
+  \label{ffisom:eq:theta90}
   S^r-1 = (S-\zeta)\cdot\Theta(S) =
   (S-\zeta)\sum_{i=0}^{r-1} \zeta^{-i-1}S^i. 
 \end{equation}
 Hence, we can set
 \begin{equation}
-  \label{eq:thetaa}
+  \label{ffisom:eq:thetaa}
   \theta_a = \hat\Theta(a)
   =  a\otimes\zeta^{-1} + \sigma(a)\otimes\zeta^{-2} + \cdots + \sigma^{r-1}(a)\otimes\zeta^{-r}
 \end{equation}
 for some $a\in k$ chosen at random. %
-Because of Eq.~\eqref{eq:theta90}, $\theta_a$ is a solution as long as
+Because of Eq.~\eqref{ffisom:eq:theta90}, $\theta_a$ is a solution as long as
 it is non-zero. %
 This is reminiscent of Lenstra's algorithm~\cite[Th.~5.2]{LenstraJr91}.
 
@@ -1159,17 +1159,17 @@ $\F_q$-linear and non-zero, it has rank at least 1, thus a
 random $\theta_a$ is zero with probability less than $1 / q$. Therefore, we only 
 need $O(1)$ trials to find $\theta_1$ (and $\theta_2$).
 
-Using the polynomial $b(S)$ introduced in Eq.~\eqref{eq:allomb-b},
+Using the polynomial $b(S)$ introduced in Eq.~\eqref{ffisom:eq:allomb-b},
 and defining
-$g(S)=(S^r-1)/h(S)$, we can rewrite Eq.~\eqref{eq:theta90} as
+$g(S)=(S^r-1)/h(S)$, we can rewrite Eq.~\eqref{ffisom:eq:theta90} as
 \begin{equation}
-  \label{eq:theta90bis}
+  \label{ffisom:eq:theta90bis}
   \Theta(S) = b(S) \cdot g(S).
 \end{equation}
 Then, the morphism $\hat\Theta$ can be evaluated
 as $\hat{b}\circ\hat{g}$, the advantage being that $g$ has
 coefficients in $\F_q$, rather than in $\F_q(\zeta)$: we set $\tau_a = \hat{g}(a)$ for some $a\in k$ chosen at random
-and compute $\theta_a = \hat{b}(\tau_a)$ using Eq.~\eqref{eq:hprime},
+and compute $\theta_a = \hat{b}(\tau_a)$ using Eq.~\eqref{ffisom:eq:hprime},
 yielding a solution to Hilbert's theorem 90 as soon as $\tau_a \neq 0$.
 As before, $O(1)$ trials are enough to get $\theta_a \neq 0$.
 
@@ -1184,8 +1184,8 @@ value of $s$ with respect to $r$; we arrange them by increasing $s$.
 
 \paragraph{\bf First solution: divide-and-conquer recursion.}
 We use a recursive algorithm similar to the computation of trace-like
-functions in Proposition~\ref{prop:trace-like}, to directly evaluate
-$\theta_a$ using Eq.~\eqref{eq:thetaa}. For $j \ge 1$, let
+functions in Proposition~\ref{ffisom:prop:trace-like}, to directly evaluate
+$\theta_a$ using Eq.~\eqref{ffisom:eq:thetaa}. For $j \ge 1$, let
 $\xi_j=\sigma^j(x)$ and $\theta_{a,j} = a\otimes\zeta^{-1} +
 \sigma(a)\otimes\zeta^{-2} + \cdots +
 \sigma^{j-1}(a)\otimes\zeta^{-j}$, so that we want to compute
@@ -1193,13 +1193,13 @@ $\theta_{a,r}=\theta_a$. For $j=1$, we have $(\xi_1,\theta_{a,1})=
 (x^q, a\zeta^{-1})$; for $i,j \ge 1$, we have the following
 recursive relations:
 \begin{equation}
-\label{eq:theta-recursive}
+\label{ffisom:eq:theta-recursive}
 (\xi_{i+j}, \theta_{a, i+j}) = (\sigma^i(\xi_j), \theta_{a,i} + \sigma^i(\theta_{a,j})\zeta^{-i}).
 \end{equation}
 
 \begin{proposition}
-  \label{prop:xitheta}
-  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{eq:thetaa} can be
+  \label{ffisom:prop:xitheta}
+  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{ffisom:eq:thetaa} can be
   computed using \[
 O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(q))
 \]
@@ -1210,13 +1210,13 @@ O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(q))
   $O(\MM(r)\log(q))$ operations, while the value $\theta_{a,1}$ is
   deduced from the polynomial $h$ using $O(rs)$ operations.
   
-  To compute the recursive formulas in Eq.~\eqref{eq:theta-recursive}
-  we use the same technique as in Proposition~\ref{prop:trace-like}:
+  To compute the recursive formulas in Eq.~\eqref{ffisom:eq:theta-recursive}
+  we use the same technique as in Proposition~\ref{ffisom:prop:trace-like}:
   given $b \in k[\zeta]$, the value $\sigma^j(b)$ is computed as the
   modular composition of the polynomial $b(x,z)$ with the polynomial
   $\xi_j(x)$ in the first argument. %
   Each modular composition in $k[\zeta]$ is done using $s$ 
-  modular compositions in $k$, at a cost of $O(s^{(\omega-1)/2}r^{(\omega+1)/2})$ operations (see Note~\ref{note:multimc}). %
+  modular compositions in $k$, at a cost of $O(s^{(\omega-1)/2}r^{(\omega+1)/2})$ operations (see Note~\ref{ffisom:note:multimc}). %
   Multiplications by $\zeta^{-j}$ are done by seeing the elements of
   $k[\zeta]$ as polynomials in $x$ over $\F_q(\zeta)$, thus performing
   $r$ multiplications modulo $h$, at a cost of $O(r\MM(s))$
@@ -1226,12 +1226,12 @@ O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(q))
 \end{proof}
 
 \paragraph{\bf Second solution: automorphism evaluation.}
-We use Eq.~\eqref{eq:theta90bis} and Eq.~\eqref{eq:hprime}
+We use Eq.~\eqref{ffisom:eq:theta90bis} and Eq.~\eqref{ffisom:eq:hprime}
 to compute $\theta_a$ as
 $\theta_a = \hat{b}\circ \hat{g} (a)$.
 \begin{proposition}
-  \label{prop:ks-theta}
-  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{eq:thetaa} can
+  \label{ffisom:prop:ks-theta}
+  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{ffisom:eq:thetaa} can
   be computed using
   \[
   O(r^{(\omega^2-4\omega-1)/(\omega-5)}+(s+r^{2/(5-\omega)})\MM(r)\log(q))
@@ -1247,7 +1247,7 @@ $\theta_a = \hat{b}\circ \hat{g} (a)$.
   any $0\le\beta\le1$. Choosing $\beta=2/(5-\omega)$ minimizes the
   overall runtime, giving the exponents reported above.
   
-  We then use Eq.~\eqref{eq:hprime} to compute
+  We then use Eq.~\eqref{ffisom:eq:hprime} to compute
   $\theta_a=\sum_{i=0}^{s-1}a_i\otimes\zeta^i$, where
   $a_{s-1}=\hat{g}(a)$, and $a_{i-1}=\sigma(a_i)+h_i\hat{g}(a)$. 
   The cost of this computation is dominated by the evaluations of
@@ -1263,8 +1263,8 @@ polynomial in $x$ and $\zeta$ of degree $r-1$ in both variables, and
 reduce modulo $h$ for each power $x^i$.
 
 \begin{proposition}
-  \label{prop:iter-frob-theta}
-  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{eq:thetaa} can
+  \label{ffisom:prop:iter-frob-theta}
+  Given $a\in k$, the value $\theta_a$ in Eq.~\eqref{ffisom:eq:thetaa} can
   be computed using 
   \[
 O(\MM(r^2)\log(r) + \MM(r)\log(q))
@@ -1295,9 +1295,9 @@ O(r^{0.72})$, and $\tildO(r^2)$ otherwise.
 For $\omega=3$, all costs are at best quadratic.
 
 \begin{proposition}
-  \label{proposition:XiDelta-updated}
+  \label{ffisom:proposition:XiDelta-updated}
   Given $k,K$ of degree $r$ over $\F_q$, assuming that $s$ is the
-  order of $q$ in $(\Z/r\Z)^\times$,   Algorithm~\ref{alog:allombert} 
+  order of $q$ in $(\Z/r\Z)^\times$,   Algorithm~\ref{ffisom:alog:allombert} 
  computes its output using 
   \begin{itemize}
   \item $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(q))$
@@ -1321,7 +1321,7 @@ For $\omega=3$, all costs are at best quadratic.
   The powers $\theta_1^r,\theta_2^r$ are computed using Kronecker
   substitution in $O(\MM(sr)\log(r))$ operations, which is also
   negligible. Finally, the cost of computing an $r$-th root in
-  $\F_q(\zeta)$ is given by Proposition~\ref{prop:root-fpz} and can
+  $\F_q(\zeta)$ is given by Proposition~\ref{ffisom:prop:root-fpz} and can
   not be neglected.
 
   Combining the costs coming from the solution to Hilbert's theorem 90
@@ -1329,20 +1329,20 @@ For $\omega=3$, all costs are at best quadratic.
   according to $s$.
   \begin{itemize}
   \item If we use the algorithm described in
-    our first solution, combining Proposition~\ref{prop:xitheta} with the first
-    case of Proposition~\ref{prop:root-fpz}, we obtain an estimate of
+    our first solution, combining Proposition~\ref{ffisom:prop:xitheta} with the first
+    case of Proposition~\ref{ffisom:prop:root-fpz}, we obtain an estimate of
     $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)+\MM(r)\log(q))$
     operations.
 %% $\MM(sr)\log(s)\log(r)$ is $o(s^{(\omega-1)/2}r^{(\omega+1)/2})$
   \item If we use the algorithm described in
-    our second solution, combining Proposition~\ref{prop:ks-theta} with the first
-    case of Proposition~\ref{prop:root-fpz}, we obtain an estimate of
+    our second solution, combining Proposition~\ref{ffisom:prop:ks-theta} with the first
+    case of Proposition~\ref{ffisom:prop:root-fpz}, we obtain an estimate of
     $O( r^{(\omega^2-4\omega-1)/(\omega-5)}+(s+r^{2/(5-\omega)})\MM(r)\log(q)
 +s^{\omega-1}r\log(r)\log(s)+\MM(rs)\log(r)\log(s))$
     operations.
   \item Otherwise, we use the algorithm described in our third solution. Combining
-    Proposition~\ref{prop:iter-frob-theta} with the second case of
-    Proposition~\ref{prop:root-fpz}, and replacing $s$ with $r$
+    Proposition~\ref{ffisom:prop:iter-frob-theta} with the second case of
+    Proposition~\ref{ffisom:prop:root-fpz}, and replacing $s$ with $r$
     everywhere, we obtain an estimate of
     $O(\MM(r^2)\log^2(r) + \MM(r)\log(r)\log(q)) $ expected operations.
   \end{itemize}
@@ -1356,7 +1356,7 @@ For $\omega=3$, all costs are at best quadratic.
 
 
 \subsection{The Artin--Schreier case}
-\label{sec:fast-artin-schreier}
+\label{ffisom:sec:fast-artin-schreier}
 
 This section is devoted to the case $r = p^d$ for some positive integer $d$.
 The technique we present here originates in Adleman and Lenstra's work~\cite[Lemma 5]{Adleman-Lenstra},
@@ -1383,7 +1383,7 @@ X^p - X - a_2$ is irreducible over $\F_q(\alpha_1)$. So, for a root $\alpha_2 \i
 extension $\F_q(\alpha_2, \alpha_1) / \F_q(\alpha_1)$ is of degree $p$. Continuing the above 
 process we build a tower
 \begin{equation}
-	\label{equ:art-sch-tower}
+	\label{ffisom:equ:art-sch-tower}
 	\F_q \subset \F_q(\alpha_1)  \subset \cdots \subset \F_q(\alpha_1, \cdots, \alpha_d) = k.
 \end{equation}
 The idea of building such tower using the Artin--Schreier polynomials $f_i$ can also be found
@@ -1402,12 +1402,12 @@ for some $i > 0$. By Hilbert's theorem 90 there exists $\alpha \in k$ such that 
 \alpha - a = 0$. Therefore, $\alpha$ is a root of $f$. On the other hand, for a random element 
 $\theta \in k$ with nonzero trace, $\alpha$ can be explicitly set as
 \begin{equation}
-	\label{equ:art-sch-hil}
+	\label{ffisom:equ:art-sch-hil}
 	\alpha = \frac{1}{\trace(\theta)}[a\sigma(\theta) + (a + \sigma(a))\sigma^2(\theta) + \cdots + 
 	(a + \sigma(a) + \cdots + \sigma^{rt - 2}(a))\sigma^{rt - 1}(\theta)]
 \end{equation}
 where $t = [\F_q : \F_p]$.
-To compute $\alpha$ using Eq.~\eqref{equ:art-sch-hil} efficiently, for $j \ge 1$, we define
+To compute $\alpha$ using Eq.~\eqref{ffisom:equ:art-sch-hil} efficiently, for $j \ge 1$, we define
 $ \xi_j = \sigma^j(x)$, and, 
 for $u$ in $k$, 
 \[ \beta_{u,j} = u + \sigma(u) + \cdots + \sigma^{j - 1}(u), \quad 
@@ -1449,7 +1449,7 @@ operations in $\F_q$.  Therefore, the cost of
 computing a root of $f$ is $O(r^{(\omega+1)/2}\log(rt) +
 \MM(r)\log(q))$ operations in $\F_q$.
 
-Now, to compute $\alpha_d$ in Eq.~\eqref{equ:art-sch-tower} we 
+Now, to compute $\alpha_d$ in Eq.~\eqref{ffisom:equ:art-sch-tower} we 
 need to take $d$ roots where $d \in O(\log(r) / \log(p))$ which leads to the following result. (Note that $\xi_1$ is computed only once and reused thereafter.)
 
 \begin{proposition}
@@ -1460,7 +1460,7 @@ need to take $d$ roots where $d \in O(\log(r) / \log(p))$ which leads to the fol
 
 
 \subsection{High-degree prime powers}
-\label{sec:fast-algor-large}
+\label{ffisom:sec:fast-algor-large}
 
 We end this section with an algorithm that is particularly efficient when the extension 
 degree $r$ is a high-degree prime power.
@@ -1498,10 +1498,10 @@ that sends $\theta_1$ to $\theta_2$. Let $\alpha = \trace_{k(\zeta) / k}(\theta_
 map $\alpha\mapsto\beta$ defines an isomorphism.
 
 The main difficulty in applying such an algorithm resides in computing efficiently $v$-th roots in 
-$k(\zeta)$, for which we use Proposition~\ref{prop:root_high_degree_extension}; this yields the 
+$k(\zeta)$, for which we use Proposition~\ref{ffisom:prop:root_high_degree_extension}; this yields the 
 main result of this section.
 \begin{theorem}
-	\label{theorem:isom-root}
+	\label{ffisom:theorem:isom-root}
 	Let $r = v^d$ where $v \ne p$ is a prime and $d$ is a positive integer. Also let $s$ be the 
 	order of $q$ in $\Z / v\Z$. Given extensions $k/\F_q$, $K/\F_q$ of degree $r$, an
         embedding $k\hookrightarrow K$ can be constructed at the cost of 
@@ -1511,7 +1511,7 @@ operations in $\F_q$.
 \end{theorem}
 
 \begin{proof}
-We can construct the embedding of Theorem~\ref{theorem:isom-root} as
+We can construct the embedding of Theorem~\ref{ffisom:theorem:isom-root} as
 follows. We first build the extensions $k(\zeta) / \F_q(\zeta)$ and
 $K(\zeta)/\F_q(\zeta)$. Let $\eta$ be a non $v$-th power in
 $\F_q(\zeta)$.  Then $\eta$ is an $r$-power in $k(\zeta)$ and
@@ -1520,36 +1520,36 @@ $\eta$ we take $d$ successive $v$-th roots.
 
 \begin{algorithm}
   \caption{Kummer-type algorithm for extension towers}
-	\label{algorithm:alpha-root}
+	\label{ffisom:algorithm:alpha-root}
 	\begin{algorithmic}[1]
 		\REQUIRE Extensions $k / \F_q$, $K/\F_q$ of degree prime-power $r = v^d$, with $v\ne p$.
 		\ENSURE The description of a field embedding $k\hookrightarrow K$.
-		\STATE\label{step:factor-cyclo} Factor the $v$-th cyclotomic polynomial over $\F_q$ to 
+		\STATE\label{ffisom:step:factor-cyclo} Factor the $v$-th cyclotomic polynomial over $\F_q$ to 
 		build the extensions $k(\zeta) / \F_q(\zeta)$ and $K(\zeta)/\F_q(\zeta)$;
-		\STATE\label{step:non-v-res} Find a random non $v$-th power $\eta \in \F_q(\zeta)$;
-		\STATE\label{step:rep-root1} Compute $r$-th roots $\theta_1,\theta_2$ of $\eta$ in $k(\zeta),K(\zeta)$;
-		\STATE\label{step:trace} Compute $\alpha = \trace_{k(\zeta) / k}(\theta_1)$ and $\beta = 
+		\STATE\label{ffisom:step:non-v-res} Find a random non $v$-th power $\eta \in \F_q(\zeta)$;
+		\STATE\label{ffisom:step:rep-root1} Compute $r$-th roots $\theta_1,\theta_2$ of $\eta$ in $k(\zeta),K(\zeta)$;
+		\STATE\label{ffisom:step:trace} Compute $\alpha = \trace_{k(\zeta) / k}(\theta_1)$ and $\beta = 
 		\trace_{K(\zeta) / 
 		K}(\theta_2)$;
 		\RETURN The field embedding defined by $\alpha\mapsto\beta$.
 	\end{algorithmic}
 \end{algorithm}
 
-Step~\ref{step:factor-cyclo} is done using~\cite[Theorem~9]{shoup94},
+Step~\ref{ffisom:step:factor-cyclo} is done using~\cite[Theorem~9]{shoup94},
 which takes $O(\MM(v)\log(vq))$ operations in $\F_q$. We do
-Step~\ref{step:non-v-res} by taking random elements in $\F_q(\zeta)$
+Step~\ref{ffisom:step:non-v-res} by taking random elements in $\F_q(\zeta)$
 until a non $v$-th power is found. Testing whether $\eta$ is a $v$-th power
 amounts to computing $\eta^{(q^s-1)/v}$ in $\F_q(\zeta)$, which
 can be done in $O(s^{(\omega-1)/2}\log(s) + \MM(s)\log(v)\log(s) +
 \MM(s)\log(q))$ operations in $\F_q$, in view of our discussion in
-Section~\ref{sec:preliminaries}.
+Section~\ref{ffisom:sec:preliminaries}.
 
-Step~\ref{step:rep-root1} is done using $d = O(\log(r) / \log(v))$ successive root extractions, 
+Step~\ref{ffisom:step:rep-root1} is done using $d = O(\log(r) / \log(v))$ successive root extractions, 
 each of which takes an expected $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r) + s\MM(r)\log(q))$
 operations in $\F_q$. Writing $\theta_1$ and $\theta_2$ as polynomials in $\zeta$ with coefficients 
-in $k$ and $K$, reps., we see that computing the traces of Step \ref{step:trace} boils down to 
+in $k$ and $K$, reps., we see that computing the traces of Step \ref{ffisom:step:trace} boils down to 
 computing the traces $\trace_{\F_q(\zeta) / \F_q}(\zeta^i)$ for $0 \le i < s$. The cost of this is 
-dominated by those of the previous steps. Therefore, Algorithm~\ref{algorithm:alpha-root} runs in 
+dominated by those of the previous steps. Therefore, Algorithm~\ref{ffisom:algorithm:alpha-root} runs in 
 an expected $O(s^{(\omega-1)/2}r^{(\omega+1)/2}\log(r)^2 + s\MM(r)\log(r)\log(q)$ operations in 
 $\F_q$.
 \end{proof}
@@ -1559,7 +1559,7 @@ $\F_q$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Rains' algorithm}
-\label{sec:rains-algorithm}
+\label{ffisom:sec:rains-algorithm}
 
 We now move on to a different family of algorithms based on the theory of
 algebraic groups. The simplest of these is Pinch's
@@ -1595,7 +1595,7 @@ except for rare favorable cases where a \emph{small} $\ell$ such that
 $r=\euler(\ell)$ can be found. One possible workaround, suggested by
 Pinch himself, is to replace the group of roots of unity with a group
 of torsion points of a well chosen elliptic curve. We analyze this
-idea in greater detail in Section~\ref{sec:rains-elliptic}.
+idea in greater detail in Section~\ref{ffisom:sec:rains-elliptic}.
 
 This section is devoted to a different way of improving Pinch's
 algorithm, imagined by Rains~\cite{rains2008}, and implemented in the
@@ -1609,7 +1609,7 @@ above.
 
 For the rest of the section, we are going to assume that $q$ is
 prime. The case where $q$ is a higher power of a prime is discussed in
-Note~\ref{note:rains-non-prime}.
+Note~\ref{ffisom:note:rains-non-prime}.
 
 Suppose that we have an $\ell$, coprime with $q$, such that
 $[\F_q(\mu_\ell):\F_q]=r$, then the cyclotomic polynomial $\Phi_\ell$
@@ -1636,7 +1636,7 @@ maximal size and forms a normal basis of $\F_q(\mu_\ell)$, as stated
 in the following lemma.
 
 \begin{lemma}
-  \label{th:gaussian}
+  \label{ffisom:th:gaussian}
   Let $q$ be a prime, and let $\ell$ be a squarefree integer such that
   $(\Z/\ell\Z)^\times = \langle q\rangle \times S$ for some $S$.  The
   periods $\eta_q(\zeta_\ell^\tau)$ for $\tau$ running through
@@ -1678,7 +1678,7 @@ The bottom-line of Rains' algorithm follows immediately from the
 previous section: given $k$, $K$ and $r$,
 \begin{enumerate}
 \item find a \emph{small} $\ell$ satisfying the conditions of
-  Lemma~\ref{th:gaussian} with $[\F_q(\mu_\ell):\F_q]=r$;
+  Lemma~\ref{ffisom:th:gaussian} with $[\F_q(\mu_\ell):\F_q]=r$;
 \item take random $\ell$-th roots of unity $\zeta_\ell\in k$ and
   $\zeta_\ell'\in K$;
 \item return the Gaussian periods $\alpha_r=\eta(\zeta_\ell)$ and
@@ -1687,7 +1687,7 @@ previous section: given $k$, $K$ and $r$,
 
 The problem with this algorithm is the vaguely defined
 \emph{smallness} requirement on $\ell$. Indeed the conditions of
-Lemma~\ref{th:gaussian} imply that $\ell$ divides $\Phi_r(q)$, thus in
+Lemma~\ref{ffisom:th:gaussian} imply that $\ell$ divides $\Phi_r(q)$, thus in
 the worst case $\ell$ can be as large as $O(q^{\euler(r)})$, which
 yields an algorithm of exponential complexity in the field size.
 
@@ -1696,12 +1696,12 @@ small auxiliary extensions of $k$ and $K$, and then descend the
 results to $k$ and $K$ via a field trace. In other words, Rains'
 algorithm looks for $\ell$ such that $[\F_q(\mu_\ell):\F_q]=rs$ for
 some small $s$. We summarize this method in
-Algorithm~\ref{algorithm:rains-cyclo}; we only give the procedure for
+Algorithm~\ref{ffisom:algorithm:rains-cyclo}; we only give the procedure for
 the field $k$, the procedure for the field $K$ being identical.
 
 \begin{algorithm}
   \caption{Rains' cyclotomic algorithm}
-  \label{algorithm:rains-cyclo}
+  \label{ffisom:algorithm:rains-cyclo}
   \begin{algorithmic}[1]
     \REQUIRE A field extension $k/\F_q$ of degree $r$; a squarefree
     integer $\ell$ such that
@@ -1715,26 +1715,26 @@ the field $k$, the procedure for the field $K$ being identical.
     
     \STATE Construct the field extension $k'=k[Z]/h(Z)$;
     \REPEAT
-    \STATE\label{algorithm:rains-cyclo:power} Compute $\zeta\leftarrow \theta^{(\#k'-1)/\ell}$ for a random $\theta\in k'$
+    \STATE\label{ffisom:algorithm:rains-cyclo:power} Compute $\zeta\leftarrow \theta^{(\#k'-1)/\ell}$ for a random $\theta\in k'$
     \UNTIL $\zeta$ is a primitive $\ell$-th root of unity;
-    \STATE\label{algorithm:rains-cyclo:period} Compute $\eta(\zeta) \leftarrow \sum_{\sigma\in S}\zeta^\sigma$;
-    \RETURN\label{algorithm:rains-cyclo:trace} $\alpha \leftarrow \trace_{k'/k}\eta(\zeta) = \sum_{i=0}^{s-1}\eta(\zeta)^{q^{ri}}$.
+    \STATE\label{ffisom:algorithm:rains-cyclo:period} Compute $\eta(\zeta) \leftarrow \sum_{\sigma\in S}\zeta^\sigma$;
+    \RETURN\label{ffisom:algorithm:rains-cyclo:trace} $\alpha \leftarrow \trace_{k'/k}\eta(\zeta) = \sum_{i=0}^{s-1}\eta(\zeta)^{q^{ri}}$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{proposition}
-  Algorithm~\ref{algorithm:rains-cyclo} is correct. On input
+  Algorithm~\ref{ffisom:algorithm:rains-cyclo} is correct. On input
   $q,r,\ell,s$ it computes its output using
   $O(sr^{(\omega+1)/2}\log(sr) + \MM(sr)(\log(q) + (\ell/r)\log(\ell)))$ operations in $\F_q$ on average.
 \end{proposition}
 \begin{proof}
   By construction $k'$ is isomorphic to $\F_q(\mu_\ell)$. By
-  Lemma~\ref{th:gaussian} $\eta(\zeta)$ is a normal generator of $k'$,
+  Lemma~\ref{ffisom:th:gaussian} $\eta(\zeta)$ is a normal generator of $k'$,
   and by~\cite[Prop.~5.2.3.1]{mullen2013handbook} $\alpha$ is a
   normal generator of $k$. This proves correctness.
 
-  According to Proposition~\ref{prop:trace-like}, computing $\zeta$
-  in Step~\ref{algorithm:rains-cyclo:power}
+  According to Proposition~\ref{ffisom:prop:trace-like}, computing $\zeta$
+  in Step~\ref{ffisom:algorithm:rains-cyclo:power}
   costs
   $$O\bigl(\bigl(s^{(\omega+1)/2}\MM(r) + sr^{(\omega+1)/2}
   +\MM(sr)\log(\ell)\bigr)\log(sr)+\MM(sr)\log(q)\bigr),
@@ -1743,15 +1743,15 @@ the field $k$, the procedure for the field $K$ being identical.
   By observing that $s^{(\omega-1)/2}\in O(\ell/r)$, this fits into
   the stated bound.
   
-  Steps~\ref{algorithm:rains-cyclo:period}
-  and~\ref{algorithm:rains-cyclo:trace} can be performed at once by
+  Steps~\ref{ffisom:algorithm:rains-cyclo:period}
+  and~\ref{ffisom:algorithm:rains-cyclo:trace} can be performed at once by
   observing that
   \[\alpha = \sum_{i=0}^{s-1}\eta(\zeta^{q^{ri}})= \sum_{i=0}^{s-1}\sum_{\sigma\in S}\zeta^{q^{ri}\sigma}.\]
   By reducing $q^{ri}\sigma$ modulo $\ell$, we can compute this sum at
   the cost of $\euler(\ell)/r$ exponentiations of degree at most
   $\ell$ in $k'$, for a total cost of
   $O((\MM(sr)(\ell/r)\log(\ell))$,
-  using the techniques of Section~\ref{sec:preliminaries}.
+  using the techniques of Section~\ref{ffisom:sec:preliminaries}.
   The final result is obtained as an element of $k$.
 \end{proof}
 
@@ -1770,7 +1770,7 @@ practical performances of Rains' algorithm.%
 \footnote{
 A straightforward way to avoid these constructions consists in computing
 a factor $h$ of the cyclotomic polynomial $\Phi_\ell$
-over the extension $k$ following case~$5$ from Section~\ref{sec:fundamentalgo}.
+over the extension $k$ following case~$5$ from Section~\ref{ffisom:sec:fundamentalgo}.
 Then, using Newton's identities, the period can be recovered from the
 logarithmic derivative of the reciprocal of $h$. %
 Nevertheless, the cost of factoring $\Phi_\ell$ renders this approach
@@ -1779,10 +1779,10 @@ unpractical.}
 This concludes the presentation of Rains' algorithm. However, we are
 still left with a problem: how to find $\ell$ satisfying the
 conditions of the algorithm, and what bounds can be given on it. These
-questions will be analyzed in Section~\ref{sec:selection}.
+questions will be analyzed in Section~\ref{ffisom:sec:selection}.
 
 \begin{note}
-  \label{note:rains-non-prime}
+  \label{ffisom:note:rains-non-prime}
   Rains' algorithm is easily extended to a non-prime field $\F_q$, as
   long as $q=p^d$ with $\gcd(d,r)=1$. In this case, indeed, any
   generator of $\F_{p^r}$ over $\F_p$ is also a generator of
@@ -1800,7 +1800,7 @@ questions will be analyzed in Section~\ref{sec:selection}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Elliptic Rains' algorithm}
-\label{sec:rains-elliptic}
+\label{ffisom:sec:rains-elliptic}
 
 The Pinch/Rains' algorithm presented in the previous section relies on the use
 of the multiplicative group of finite fields.
@@ -1826,10 +1826,10 @@ elliptic periods do not yield normal bases of finite fields.
 We still provide experimental data and heuristic arguments
 to support the benefit of using them.
 Whether they always yield an element generating the right field extension,
-a weak counterpart to Lemma~\ref{th:gaussian}, is left as an open problem.
+a weak counterpart to Lemma~\ref{ffisom:th:gaussian}, is left as an open problem.
 
 \subsection{Uniquely defined orbits from elliptic periods}
-\label{sec:ellperiods}
+\label{ffisom:sec:ellperiods}
 
 An elliptic curve $E/L$ defined over a field $L$ is given by an
 equation of the form
@@ -1881,7 +1881,7 @@ are now ready to define the elliptic curve analogue of Gaussian
 periods.
 
 \begin{definition}
-  \label{definition:ellperiod}
+  \label{ffisom:definition:ellperiod}
   Let $E/\F_q$ be an elliptic curve of $j$-invariant not $0$ or
   $1728$.%
   \footnote{The definition is easily extended to include $j=0,1728$:
@@ -1908,8 +1908,8 @@ periods.
 \end{definition}
 
 \begin{lemma}
-  \label{lemma:ellperiods-order}
-  With the same notation as in Definition~\ref{definition:ellperiod},
+  \label{ffisom:lemma:ellperiods-order}
+  With the same notation as in Definition~\ref{ffisom:definition:ellperiod},
   let
   \begin{equation*}
     \#\langle\lambda\rangle =
@@ -1943,13 +1943,13 @@ periods $\eta_{\lambda,S}([\lambda^i]P)$ uniquely define an orbit
 inside $\F_{q^r}$, but gives no guarantee that they generate the whole
 $\F_{q^r}$. %
 At this point, one would like to have an equivalent of
-Lemma~\ref{th:gaussian} for elliptic periods, i.e.\ that the elliptic
+Lemma~\ref{ffisom:th:gaussian} for elliptic periods, i.e.\ that the elliptic
 period $\eta_{\lambda,S}(P)$ is a normal generator of $\F_q(x(P))$.
 However, it is easy to find non-normal elliptic periods, as the
 following example shows.
 
 \begin{example}
-\label{ex:non-normal}
+\label{ffisom:ex:non-normal}
   Let $E/\F_7$ be defined by $y^2 = x^3 + 5 x + 4$, and consider the
   degree $3$ extension of $\F_7$ defined by
   $k=\F_7[X]/(X^3 + 6 X^2 + 4)$. Then
@@ -1965,7 +1965,7 @@ following example shows.
   \end{itemize}
 \end{example}
 
-All known proofs of Lemma~\ref{th:gaussian} rely on the fact that
+All known proofs of Lemma~\ref{ffisom:th:gaussian} rely on the fact that
 the $\ell$-th cyclotomic polynomial is irreducible over $\Q$, and its
 roots form a normal basis of $\Q(\zeta_\ell)$. %
 This fails in the elliptic case: there is indeed no guarantee that the
@@ -1980,7 +1980,7 @@ case.
 Thus, we state this as a conjecture.
 
 \begin{conjecture}
-\label{conj:ellperiods}
+\label{ffisom:conj:ellperiods}
 With the above notation, the elliptic period $\eta_{\lambda,S}(P)$
 generates $\F_q(x(P))$ over $\F_q$.
 \end{conjecture}
@@ -2007,14 +2007,14 @@ in~\cite[Appendix~C.2]{ffisom-long}.\footnote{The source code for our
 Secondly, based on the polynomially cyclic algebras setting
 of~\cite{Mihailescu2010825}, one can give a sufficient
 condition for the period to be a normal generator of
-$\F_q(x(P))$, that is a weak counterpart to Lemma~\ref{th:gaussian}
+$\F_q(x(P))$, that is a weak counterpart to Lemma~\ref{ffisom:th:gaussian}
 (see~\cite[Appendix~C.1]{ffisom-long}). %
 Heuristically, this suggests that the
 chance of the period not being normal is approximately $1/q$.
 
 We are now ready to present the generalization of Rains' algorithm,
 with the warning that the algorithm may fail, with low probability, if
-Conjecture~\ref{conj:ellperiods} is false.
+Conjecture~\ref{ffisom:conj:ellperiods} is false.
 
 
 
@@ -2027,13 +2027,13 @@ more freedom on the choice of the size of the group, thus we are able
 to work with smaller fields.  
 
 The algorithm is very similar to
-Algorithm~\ref{algorithm:rains-cyclo}, and follows immediately from
+Algorithm~\ref{ffisom:algorithm:rains-cyclo}, and follows immediately from
 the previous section. For simplicity, we are going to state it only
 for $r$ odd. Given $k$, $K$ and $r$,
 \begin{enumerate}
 \item find a prime $\ell$, an elliptic curve $E$, and an eigenvalue
   $\lambda$ of the Frobenius endomorphism, satisfying the conditions
-  of Definition~\ref{definition:ellperiod}, and such that
+  of Definition~\ref{ffisom:definition:ellperiod}, and such that
   $\order_\ell(\lambda)=r$;
 \item take random points $P\in E(k)[\ell]$ and $P'\in E(K)[\ell]$ in
   the eigenspace of $\lambda$;
@@ -2050,7 +2050,7 @@ If we write $\mu = q/\lambda$ for the other eigenvalue of $\pi$, this
 is easily ensured by further asking that $\order_\ell(\mu) \nmid r$.
 
 We defer the discussion on the search for the elliptic curve $E$ to
-Section~\ref{sec:selection}. Here we suppose that we are already given
+Section~\ref{ffisom:sec:selection}. Here we suppose that we are already given
 suitable parameters $\ell$, $E$ and $\lambda$, and analyze the last
 two steps of the algorithm, summarized below.  We only give the
 procedure for $k$, the procedure for the field $K$ being
@@ -2058,7 +2058,7 @@ identical.
 
 \begin{algorithm}
   \caption{Elliptic Rain's algorithm}
-\label{algorithm:compell}
+\label{ffisom:algorithm:compell}
   \begin{algorithmic}[1]
     \REQUIRE A field extension $k/\F_q$ of odd degree $r$,
     an elliptic curve $E/\F_q$, its trace $t$, a prime $\ell$ not dividing $q$,
@@ -2078,7 +2078,7 @@ identical.
 \end{algorithm}
 
 \begin{proposition}
-  Algorithm~\ref{algorithm:compell} is correct. Assuming the
+  Algorithm~\ref{ffisom:algorithm:compell} is correct. Assuming the
   heuristics about elliptic periods are correct, it fails
   with probability $\le 1/q^r$.  On input
   $r,q,E,t,\ell,\lambda$ it computes its output using
@@ -2087,7 +2087,7 @@ identical.
 \end{proposition}
 \begin{proof}
   Correctness follows immediately from
-  Lemma~\ref{lemma:ellperiods-order}. Success probability comes from
+  Lemma~\ref{ffisom:lemma:ellperiods-order}. Success probability comes from
   the assumption that $\eta_{\lambda,S}(P)$ behaves like a random element of
   $\F_q(x(P))$.
 
@@ -2115,7 +2115,7 @@ identical.
 
 
 \section{Algorithm selection}
-\label{sec:selection}
+\label{ffisom:sec:selection}
 
 The algorithms presented in the previous sections have very similar
 complexities, and no one stands out as absolute winner. %
@@ -2133,7 +2133,7 @@ a \emph{small} parameter $\ell$ such that:
 \begin{enumerate}
 \item $(\Z/\ell\Z)^\times = \langle q\rangle \times S$ for some $S$,
 \item $\langle q \rangle = rs$ for some integer $s$,
-\item $\gcd(\euler(\ell),d)=1$ (see Note~\ref{note:rains-non-prime}).
+\item $\gcd(\euler(\ell),d)=1$ (see Note~\ref{ffisom:note:rains-non-prime}).
 \end{enumerate}
 
 Since $r$ is a prime power, the second condition lets us take a prime
@@ -2142,7 +2142,7 @@ $\Z/\ell\Z\simeq\Z/\ell_1\Z\times\Z/\ell_2\Z$, then either
 $q\bmod\ell_1$ or $q\bmod\ell_2$ has order a multiple of $r$.
 Furthermore, if $\gcd(\ell,r)=1$, then we can take $\ell$ prime, since
 higher powers would not help satisfy the conditions. On the other hand
-if $\gcd(\ell,r)\ne1$, then the algorithms of Section~\ref{sec:kummer} have much
+if $\gcd(\ell,r)\ne1$, then the algorithms of Section~\ref{ffisom:sec:kummer} have much
 better complexity. Hence we shall take $\ell$ prime.
 
 Given the above constraints, we can rewrite the conditions as:
@@ -2157,12 +2157,12 @@ Given the above constraints, we can rewrite the conditions as:
   than $4$, no $\ell$ can satisfy these constraints because $2$ is a
   quadratic residue modulo any prime of the form $8u+1$. This case,
   however, is covered by the Artin--Schreier technique in
-  Section~\ref{sec:fast-artin-schreier}, we thus ignore it.
+  Section~\ref{ffisom:sec:fast-artin-schreier}, we thus ignore it.
 \end{remark}
 
 In the elliptic algorithm we look for an integer $\ell$ and a curve
 $E/\F_q$ that satisfy the preconditions of
-Algorithm~\ref{algorithm:compell}, i.e., such that 
+Algorithm~\ref{ffisom:algorithm:compell}, i.e., such that 
 \begin{enumerate}
 \item the Frobenius endomorphism $\pi$ satisfies a characteristic
   equation \[(\pi-\lambda)(\pi-\mu) = 0 \mod \ell,\]
@@ -2187,19 +2187,19 @@ representative in the interval $[-2\sqrt{q},2\sqrt{q}]$.
 We thus have a procedure to produce parameters for Rains' algorithms:
 test integers of the form $\ell=ur+1$ for increasing $u$, until a
 suitable one is found. %
-We summarize the elliptic case in Algorithm~\ref{algorithm:selectell}.
+We summarize the elliptic case in Algorithm~\ref{ffisom:algorithm:selectell}.
 
 \begin{algorithm}
   \caption{Parameter selection for Rains' elliptic algorithm}
-  \label{algorithm:selectell}
+  \label{ffisom:algorithm:selectell}
   \begin{algorithmic}[1]
     \REQUIRE Prime powers $q$ and $r$, a bound $\bar{u}\in o(\sqrt[4]{q}/r)$;
     \ENSURE An elliptic curve suitable for Rains' elliptic algorithm, or FAIL.
     \FOR{$u=1$ to $\bar{u}$}
-    \IF{\label{alg:selectell:prime} $\gcd(u,r)=1$, and $\ell=ur+1$ is prime, and $q^r\ne1\bmod\ell$}
-    \STATE\label{alg:selectell:ellorder} Compute $\mathcal{T} \leftarrow \{\lambda + q/\lambda \bmod\ell \;|\; \order_\ell(\lambda)=r\}$;
+    \IF{\label{ffisom:alg:selectell:prime} $\gcd(u,r)=1$, and $\ell=ur+1$ is prime, and $q^r\ne1\bmod\ell$}
+    \STATE\label{ffisom:alg:selectell:ellorder} Compute $\mathcal{T} \leftarrow \{\lambda + q/\lambda \bmod\ell \;|\; \order_\ell(\lambda)=r\}$;
     \FOR{each curve $E$ defined over $\F_q$}
-    \STATE\label{alg:selectell:pointcount} Compute $t = \#E - q + 1$;
+    \STATE\label{ffisom:alg:selectell:pointcount} Compute $t = \#E - q + 1$;
     \STATE {\bf if} $(t\bmod\ell)\in\mathcal{T}$ {\bf return} $(E, t)$;
     \ENDFOR
     \ENDIF
@@ -2216,7 +2216,7 @@ that about $u/\log(u)$ of those numbers are prime. However the best
 lower bound on primes of the form $\ell=ur+1$, even under GRH, is
 $\ell\in O(r^{2.4+\epsilon})$~\cite{heath1992zero}. Empirical data
 show that the reality is much closer to the heuristic bound: in
-Figure~\ref{fig:primes-arith-prog} we plot for all prime powers
+Figure~\ref{ffisom:fig:primes-arith-prog} we plot for all prime powers
 $r<10^8$ the smallest $u$ such that $ur+1$ is prime. It appears that
 $u$ is effectively bounded by $O(\log(r))$ for any practical purpose.
 
@@ -2227,7 +2227,7 @@ $u$ is effectively bounded by $O(\log(r))$ for any practical purpose.
     (ordinate) such that $ur+1$ is prime. Abscissa in logarithmic
     scale, density normalized by $\log(x)/x$ and colored in
     logarithmic scale.}
-  \label{fig:primes-arith-prog}
+  \label{ffisom:fig:primes-arith-prog}
 \end{figure}
 
 For the cyclotomic algorithm we also require that $\order_\ell(q)$ is
@@ -2253,7 +2253,7 @@ $\ell\in O(r\log(r))$.
 
 Finally, we must also take into account the possibility that the
 elliptic algorithm fails on the curve output by
-Algorithm~\ref{algorithm:selectell}. %
+Algorithm~\ref{ffisom:algorithm:selectell}. %
 Under the heuristics about the random distribution of elliptic
 periods, this possibility only discards one in $O(q^r)$ curves, and is
 thus negligible.
@@ -2300,12 +2300,12 @@ To summarize, given parameters $q$ and $r$, we suggest
 the following approach:
 \begin{enumerate}
 \item If $\gcd(q,r)\ne 1$, run the Artin--Schreier algorithm of
-  Section~\ref{sec:fast-artin-schreier}.
+  Section~\ref{ffisom:sec:fast-artin-schreier}.
 \item If $r$ is a power of a small prime $v$, run the algorithm of
-  Section~\ref{sec:fast-algor-large}.
+  Section~\ref{ffisom:sec:fast-algor-large}.
 \item Determine the order $s$ of $q$ in $(\Z/r\Z)^\times$. If it is
   small enough, run one of the variants of Allombert's algorithm
-  presented in Section~\ref{sec:kummer}.
+  presented in Section~\ref{ffisom:sec:kummer}.
 \item Search for suitable parameters for Rains' algorithms. %
   Depending on the best parameters found, run the best option among
   Rains' cyclotomic algorithm, Rains' elliptic algorithm, and
@@ -2322,14 +2322,14 @@ configuring the system.
 
 
 \section{Experimental Results}
-\label{sec:experimental-results}
+\label{ffisom:sec:experimental-results}
 
 To validate our results, we implemented the algorithms described in
 the previous sections, and compared them to the implementation of
 Allombert's algorithm available in PARI/GP 2.8.0~\cite{Pari}, and to
 that of Rains' algorithm available in Magma 2.22-7~\cite{MAGMA}. %
 The variants of Allombert's algorithm described in
-Section~\ref{sec:fast-kummer} were implemented in C on top of the
+Section~\ref{ffisom:sec:fast-kummer} were implemented in C on top of the
 Flint library, version 2.5.2~\cite{Hart2010}. %
 Rains' cyclotomic and elliptic algorithms were implemented in
 SageMath, version 7.5.rc0~\cite{Sage} (which itself uses PARI and
@@ -2352,7 +2352,7 @@ $2^{60}+253$, and prime powers $r$ between $3$ and $2069$. %
 % data available at the top of 0x.dat, change it if you change dataset
 All tests were run on an Intel(R) Xeon(R) CPU E5-4650 v2 clocked at
 2.40GHz. %
-We report in Figure~\ref{fig:bench} some statistics, exclusively on
+We report in Figure~\ref{ffisom:fig:bench} some statistics, exclusively on
 the runs for $100<q<2^{20}$; other ranges show very similar trends. %
 The complete datasets, together with more plots and interactive
 visualizations are also hosted at
@@ -2369,7 +2369,7 @@ visualizations are also hosted at
       algorithm, in the case where the auxiliary degree
       $s=\order_q(r)\le 10$.  Dots represent individual runs, lines
       represent degree 2 linear regressions.}
-    \label{fig:bench:allombert-lowaux}
+    \label{ffisom:fig:bench:allombert-lowaux}
   \end{subfigure}
   \hfill
   \begin{subfigure}{.48\textwidth}
@@ -2380,7 +2380,7 @@ visualizations are also hosted at
       $s=\order_q(r)$.  Individual running times are scaled by down by
       $r^2$.  Dots represent individual runs, lines represent degree 2
       linear regressions.}
-    \label{fig:bench:allombert-anyaux}
+    \label{ffisom:fig:bench:allombert-anyaux}
   \end{subfigure}
 
   \begin{subfigure}{.48\textwidth}
@@ -2389,7 +2389,7 @@ visualizations are also hosted at
     \caption{Cyclotomic, conic and elliptic variants of Rains'
       algorithm.  Auxiliary extension degrees $s$ for cyclotomic
       Rains' range between $1$ and $9$. Lines represent median times.}
-    \label{fig:bench:rains}
+    \label{ffisom:fig:bench:rains}
   \end{subfigure}
   \hfill
   \begin{subfigure}{.48\textwidth}
@@ -2399,14 +2399,14 @@ visualizations are also hosted at
       variant) and Rains' algorithms at some fixed auxiliary extension
       degrees $s$. Lines represent median times, shaded areas minimum
       and maximum times.}
-    \label{fig:bench:all}
+    \label{ffisom:fig:bench:all}
   \end{subfigure}
 
   \caption{Benchmarks for Rains' and Allombert's algorithms. $q$ is a
     prime between $100$ and $2^{20}$, $r$ is an odd prime power
-    varying between $3$ and $2069$.  Plots~\subref{fig:bench:rains}
-    and~\subref{fig:bench:all} are in doubly logarithmic scale.}
-  \label{fig:bench}
+    varying between $3$ and $2069$.  Plots~\subref{ffisom:fig:bench:rains}
+    and~\subref{ffisom:fig:bench:all} are in doubly logarithmic scale.}
+  \label{ffisom:fig:bench}
 \end{figure}
 
 \begin{figure}
@@ -2415,20 +2415,20 @@ visualizations are also hosted at
   \caption{Comparison of our implementation of Rains' algorithm and
     Magma's. Running time of our implementation in seconds vs ratio of
     Magma running time over ours. Plot in doubly logarithmic scale.}
-  \label{fig:bench:magma}
+  \label{ffisom:fig:bench:magma}
 \end{figure}
 
 We start by comparing our implementation of the three variants of
-Allombert's algorithm presented in Section~\ref{sec:algor-rely-polyn}
+Allombert's algorithm presented in Section~\ref{ffisom:sec:algor-rely-polyn}
 with the original one in PARI. %
-In Figure~\ref{fig:bench:allombert-lowaux} we plot running times
+In Figure~\ref{ffisom:fig:bench:allombert-lowaux} we plot running times
 against the extension degree $r$, only for cases where the auxiliary
 degree $s=\order_q(r)$ is at most $10$: dots represent individual
 runs, continuous lines represent degree $2$ linear regressions. %
 Analyzing the behavior for arbitrary auxiliary degree $s$ is more
 challenging. %
 Based on the observation that all variants have essentially quadratic
-cost in $r$, in Figure~\ref{fig:bench:allombert-anyaux} we take
+cost in $r$, in Figure~\ref{ffisom:fig:bench:allombert-anyaux} we take
 running times, we scale them down by $r^2$, and we plot them against
 the auxiliary degree $s$. %
 
@@ -2436,7 +2436,7 @@ The first striking observation is the extremely poor performance of
 PARI, especially as $s$ grows. %
 To provide a fairer comparison, we re-implemented Allombert's revised
 algorithm~\cite{Allombert02-rev}, as faithfully as possible, as
-described in Section~\ref{sec:algor-rely-line}; this is the curve
+described in Section~\ref{ffisom:sec:algor-rely-line}; this is the curve
 labeled \emph{``Allombert (rev)''} in the graphs. %
 For completeness we also implemented the Paterson-Stockmeyer variant
 described previously; we do not plot it here, because it overlaps
@@ -2446,7 +2446,7 @@ is apparent that Allombert's original algorithm does not behave as
 well as our new variants.
 
 Focusing now on our three new variants presented in
-Section~\ref{sec:algor-rely-polyn}, one can't fail to notice that the
+Section~\ref{ffisom:sec:algor-rely-polyn}, one can't fail to notice that the
 second one, named \emph{``Automorphism evaluation''}, beats the other
 two by a great margin, both for small and large auxiliary degree. %
 Although the \emph{``Multipoint evaluation''} approach is expected to
@@ -2468,9 +2468,9 @@ machine-word size.
 Now we shift to Rains' algorithm and its variants. %
 In comparing our implementation with Magma's, discarding outliers, we
 obtain a fairly consistent speed-up of about 30\% (see
-Figure~\ref{fig:bench:magma}); hence we will compare these algorithms
+Figure~\ref{ffisom:fig:bench:magma}); hence we will compare these algorithms
 only based on our timings. %
-In Figure~\ref{fig:bench:rains} we group runs of the cyclotomic
+In Figure~\ref{ffisom:fig:bench:rains} we group runs of the cyclotomic
 algorithm by the degree $s$ of the auxiliary extension, and we plot
 median times against the degree $r$; only the graphs for $s<10$ are
 shown in the figure. %
@@ -2480,7 +2480,7 @@ generic Python code to construct auxiliary extensions, rather than
 dedicated C; however, a large gap is unavoidable, due to the added
 cost of computing in extension fields. %
 We also plot median times for the elliptic variant and for the conic
-variant (see Appendix~\ref{app:rains-vars}). %
+variant (see Appendix~\ref{ffisom:app:rains-vars}). %
 It is apparent that the elliptic algorithm outperforms the cyclotomic
 one as soon as $s\ge 3$, and that the conic algorithm conveniently
 replaces the case $s=2$. %
@@ -2493,7 +2493,7 @@ essentially the same behavior\footnote{Again, see
 variant becomes very poor when $q$ grows larger than a machine-word,
 because of the cost of point counting.
 
-Finally, in Figure~\ref{fig:bench:all} we compare Rains' algorithms
+Finally, in Figure~\ref{ffisom:fig:bench:all} we compare Rains' algorithms
 against Allombert's. %
 In light of the excellent performances of the \emph{``Automorphism
   evaluation''} variant of Allombert's algorithm, we only plot the
@@ -2502,7 +2502,7 @@ We plot, against the degree $r$, runs of Allombert's algorithm grouped
 by ranges of the auxiliary degree $\order_r(q)$: we shade the area
 between minimum and maximum running times, and trace the median
 time. %
-We also take from Figure~\ref{fig:bench:rains} the graphs for the
+We also take from Figure~\ref{ffisom:fig:bench:rains} the graphs for the
 cyclotomic (only $s=1$), the conic and the elliptic variants of Rains'
 algorithm. %
 We notice that Allombert's algorithm, even with relatively large
@@ -2529,14 +2529,14 @@ slightly different cross-points for the algorithms.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Rain's conic algorithm}
-\label{app:rains-vars}
+\label{ffisom:app:rains-vars}
 
 We have seen that Rains' cyclotomic algorithm suffers in practice from
 the need to build a field extension $k'$ of $k$. %
 The conic variant we are going to present reduces the degree of the
 field extension from $s=[k':k]$ to $s/2$ whenever $s$ is even. %
 This is especially useful when $s=2$, as highlighted in
-Section~\ref{sec:experimental-results}. %
+Section~\ref{ffisom:sec:experimental-results}. %
 The algorithm is similar in spirit to Williams' $p+1$ factoring
 method~\cite{williams1982}, where the arithmetic of the norm $1$
 subgroup of ${k'}^*$ is performed using Lucas sequences on a subfield
@@ -2564,11 +2564,11 @@ it does not depend on the choice of $\Delta$.
 The generalization of Rains' algorithm is now obvious: by projecting
 on the $x$-coordinate, we work in a field extension twice as small
 compared to the original algorithm. %
-This is summarized in Algorithm~\ref{algorithm:rains-conic}.
+This is summarized in Algorithm~\ref{ffisom:algorithm:rains-conic}.
 
 \begin{algorithm}
     \caption{Rains' conic algorithm}
-  \label{algorithm:rains-conic}
+  \label{ffisom:algorithm:rains-conic}
   \begin{algorithmic}[1]
     \REQUIRE A field extension $k/\F_q$ of degree $r$; a prime $\ell$
     such that
@@ -2584,18 +2584,18 @@ This is summarized in Algorithm~\ref{algorithm:rains-conic}.
     \REPEAT
     \REPEAT
     \STATE Take a random element $\theta\in k'$,
-    \UNTIL\label{algorithm:rains-conic:sqtest} $\theta^2-4$ is a quadratic non-residue;
-    \STATE\label{algorithm:rains-conic:power} Compute $\zeta=[(\#k'+1)/\ell]\theta$,
+    \UNTIL\label{ffisom:algorithm:rains-conic:sqtest} $\theta^2-4$ is a quadratic non-residue;
+    \STATE\label{ffisom:algorithm:rains-conic:power} Compute $\zeta=[(\#k'+1)/\ell]\theta$,
     \UNTIL $\zeta\ne2$;
-    \STATE\label{algorithm:rains-conic:period} Compute $\eta(\zeta) \leftarrow \sum_{\sigma\in S}[\sigma]\zeta$;
-    \RETURN\label{algorithm:rains-conic:trace} $\alpha \leftarrow \trace_{k'/k}\eta(\zeta) = \sum_{i=0}^{s-1}[q^{ri}]\eta(\zeta)$.
+    \STATE\label{ffisom:algorithm:rains-conic:period} Compute $\eta(\zeta) \leftarrow \sum_{\sigma\in S}[\sigma]\zeta$;
+    \RETURN\label{ffisom:algorithm:rains-conic:trace} $\alpha \leftarrow \trace_{k'/k}\eta(\zeta) = \sum_{i=0}^{s-1}[q^{ri}]\eta(\zeta)$.
   \end{algorithmic}
 \end{algorithm}
 
 \begin{proposition}
-  Algorithm~\ref{algorithm:rains-conic} is correct: on input
+  Algorithm~\ref{ffisom:algorithm:rains-conic} is correct: on input
   $q,r,\ell,s$ it returns an element in the same Galois orbit as
-  Algorithm~\ref{algorithm:rains-cyclo} on input $q,r,\ell,2s$. %
+  Algorithm~\ref{ffisom:algorithm:rains-cyclo} on input $q,r,\ell,2s$. %
   It computes its output using $O(\MM(sr)(sr\log(q)+(\ell/r)\log(\ell)))$
   operations in $\F_q$ on average, or $\tildO((sr)^2\log(q))$ assuming
   $\ell\in o(sr^2)$.
@@ -2606,12 +2606,12 @@ This is summarized in Algorithm~\ref{algorithm:rains-conic}.
   Observe that if $(x+\delta y)/2$ is in $T_2(k')$, then its trace
   over $k'$ is equal to $x$. %
   Hence, the value $\zeta$ computed in
-  Step~\ref{algorithm:rains-conic:power} is the trace over $k'$ of a
+  Step~\ref{ffisom:algorithm:rains-conic:power} is the trace over $k'$ of a
   primitive $\ell$-th root of unity. %
   We conclude by comparing this algorithm with
-  Algorithm~\ref{algorithm:rains-cyclo}.
+  Algorithm~\ref{ffisom:algorithm:rains-cyclo}.
 
-  The non-residuosity test in Step~\ref{algorithm:rains-conic:sqtest}
+  The non-residuosity test in Step~\ref{ffisom:algorithm:rains-conic:sqtest}
   is done by verifying that the $(\#k'-1)/2$-th power of $\theta$ is
   equal to $-1$. %
   We do this in $O(sr\log(q))$ operations in $k'$, or
@@ -2632,20 +2632,20 @@ This is summarized in Algorithm~\ref{algorithm:rains-conic}.
   We reach $\theta_n$ after $O(\log(n))$ steps, each requiring a
   constant number of operations in $k'$.
 
-  Hence, Step~\ref{algorithm:rains-conic:power} costs
+  Hence, Step~\ref{ffisom:algorithm:rains-conic:power} costs
   $O(sr\MM(sr)\log(q))$ operations in $\F_q$, while
-  Steps~\ref{algorithm:rains-conic:period}
-  and~\ref{algorithm:rains-conic:trace} together cost
+  Steps~\ref{ffisom:algorithm:rains-conic:period}
+  and~\ref{ffisom:algorithm:rains-conic:trace} together cost
   $O((\MM(sr)(\ell/r)\log(\ell))$.
 \end{proof}
 
 Although this variant does not exploit the asymptotic improvement
-offered by Proposition~\ref{prop:trace-like}, the fact that its
+offered by Proposition~\ref{ffisom:prop:trace-like}, the fact that its
 auxiliary degree $s$ is half the one of the original algorithm usually
 gives an interesting practical improvement. %
-Step~\ref{algorithm:rains-conic:power} can be modified so as to avoid
+Step~\ref{ffisom:algorithm:rains-conic:power} can be modified so as to avoid
 the premature projection on the $x$-axis, so that the algorithms of
-Proposition~\ref{prop:trace-like} apply. %
+Proposition~\ref{ffisom:prop:trace-like} apply. %
 We leave the details of this variant to the reader.
 
 
