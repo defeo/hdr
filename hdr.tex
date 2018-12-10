@@ -213,7 +213,7 @@ and how they prove their \emph{expansion} properties. %
 We will then focus, only, on key exchange protocols based on isogenies
 graphs; we will review three proposals: Couveignes' original one based
 on \emph{ordinary graphs}, a recent twist on it, named CSIDH, based on
-\emph{supersingular trace zero graphs}, and another one based on
+\emph{supersingular $\F_p$-graphs}, and another one based on
 generic \emph{supersingular graphs} named SIDH. %
 We will conclude the chapter by discussing security of isogeny-based
 primitives. %
@@ -1634,8 +1634,10 @@ Computing isogenies of supersingular curves would be another obvious
 extension of Couveignes' algorithm. %
 Couveignes' original algorithm simply does not apply to supersingular
 curves, because $p^k$-torsion groups are trivial. %
-Our $ℓ$-adic algorithm is easily adapted to trace zero curves, but
-does not achieve the desired complexity for other supersingular
+Our $ℓ$-adic algorithm is easily adapted to supersingular curves
+defined over $\F_p$, because, as we shall see, their Frobenius
+endomorphism behaves similarly to that of ordinary curves; however it
+does not achieve the desired complexity for general supersingular
 curves. %
 This is deeply related to the differences between the CSIDH and SIDH
 protocols presented in Chapter~\ref{cha:crypto}, and their security.
@@ -3105,13 +3107,13 @@ we say that an elliptic curve $E$ has \emph{complex multiplication by
 We have already seen that all ordinary elliptic curves over finite
 fields have complex multiplication, with $K=ℚ(π)$. %
 
-Trace zero supersingular curves have the similar property
+Supersingular curves have the similar property
 $\End_{\F_q}(E)≃\O⊂ℚ(\sqrt{-q})$, whenever $q$ is an odd power of
-$p$. %
+a prime $p>3$. %
 Strictly speaking, no supersingular curve should be said to have
 complex multiplication, because the ring of endomorphisms defined over
 the algebraic closure is larger (more on this later); we will
-nevertheless use the name for the special case of trace zero curves.
+nevertheless use the name for this special case.
 
 We now present a group action on the set of all curves having complex
 multiplication by a fixed order $\O$. %
@@ -3273,9 +3275,9 @@ literature~\cite{couveignes+morain94}.
 
 \section{Quaternion algebras}
 
-Supersingular curves, outside those with trace zero, are not covered
+Supersingular curves are generally not covered
 by the theory of complex multiplication. %
-For them, indeed, the Frobenius endomorphism acts like an element of
+For most of them, indeed, the Frobenius endomorphism acts like an element of
 $ℤ$, instead of acting like a ``complex multiplier''. %
 
 Supersingular curves are defined by the fact that multiplication by
@@ -3461,8 +3463,8 @@ $(\Cl(\O),S)$; an example is shown in Figure~\ref{fig:cayley}. %
   $ε$-expander.
 \end{theorem}
 
-The theorem is readily generalized to trace zero supersingular
-curves. %
+The theorem is readily generalized to supersingular
+curves and isogenies defined over $\F_p$. %
 
 A radically different construction of expander graphs is given by
 graphs of supersingular curves \emph{defined over $\F_{p^2}$} with
@@ -3777,9 +3779,9 @@ and Galbraith~\cite{Delfs2016} showed that if we restrict to curves,
 endomorphisms and isogenies defined over a prime field $\F_p$, we have
 a perfect clone of the ordinary complex multiplication case. %
 Indeed, if $E$ is a supersingular curve defined over a prime field
-$\F_p$, it has trace zero and its endomorphism ring is isomorphic to
+$\F_p$ with $p>3$, it has trace zero and its endomorphism ring is isomorphic to
 either $ℤ[\sqrt{-p}]$ or $ℤ[(1+\sqrt{-p})/2]$. %
-For such a curve, every prime such that $\leg{-4p}{ℓ}=1$ is an Elkies
+For such a curve, every prime $ℓ$ such that $\leg{-4p}{ℓ}=1$ is an Elkies
 prime, with eigenvalues equal to $±\sqrt{-p}$.
 
 In~\cite{10.1007/978-3-030-03332-3_15}, Castryck, Lange, Martindale, Panny
