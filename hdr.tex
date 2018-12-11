@@ -1,20 +1,14 @@
-\documentclass{report}
+\documentclass[a4layout]{hdr}
 
-\usepackage[a4paper]{geometry}
 \usepackage[english]{babel}
 \usepackage{array}
-\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{amsmath,amsfonts,amssymb}
 \usepackage{unicode}
 \usepackage[type={CC},modifier={by-nc-sa},imagemodifier={-eu},version={4.0},imagewidth=5em]{doclicense}
 \usepackage{fancyhdr}
 
 \usepackage[style=alphabetic,refsegment=chapter,maxnames=20]{biblatex}
 \bibliography{isogenies_bib/isogenies,hdr}
-
-\usepackage{algorithmic}
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
-\algsetup{linenodelimiter=.}
 
 \usepackage[pdfusetitle]{hyperref}
 \hypersetup{
@@ -41,25 +35,15 @@
 }
 
 %% Used by included papers
-\usepackage{algorithm,stmaryrd} % explicit_isogenies
+\usepackage{algorithmic,algorithm,stmaryrd} % explicit_isogenies
+\def\algorithmicrequire{\textbf{Input:}}
+\def\algorithmicensure{\textbf{Output:}}
 \usepackage{bm,mdwlist} % ff_compositum
 \usepackage{enumitem,subcaption} % ffisom
 \usepackage[ruled, vlined, linesnumbered, algo2e]{algorithm2e} % crs
 
-% theorem environments
-\theoremstyle{plain}
-\newtheorem{theorem}{Theorem}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{proposition}[theorem]{Proposition}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{problem}{Problem}
-\newtheorem{conjecture}{Conjecture}
-\newtheorem{remark}{Remark}
-
 \include{preamble}
+\include{hyphenat}
 
 \title{Exploring Isogeny Graphs}
 %\subtitle{Around the volcano in $2^{80}$ days}
@@ -67,12 +51,13 @@
 
 \begin{document}
 
-\maketitle
-\thispagestyle{fancy}
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0.4pt}
-\cfoot{\doclicenseThis}
-\lfoot{\LaTeX{} source code available at \url{https://github.com/defeo/hdr/}.}
+\frontmatter
+
+\input{covers}
+
+% \thispagestyle{fancy}
+% \renewcommand{\headrulewidth}{0pt}
+% \renewcommand{\footrulewidth}{0.4pt}
 
 % TODO: License
 
@@ -86,6 +71,10 @@
 % Manifesto of a \emph{full-stack number theorist}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mainmatter
 
 \section*{Introduction}
 
@@ -4406,7 +4395,7 @@ are another obvious target for research.
 
 \defbibheading{subbib}[References]{\section{#1}}
 \def\article#1{{
-  \include{#1}
+  \input{#1}
   \printbibliography[segment=\therefsegment,heading=subbib]
 }}
 
@@ -4418,6 +4407,7 @@ are another obvious target for research.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\backmatter
 \printbibliography
 
 \end{document}

@@ -7,8 +7,7 @@
 % \usepackage{multirow}
 % \usepackage{bigdelim}
 % \usepackage[ruled, vlined, linesnumbered]{algorithm2e}
-\let\algorithm\algorithm2e
-\let\endalgorithm\endalgorithm2e
+\renewenvironment{algorithm}{\begin{algorithm2e}}{\end{algorithm2e}}
 \SetEndCharOfAlgoLine{}
 \SetKwInput{Params}{Public parameters}
 \SetKwInput{Key}{Shared key}

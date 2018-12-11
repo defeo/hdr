@@ -1,4 +1,5 @@
-hdr.pdf: hdr.tex preamble.tex ffisom/ffisom.tex ff_compositum/ff_compositum.tex \
+hdr.pdf: hdr.cls hdr.tex preamble.tex hyphenat.tex covers.tex \
+	ffisom/ffisom.tex ff_compositum/ff_compositum.tex \
 	sidh/sidh.tex crs/crs.tex explicit_isogenies/explicit_isogenies.tex \
 	hdr.bib isogenies_bib/isogenies.bib
 	latexmk --pdf hdr.tex
