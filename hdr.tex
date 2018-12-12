@@ -511,7 +511,7 @@ the image of the normalized isogeny with kernel $G$.\footnote{Note
   that this convention is not universal in the literature, as there
   are other useful choices for a canonical representative of $E/G$.}
 
-Conversely, since any non-constant morphism of algebraic curves
+Conversely, since any non-constant morphism of elliptic curves
 necessarily has finite kernel, we have a canonical bijection between
 the finite subgroups of a curve $E$ and the normalized isogenies with
 domain $E$. %
@@ -2722,13 +2722,18 @@ bases, in general. %
 While it is easy to find examples where elliptic periods are not
 normal, it is enough for our purposes that they generate $\F_{p^n}$ as
 a field. %
-Despite an extensive search, documented
-in~\cite{ffisom-long,brieulle2018computing}, we have not been able to
-find a single example where elliptic periods do not generate their
-field of definition. %
-Hence, in principle our elliptic variant of Rains' algorithm has a
-(provably small) failure probability; however our searches have led us
-to conjecture that this probability may actually be zero. %
+Heuristically, this is an extremely likely event, hence, in principle,
+our elliptic variant of Rains' algorithm has a very tiny failure
+probability; more detailed statements are given in
+Section~\ref{ffisom:sec:rains-elliptic}.
+
+However, when we tried to find example inputs on which the elliptic
+variant fails, we were surprised to find none, despite an extensive
+search over more than 43 million curves, carefully documented
+in~\cite{ffisom-long}. %
+Our failed search has thus led us to state the conjecture below, that
+elliptic period always generate their field of definition, implying
+that the elliptic variant of Rains algorithm never fails.
 
 \begin{conjecture}[{Brieulle, D., Doliskani, Flori,
     Schost~\cite{brieulle2018computing}}]
