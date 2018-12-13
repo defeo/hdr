@@ -13,12 +13,16 @@
 	  font-size: 22px;
 	  max-width: 800px;
 	  margin: auto;
+	  margin-bottom: 4em;
 	  text-align: justify;
       }
       h1,h2,h3,h4 { color: #444; }
       hr {
 	  border: dashed thin #444;
 	  margin: 30px 0;
+      }
+      ul {
+	  list-style-type: '- ';
       }
       @media(max-width:804px) {
 	  body {
@@ -32,7 +36,16 @@
   <body>
     <h2># <a href="/">Luca De Feo</a>'s Habilitation (HDR) page</h2>
     
-    <h3>## When? Where?</h3>
+    <h3>## Summary</h3>
+    <ul>
+      <li><a href="#when">When? Where?</a></li>
+      <li><a href="#abstract">Abstract – Exploring Isogeny Graphs</a></li>
+      <li><a href="#resume">Résumé – Explorations dans les graphes d'isogénies</a></li>
+      <li><a href="#getthere">Getting there</a></li>
+      <li><a href="#live">Live stream!</a></li>
+    </ul>
+
+    <h3 id="when">## When? Where?</h3>
 
     <blockquote>
       <p><strong>**Friday December 14, 2018, 3pm**</strong></p>
@@ -40,13 +53,13 @@
       <address>
 	Université de Versailles Saint-Quentin-en-Yvelines<br>
 	Amphi B, bât. Descartes, UFR de Sciences<br>
-	48.81300, 2.14858 – <a target="_blank" href="https://osm.org/go/0BOUehgeg-?m=&way=74620005">See map</a>.
+	48.81300, 2.14858 – <a target="_blank" href="#getthere">See how to get there</a>.
       </address>
     </blockquote>
 
     <hr>
     
-    <h3>## Exploring Isogeny Graphs</h3>
+    <h3 id="abstract">## Exploring Isogeny Graphs</h3>
 
     <p>Motivated by the recent applications of isogeny graphs in
       cryptography, we review topics related to isogenies of elliptic curves
@@ -82,7 +95,7 @@
 
     <hr>
     
-    <h3>## Explorations dans les graphes d'isogénies</h3>
+    <h3 id="resume">## Explorations dans les graphes d'isogénies</h3>
 
     <p>Motivés par les applications récentes des graphes d'isogénies en
       cryptographie, nous allons faire une revue des problèmes liés aux
@@ -123,5 +136,41 @@
     <p><strong>**Téléchargement**</strong> du manuscrit bientôt
       disponible !</p>
 
+    <hr>
+    
+    <h3 id="getthere">## Getting there</h3>
+
+    <h4>### From Gare Montparnasse</h4>
+
+    <ul>
+      <li>Train <strong>**line N**</strong> to <em>*Versailles Chantiers*</em>,</li>
+      <li>then <strong>**bus R**</strong> to <em>*Université*</em>.</li>
+    </ul>
+
+    <p>See itinerary on <a href="https://www.vianavigo.com/itineraire/resultat?arrival=ADDRESS372285%7CAddress%7C45+avenue+des+Etats+Unis%7C78000%7CVersailles%7C586253%7C2423553&carpoolOperators=1%7C2%7C3%7C4%7C6%7C7%7C34&date=2018-12-13T14%3A45&departure=8739100%7CStopArea%7CGARE+MONTPARNASSE%7C75000%7CParis%7C598912%7C2427117&journeyProfil=00&preferences=111111%7C11&sens=-1">ViaNavigo</a>.</p>
+
+    <h4>### From Gare Saint Lazare</h4>
+
+    <ul>
+      <li>Train <strong>**line L**</strong> to <em>*Montreuil*</em>,</li>
+      <li>then walk 10 min as shown in the map.</li>
+    </ul>
+    
+    <script src="https://gist.github.com/defeo/64646cc113271e6a932d6a8851eab304.js"></script>
+
+    <p>See itinerary on <a href="https://www.vianavigo.com/itineraire/resultat?arrival=ADDRESS372285%7CAddress%7C45+avenue+des+Etats+Unis%7C78000%7CVersailles%7C586253%7C2423553&carpoolOperators=1%7C2%7C3%7C4%7C6%7C7%7C34&date=2018-12-13T14%3A45&departure=8738400%7CStopArea%7CGARE+ST+LAZARE%7C75000%7CParis%7C599107%7C2430819&journeyProfil=00&preferences=111111%7C11&sens=-1">ViaNavigo</a>.</p>
   </body>
+
+  <hr>
+  
+  <h3 id="live">## Live stream!</h3>
+  
+  <p>Barring a networking apocalypse, the defense will
+  be <a href="https://youtu.be/KdjPJmsOZBQ">streamed live on
+  YouTube</a>!</p>
+  
+  <iframe width="100%" height="400px"
+	  src="https://www.youtube.com/embed/live_stream?channel=UCrfUUmDEsgAKd1AL3QHgc8g">
+    <a href="https://youtu.be/KdjPJmsOZBQ">Watch on YouTube</a>
+  </iframe>
 </html>
