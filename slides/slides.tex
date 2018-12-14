@@ -1,7 +1,7 @@
 \documentclass{beamer}
 
 \newif\ifmacron
-\macrontrue
+\macronfalse
 
 \usepackage[T1]{fontenc}
 \usepackage{../unicode}
@@ -634,21 +634,27 @@
     form a ring \emph{$\End(E)$}.
   \end{block}
 
-  \begin{block}{Theorem (Deuring)}
-    \emph{$\End(E)$} is isomorphic to one of the following:
-    \begin{itemize}
-    \item An order $\O$ in a quadratic imaginary field $K=ℚ(\sqrt{-D})$:
-      \begin{flushright}
-        $E$ is \emph{ordinary} with \emph{complex multiplication} by
-        $\O$.
-      \end{flushright}
-    \item A maximal order in a quaternion
-      algebra\footnote{(ramified at $p$ and $\infty$)}:
-      \begin{flushright}
-        $E$ is \emph{supersingular}.
-      \end{flushright}
-    \end{itemize}
-  \end{block}
+  \emph{Theorem (Deuring):}
+  \emph{$\End(E)$} is isomorphic to one of the following:
+  \begin{itemize}
+  \item An order $\O$ in a quadratic imaginary field $K=ℚ(\sqrt{-D})$:
+    \begin{flushright}
+      $E$ is \emph{ordinary} with \emph{complex multiplication} by
+      $\O$.
+    \end{flushright}
+  \item A maximal order in a quaternion algebra
+    \hfill $E$ is \emph{supersingular}.
+  \end{itemize}
+
+  \bigskip
+  
+  \emph{Theorem (Serre-Tate):} $E,E'$ are isogenous iff
+  \emph{$\End(E)⊗ℚ≃\End(E')⊗ℚ$}.
+
+  \bigskip
+  
+  \emph{Corollary:} $E/\F_p$ and $E'/\F_p$ are isogenous iff
+  \emph{$\#E(\F_p)=\#E'(\F_p)$}.
 \end{frame}
 
 %%
@@ -881,28 +887,127 @@
 
 \begin{frame}{Computing $T_ℓ(E)$ to finite precision}
   \emph{$T_ℓ(E)$} ``modulo'' $ℓ^n$ is just \emph{$E[ℓ^n]$}:
-  \[π \;:\; \mat{a&b\\c&d} \mod ℓ^n\]
+  $π \;:\; \mat{a&b\\c&d} \mod ℓ^n$
 
-  \begin{block}{Problem: fields of definitions get increasingly large}
-    \begin{tabular}{c c c c c c c}
-      && $E[ℓ]$ & $⊂$ & $E[ℓ^2]$ & $\dots$ & $E[ℓ^n]$\\
+  \begin{block}{Problem: fields of definition get increasingly large}
+    \begin{tabular}{c c c c c c c c}
+      && $E[ℓ]$ & $⊂$ & $E[ℓ^2]$ & $\dots$ & $E[ℓ^n]$ & \dots\\
       && $∩$ && $∩$ && $∩$\\
-      $E(\F_p)$ & $⊂$ & $E(\F_{p^{ℓ-1}})$ & $⊂$ & $E(\F_{p^{ℓ(ℓ-1)}})$ & $\dots$ & $E(\F_{p^{ℓ^{n-1}(ℓ-1)}})$
+      $E(\F_p)$ & $⊂$ & $E(\F_{p^{ℓ-1}})$ & $⊂$ & $E(\F_{p^{ℓ(ℓ-1)}})$ & $\dots$ & $E(\F_{p^{ℓ^{n-1}(ℓ-1)}})$ & \dots
     \end{tabular}
+  \end{block}
+
+  \begin{block}{Solution: fast arithmetic in towers of finite fields}
+    \begin{description}
+    \item[What:] \emph{tower} of fields $\F_p ⊂ \F_{p^{a}} ⊂ \F_{p^{ab}} ⊂ \cdots$;
+    \item[Wanted:]
+      \begin{itemize}
+      \item \emph{Optimal representation of} each field;
+      \item Fast algorithms for \emph{$+,×,{}^{-1}$} in each field;
+      \item Fast algorithms to \emph{convert between two adjacent fields}.
+      \end{itemize}
+    \item[Solutions:]
+      \cite{LenstraJr91,Luebeck,bosma+cannon+steel97,Allombert02,DeDoSc13,DeDoSc2014,brieulle2018computing};
+      van der Hoeven, and Lecerf 2018, \dots
+    \end{description}
   \end{block}
 \end{frame}
 
-% 13. Sage demo?
+%%
 
-% 14. Perspectives in finite fields
+\begin{frame}{Why stop at towers?}
+    \tikzset{
+    dotstyle/.style={circle, inner sep = 1.2pt, outer sep = 4pt, fill = gray},
+    edgetower/.style={thick},
+    edgecomp/.style={thick, lightgray}
+  }
+  \begin{tikzpicture} [scale = 0.8] %, every node/.style={inner sep = 2pt, scale=0.8}]
+    \coordinate (T2) at (-2, 0.5);
+    \node (Fp) at (0, 0) {$\F_p$};
+    \node (Fp2) at ($(Fp) + (T2)$) {$\F_{p^2}$};
+    \node (Fp4) at ($(Fp2) + (T2)$) {$\F_{p^4}$};
+    \node (Fp2l) at ($(Fp4) + (T2)$) {$\F_p^{(2)}$};
+    % ---------------------
+    \coordinate (T3) at (-0.7, 2);
+    \node (Fp3) at ($(Fp) + (T3)$) {$\F_{p^3}$};
+    \node (Fp9) at ($(Fp3) + (T3)$) {$\F_{p^9}$};
+    \node (Fp3l) at ($(Fp9) + (T3)$) {$\F_p^{(3)}$};
+    % ---------------------
+    \coordinate (T5) at (0.7, 2);
+    \node (Fp5) at ($(Fp) + (T5)$) {$\F_{p^5}$};
+    \node (Fp25) at ($(Fp5) + (T5)$) {$\F_{p^{25}}$};
+    \node (Fp5l) at ($(Fp25) + (T5)$) {$\F_p^{(5)}$};
+    % ---------------------
+    \coordinate (Tl) at (2, 1);
+    \node[blue] (Fpl) at ($(Fp) + (Tl)$) {$\F_{p^\ell}$};
+    \node[blue] (Fpl2) at ($(Fpl) + (Tl)$) {$\F_{p^{\ell^2}}$};
+    \node[blue] (Fpll) at ($(Fpl2) + (Tl)$) {$\F_p^{(\ell)}$};
+    % ---------------------
+    \node[dotstyle] (dot1) at ($(Fp2) + (Fp3) - (Fp)$) {};
+    \node[dotstyle] (dot2) at ($(Fp4) + (dot1) - (Fp2)$) {};
+    \node[dotstyle] (dot3) at ($(Fp2) + (Fp5) - (Fp)$) {};
+    \node[dotstyle] (dot4) at ($(Fp3) + (Fp5) - (Fp)$) {};
+    \node[dotstyle] (dot5) at ($(Fp3) + (Fpl) - (Fp)$) {};
+    \node[dotstyle] (dot6) at ($(Fp5) + (Fpl) - (Fp)$) {};
+    % ---------------------
+    \draw 
+    (Fp) 
+    edge[edgetower] (Fp2)
+    edge[edgetower] (Fp3)
+    edge[edgetower] (Fp5)
+    edge[edgetower, blue] (Fpl)
+    (Fp2)
+    edge[edgetower] (Fp4)
+    edge[edgecomp] (dot1)
+    (Fp4)
+    edge[edgetower, dotted] (Fp2l)
+    edge[edgecomp] (dot2)
+    (dot1)
+    edge[edgecomp] (dot2)
+    (Fp3)
+    edge[edgetower] (Fp9)
+    edge[edgecomp] (dot1)
+    edge[edgecomp] (dot4)
+    (Fp9)
+    edge[edgetower, dotted] (Fp3l)
+    (Fp5)
+    edge[edgetower] (Fp25)
+    edge[edgecomp] (dot4)
+    edge[edgecomp] (dot6)
+    (Fp25)
+    edge[edgetower, dotted] (Fp5l)
+    (Fpl)
+    edge[edgetower, blue] (Fpl2)
+    edge[edgecomp] (dot6)
+    (Fpl2)
+    edge[edgetower, blue, dotted] (Fpll)
+    (dot3)
+    edge[edgecomp] (Fp2)
+    edge[edgecomp] (Fp5)
+    (dot5)
+    edge[edgecomp] (Fp3)
+    edge[edgecomp] (Fpl);
+    % ---------------------
+    \draw [xshift = 4.5cm] node [right, text width = 2.5cm, 
+    rounded corners, fill=red!10, inner sep = 1mm]{
+      \small
+      \mbox{$\displaystyle\F_p^{(\ell)} = \bigcup_{i\ge 0}\F_{p^{\ell^i}},$}\\
+      \smallskip
+      \mbox{$\displaystyle\bar\F_p ≃ \bigotimes_{\ell\text{ prime}} \F_p^{(\ell)}$}
+    };
+  \end{tikzpicture}
 
-% 15. How large is the crater? complex multiplication
+  Work in progress with: H.Randriam, É. Rousseau, É. Schost.
+  \href{https://mybinder.org/v2/gh/erou/Nemo-embeddings-demo/master?filepath=demo.ipynb}{Demo}.
+\end{frame}
 
 % 16. PQ cartoon
 
-\begin{frame}{Elliptic curves}
+\begin{frame}{Let's get back to elliptic curves}
   \centering
   \includegraphics[height=0.7\textheight]{ec-happy}
+  
+  \Large\bf  I make the world a safer place!
 \end{frame}
 
 %%
@@ -963,7 +1068,107 @@
   \end{tikzpicture}
 \end{frame}
 
+% 15. How large is the crater? complex multiplication
+
+\begin{frame}{How large is the crater of a volcano?}
+  
+  Let \emph{$\End(E) = \O \subset ℚ(\sqrt{-D})$}. Define
+
+  \begin{itemize}
+  \item $\mathcal{I}(\O)$, the group of \emph{invertible fractional ideals},
+  \item $\mathcal{P}(\O)$, the group of \emph{principal ideals},
+  \end{itemize}
+  
+  \begin{block}{The class group}
+    The \emph{class group} of $\O$ is
+    \[\Cl(\O) = \mathcal{I}(\O)/\mathcal{P}(O).\]
+  \end{block}
+
+  \begin{itemize}
+  \item It is a \emph{finite abelian} group.
+  \item Its order \emph{$h(\O)$} is called the \emph{class number} of
+    $\O$.
+  \item It arises as the Galois group of an abelian extension of
+    $ℚ(\sqrt{-D})$.
+  \end{itemize}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \frametitle{Complex multiplication}
+  
+  \begin{block}{The $\a$-torsion}
+    \begin{itemize}
+    \item Let \emph{$\a\subset\O$} be an (integral invertible) ideal of
+      $\O$;
+    \item Let \emph{$E[\a]$} be the subgroup of $E$ annihilated by
+      $\a$:
+      \vspace{-2mm}
+      \[E[\a] = \{P\in E \;|\; \alpha(P) = 0 \text{ for all } \alpha\in\a\};\]
+    \item \vspace{-1mm} Let \emph{$\phi:E\to E_\a$}, where
+      $E_\a=E/E[\a]$.
+    \end{itemize}
+    Then $\End(E_\a) = \O$ (i.e., $\phi$ is \emph{horizontal}).
+  \end{block}
+
+
+  \begin{theorem}[Complex multiplication]
+    The action on the set of elliptic curves with complex
+    multiplication by $\O$ defined by \emph{$\a\ast j(E) = j(E_\a)$}
+    factors through $\Cl(\O)$, is faithful and transitive.
+  \end{theorem}
+
+  \begin{corollary}
+    Let $\End(E)$ have discriminant $D$. Assume that
+    $\left(\frac{D}{\ell}\right)=1$, then $E$ is on a crater of an
+    $\ell$-volcano, and the crater contains $h(\End(E))$ curves.
+  \end{corollary}
+\end{frame}
+
 % 17. CRS
+
+\begin{frame}
+  \frametitle{Complex multiplication graphs}
+  \begin{center}
+    \begin{tikzpicture}
+      \begin{scope}
+        \def\crater{12}
+        \def\jumpa{-8}
+        \def\jumpb{9}
+        \def\diam{3cm}
+
+        \foreach \i in {1,...,\crater} {
+          \uncover<2->{\draw[blue] (360/\crater*\i : \diam) to[bend right] (360/\crater*\i+360/\crater : \diam);}
+          \uncover<3->{\draw[red] (360/\crater*\i : \diam) to[bend right] (360/\crater*\i+\jumpa*360/\crater : \diam);}
+          \uncover<4->{\draw[green] (360/\crater*\i : \diam) to[bend right=50] (360/\crater*\i+\jumpb*360/\crater : \diam);}
+        }
+        \foreach \i in {1,...,\crater} {
+          \draw[fill] (360/\crater*\i: \diam) circle (2pt) +(360/\crater*\i: 0.4) node{$E_{\i}$};
+        }
+      \end{scope}
+      \begin{scope}[xshift=4cm]
+        \draw (0,2.5) node[anchor=west] {\parbox{4cm}{%
+            Vertices are elliptic curves \emph{with complex
+              multiplication by $\O_K$} (i.e., $\End(E)\simeq\O_K\subset ℚ(\sqrt{-D})$).\\
+            \uncover<2->{Edges are \emph{horizontal isogenies} of
+              bounded prime degree.}  }};
+      
+        \uncover<2->{\draw[blue] (0,0) -- (0.5,0)
+          (0.5,0) node[anchor=west] {degree $2$};}
+        \uncover<3->{\draw[red] (0,-1) -- (0.5,-1) (0.5,-1)
+          node[anchor=west] {degree $3$};}
+        \uncover<4->{\draw[green]
+          (0,-2) -- (0.5,-2) (0.5,-2) node[anchor=west] {degree $5$};}
+
+        \uncover<5->{\draw (0,-3) node[anchor=west] {\parbox{4cm}{%
+              Isomorphic to a \emph{Cayley graph of $\Cl(\O_K)$}.}};}
+      \end{scope}
+    \end{tikzpicture}
+  \end{center}
+\end{frame}
+
+%%
 
 {
   \newcommand{\myedge}[3]{
@@ -971,7 +1176,7 @@
   }
 
 \begin{frame}
-  \frametitle{Rostovtsev \& Stolbunov key exchange }
+  \frametitle{Couveignes--Rostovtsev--Stolbunov key exchange }
 
   \begin{columns}
     \begin{column}{0.55\textwidth}
@@ -1037,11 +1242,7 @@
 \end{frame}
 }
 
-% 18. timeline of ibc, I need a hero
-
-% 19. Vélu to the rescue, Frobenius, CSIDH
-
-% 20. SIDH, comparison?
+% 19. SIDH, comparison?
 
 \begin{frame}
   \frametitle{Key exchange with supersingular curves (2011)}
@@ -1103,7 +1304,7 @@
 %%
 
 \begin{frame}
-  \frametitle{Key exchange with supersingular curves}
+  \frametitle{Key exchange with supersingular curves (2011)}
 
   \begin{itemize}
   \item Fix small primes \bl{$\ell_A$}, \rd{$\ell_B$};
@@ -1143,10 +1344,166 @@
   \end{center}
 \end{frame}
 
+% 20. timeline of ibc, I need a hero
+
+\begin{frame}{From 10 minutes to 10ms in 20 years}
+  \begin{tikzpicture}[gray,every node/.style={anchor=south}]
+    \draw[->] (0,0) -- (11,0);
+    \uncover<1->{
+      \node at (1,-0.5) {1996};
+      \draw (1,-0.1) -- +(0,0.3) node[blue]{Couveignes' key exchange};
+    }
+    \uncover<2->{
+      \node at (3,-0.5) {2006};
+      \draw (3,-0.1) -- +(0,1.3) node[blue]{Rostovstev \& Stolbunov (> 5 min)};
+    }
+    \uncover<3->{
+      \node at (4,-0.5) {2011};
+      \draw (4,-0.1) -- +(0,2.3) node[red]{Jao and D.'s SIDH (500ms)};
+    }
+    \uncover<4->{
+      \node at (5,-0.5) {2012};
+      \draw (5,-0.1) -- +(0,3.3) node[red]{D., Jao and Plût's SIDH (50ms)};
+    }
+    \uncover<5->{
+      \node at (6,-0.5) {2016};
+      \draw (6,-0.1) -- +(0,4.3) node[red]{Costello, Longa, Naherig's SIDH (30ms)};
+    }
+    \uncover<6->{
+      \node at (7,-0.5) {2017};
+      \draw (7,-0.1) -- +(0,5.3) node[red]{SIKE NIST candidate (10ms)};
+    }
+    \uncover<7->{
+      \node at (8,-0.5) {2018};
+      \draw (8,-0.1) -- +(0,2.3) node[blue]{CSIDH (100ms)};
+    }
+  \end{tikzpicture}
+\end{frame}
+
+% 20. Vélu to the rescue, Frobenius, CSIDH
+
+\begin{frame}{CSIDH {\small (pron.: \textit{sea-side})}}
+  \begin{block}{Speeding up the CRS key
+      exchange \parencite{10.1007/978-3-030-03332-3_14}}
+    \begin{itemize}
+    \item Choose \emph{$p$} such that \emph{$\ell\mid(p+1)$} for many
+      small primes \emph{$\ell$};
+    \item Look for random \emph{ordinary} curves such that: \hfill\alert{HARD!}
+      \begin{itemize}
+      \item \emph{$\ell\mid E(\F_p)$},
+      \item technical condition;
+      \end{itemize}
+    \item Use Vélu's formulas for \emph{those primes $\ell$}.
+    \item $\sim$5 minutes for a 128-bit secure key exchange \hfill\alert{\Sadey}
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{CSIDH \parencite{10.1007/978-3-030-03332-3_15}}
+    \begin{itemize}
+    \item Choose \emph{$p$} such that \emph{$\ell\mid(p+1)$} for many
+      small primes \emph{$\ell$};
+    \item Select a \emph{supersingular} curve \emph{$E/\F_p$},
+      automatically \hfill\alert{EASY!}
+      \begin{itemize}
+      \item \emph{$\#E(\F_p)=p+1$},
+      \item technical condition always satisfied;
+      \end{itemize}
+    \item $\sim$100ms for a 128 bits secure key exchange \hfill\alert{\Smiley}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+
 % 21. Perspectives (signature, etc.)
+
+\begin{frame}{Research perspectives}
+  \begin{block}{Fundamentals}
+    \begin{itemize}
+    \item \emph{Generalizations} to other isogeny graphs (e.g., graphs
+      of abelian varieties of higher dimension).
+    \item \emph{Attacks on the primitives:} solving isogeny problems,
+      computing endomorphism rings of supersingular isogenies,
+      computations in quaternion algebras.
+    \item \emph{Security proofs:} proving properties of sampling in
+      Cayley graphs.
+    \end{itemize}
+  \end{block}
+\end{frame}
 
 %%
 
+\begin{frame}{Research perspectives}
+  \begin{block}{Quantum}
+    \begin{itemize}
+    \item \emph{Fundamental} algorithms: Kuperberg's algorithm
+      (CSIDH), claw finding (SIDH).
+    \item \emph{\textit{Ad hoc}} algorithms: exploiting the
+      non-generic structure in SIDH, CSIDH.
+    \item \emph{Constructive} algorithms: SeaSign can be considerably
+      sped up by a quantum pre-computation.
+    \item \emph{Security proofs} in the QROM.
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Protocols}
+    \begin{itemize}
+    \item Efficient \emph{signatures}.
+    \item New \emph{primitives/properties}, mix and match
+      CSIDH/SIDH/pairings.
+    \item More uses of CSIDH as a \emph{Diffie--Hellman replacement}
+      (e.g., NIKE).
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+%%
+
+\begin{frame}{Research perspectives}  
+  \begin{block}{Implementations}
+    \begin{itemize}
+    \item \emph{Constrained devices}: SIDH still very slow on IOT
+      gear, high memory footprint.
+    \item \emph{Side-channel resistance}: constant time (lacking for
+      CISDH), analysis of proposed hardware attacks, countermeasures.
+    \end{itemize}
+  \end{block}
+
+  \begin{block}{Tools}
+    \begin{itemize}
+    \item Develop tools for \emph{educational/prototyping} purposes:
+      lower the entry barrier to isogenies.
+    \item \emph{SageMath} most popular (open source) platform for
+      number theory/computer algebra. Improve functionality for
+      elliptic curves / pairings / isogenies.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+%%
+
+\begin{frame}
+  \centering
+  \begin{tikzpicture}
+    \begin{scope}[xscale=1.2,black!60]
+      \def\crater{7}
+      \foreach \i in {1,...,\crater} {
+        \draw[fill] (360/\crater*\i:3cm) circle (5pt);
+        \draw (360/\crater*\i : 3cm) -- (360/\crater*\i+360/\crater : 3cm);
+        \foreach \j in {-1,1} {
+          \draw[fill] (360/\crater*\i : 3cm) -- (360/\crater*\i + \j*360/\crater/4 : 4cm) circle (3pt);
+          \foreach \k in {-1,0,1} {
+            \draw[fill] (360/\crater*\i + \j*360/\crater/4 : 4cm) --
+            (360/\crater*\i + + \j*360/\crater/4 + \k*360/\crater/6 : 4.5cm) circle (1pt);
+          }
+        }
+      }
+    \end{scope}
+    
+    \draw (0,1) node{\Huge\bf Thank you};
+    \draw (0,-0.6) node{\large\url{https://defeo.lu/}};
+    \draw (0,-1.3) node{\large\includegraphics[height=0.9em]{twitter.png}~\href{https://twitter.com/luca_defeo}{@luca\_defeo}};
+  \end{tikzpicture}
+\end{frame}
 
 \end{document}
 
