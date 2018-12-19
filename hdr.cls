@@ -3,7 +3,7 @@
 
 \newif\ifartwork
 \newif\ifbw
-\artworkfalse
+\artworktrue
 \bwfalse
 \DeclareOption{a4layout}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4}}
 \DeclareOption{a4papersaver}{\PassOptionsToClass{a4paper}{memoir}\def\@layout{a4ps}}
@@ -37,6 +37,17 @@
 \nouppercaseheads
 \midsloppy
 \openany
+
+\RequirePackage{pdfpages}
+\newcommand{\chapart}[1]{%
+  \ifartwork
+  \cleartoverso
+  \includepdf{#1}
+  \fi
+}
+
+\setlength{\epigraphwidth}{6cm}
+\setlength{\epigraphrule}{0pt}
 
 % theorem environments
 \RequirePackage{amsthm}
