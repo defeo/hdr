@@ -1,22 +1,3 @@
-%\usepackage[columnwise]{lineno}
-%\linenumbers
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% \usepackage{bm}
-% \usepackage{bbm}
-% \usepackage{amsmath}
-% \usepackage{alltt, amssymb,stmaryrd}
-% \usepackage{color}
-% \usepackage{mdwlist}
-% \usepackage{float}
-% \usepackage{hyperref}
-
-% \usepackage{algorithm}
-% \usepackage{algorithmic}
-% \renewcommand{\algorithmicrequire}{\textbf{Input:}}
-% \renewcommand{\algorithmicensure}{\textbf{Output:}}
-
 \def\C {\ensuremath{\mathsf{C}}}
 \def\M {\ensuremath{\mathsf{M}}}
 \def\Q {\ensuremath{\mathbb{Q}}}
@@ -51,13 +32,13 @@
 \DeclareBoldMathCommand{\blambda}{\lambda}
 
 \newcounter{algo}
+\renewcommand{\thealgo}{\thechapter.\arabic{algo}}
 
-\newenvironment{algorithm_noendline}[4]{\small\begin{center}\begin{minipage}{0.98\textwidth}
+\newenvironment{algorithm_noendline}[4]{\begin{center}\begin{minipage}{0.98\textwidth}
       \refstepcounter{algo}
       \label{ff_compositum:#4}
-      \sf
       \rule{\textwidth}{0.2pt}\\
-      \makebox[\textwidth][c]{Algorithm~\arabic{algo}:~\textbf{#1}}\\
+      \makebox[\textwidth][l]{\textbf{Algorithm~\thealgo}~\textsf{#1}}\\
       \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
 
       \vspace{-12pt}
@@ -65,19 +46,18 @@
       \parbox{\textwidth}{\textbf{Input} #2}
       \parbox{\textwidth}{\textbf{Output} #3}
 
-%\vspace{-7pt}
+      \vspace{-7pt}
 
       \begin{enumerate*}}{\end{enumerate*}
       \vspace{-11pt}
 \end{minipage}\end{center}
 }
 
-\newenvironment{algorithm_endline}[4]{\small\begin{center}\begin{minipage}{0.98\textwidth}
+\newenvironment{algorithm_endline}[4]{\begin{center}\begin{minipage}{0.98\textwidth}
       \refstepcounter{algo}
       \label{ff_compositum:#4}
-      \sf
       \rule{\textwidth}{0.2pt}\\
-      \makebox[\textwidth][c]{Algorithm~\arabic{algo}:~\textbf{#1}}\\
+      \makebox[\textwidth][l]{\textbf{Algorithm~\thealgo}~\textsf{#1}}\\
       \rule[0.5\baselineskip]{\textwidth}{0.2pt}\\
 
       \vspace{-12pt}
@@ -85,7 +65,7 @@
       \parbox{\textwidth}{\textbf{Input} #2}
       \parbox{\textwidth}{\textbf{Output} #3}
 
-%\vspace{-7pt}
+      \vspace{-7pt}
 
       \begin{enumerate*}}{\end{enumerate*}
       \vspace{-11pt}
@@ -98,13 +78,7 @@
 \newfloat{algofloat}{thp}{bla}
 \floatname{algofloat}{}
 
-% \newcommand{\wrt}{\vdash} 
 \newcommand{\ang}[1]{\langle#1\rangle}
-% \newcommand{\dual}[1]{\overline{#1}}
-% \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
-
-% \def\gathen#1{{#1}}
-% \def\hoeven#1{{#1}}
 
 \let\Def\definition
 \let\endDef\enddefinition
@@ -114,26 +88,6 @@
 \let\endProp\endproposition
 \let\Lemma\lemma
 \let\endLemma\endlemma
-% \newtheorem{Def}{Definition}
-% \newtheorem{Theo}{Theorem}
-% \newtheorem{Prop}{Proposition}
-% \newtheorem{Lemma}{Lemma}
-
-% \numberofauthors{3}
-% \author{
-%   \alignauthor Luca De Feo\\
-%   \affaddr{Laboratoire PRiSM}\\
-%   \affaddr{Universit\'e de Versailles}\\
-%   \email{luca.de-feo@uvsq.fr}
-%   \alignauthor Javad Doliskani\\
-%   \affaddr{Computer Science Department}\\
-%   \affaddr{Western University}\\
-%   \email{jdoliska@uwo.ca}
-%   \alignauthor \'Eric Schost\\
-%   \affaddr{Computer Science Department}\\
-%   \affaddr{Western University}\\
-%   \email{eschost@uwo.ca}
-% }
 
 \chapter{Fast arithmetic for the algebraic closure of finite fields}
 
@@ -145,6 +99,11 @@
   composita techniques. We use similar ideas to give efficient
   algorithms for embeddings and isomorphisms.
 \end{abstract}
+
+{\small This article was authored with Javad Doliskani and Éric
+  Schost. It originally appeared in the \textit{Proceedings of the
+    38th International Symposium on Symbolic and Algebraic
+    Computation} (ISSAC 2013), \doi{10.1145/2465506.2465956}.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -514,7 +473,7 @@ output are vectors (written in {\sf sans serif} font).
 
 \begin{algorithm_noendline}
 {MonomialToDual$(\va,P)$}
-{$\va=(a_i)_{0 \le i < m} \in k^m$, \\  $P$ monic squarefree in $k[x]$ of degree $m$}
+{$\va=(a_i)_{0 \le i < m} \in k^m$, $P$ monic squarefree in $k[x]$ of degree $m$}
 {$(\tau_P(a x^i))_{0 \le i < m}$, with $a=\sum_{0 \le i < m} a_i x^i$}
 {algo:minpolytotrace}
 \item $T = 1/\rev(P, m+1) \bmod x^m$
@@ -524,7 +483,7 @@ output are vectors (written in {\sf sans serif} font).
 
 \begin{algorithm_endline}
 {DualToMonomial$(\vb, P)$}
-{$\vb=(b_i)_{0 \le i < m} \in k^m$,\\ $P$ monic squarefree in $k[x]$ of degree $m$}
+{$\vb=(b_i)_{0 \le i < m} \in k^m$, $P$ monic squarefree in $k[x]$ of degree $m$}
 {$(a_i)_{0 \le i < m}$ such that $\tau_P(\sum_{0 \le i < m} a_i x^{i+j}) = b_j$ for all $j$}
 {algo:tracetopoly}
 \item $S = 1/P' \bmod P$
@@ -693,7 +652,7 @@ bases.
 
 \begin{algorithm_endline}
 {Embed$(\vb,\vc,r)$}
-{$\vb=(b_i)_{0 \le i < m} \in k^m$, $\vc=(c_i)_{0 \le i < n} \in k^n$\\
+{$\vb=(b_i)_{0 \le i < m} \in k^m$, $\vc=(c_i)_{0 \le i < n} \in k^n$
     an optional integer $r \ge mn$ set to $r=mn$ by default}
 {$\va=(a_i)_{0 \le i < r} \in k^{r}$}
 {algo:embed}
@@ -741,7 +700,7 @@ Berlekamp-Massey algorithm.
 {$R$ in $k[z]$}
 {algo:R}
 \item $(t_i)_{0 \le i < 2mn}={\sf Embed}(\vu_P,\vu_Q,2mn)$,
-\item {\bf return} BerlekampMassey$((t_i)_{0 \le i < 2mn})$
+\item {\bf return} {\sf BerlekampMassey}$((t_i)_{0 \le i < 2mn})$
 \end{algorithm_endline}
 
 Indeed, in this case, {\sf Embed}$(\vu_P,\vu_Q,2mn)$ computes the sequence

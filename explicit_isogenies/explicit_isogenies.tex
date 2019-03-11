@@ -1,18 +1,3 @@
-% \RequirePackage[american]{babel}
-% \RequirePackage[T1]{fontenc}
-% \RequirePackage{amssymb,amsmath,amsfonts}
-% \RequirePackage{algorithmic,algorithm}
-% \RequirePackage{tikz}
-% \RequirePackage{nicefrac}
-% \RequirePackage{hyperref}
-% \RequirePackage{unicode}
-% \RequirePackage{stmaryrd}
- 
-% \newcommand{\todo}[1]{{\color{red}TODO: #1}}
-% \newcommand{\todoblue}[1]{{\color{blue}#1}}
-% \def\snote#1{}
-
-
 % \theoremstyle{plain}
 \newtheorem*{thm*}{Theorem}
 \let\thm\theorem
@@ -23,10 +8,6 @@
 \let\endcor\endcorollary
 \let\prop\proposition
 \let\endprop\endproposition
-% \newtheorem{thm}{Theorem}[section]
-% \newtheorem{lem}[thm]{Lemma}
-% \newtheorem{cor}[thm]{Corollary}
-% \newtheorem{prop}[thm]{Proposition}
 
 \let\defi\definition
 \let\enddefi\enddefinition
@@ -34,14 +15,6 @@
 \let\endrem\endremark
 \let\exe\example
 \let\endexe\endexample
-%\newenvironment{prob}{\begin{problem}}{\end{problem}}
-% \newnumbered{defi}[thm]{Definition}
-% \newnumbered{rem}{Remark}
-% \newnumbered{exe}{Example}
-% \newnumbered{prob}{Problem}
-
-% \makeatletter
-% \newenvironment{localblock}[1]{\@exmplstar{\relax}{#1}}{\@endexample}
 
 \def\mat#1{\begin{pmatrix}#1\end{pmatrix}}
 \def\smat#1{{\def\arraystretch{.7}\mat{#1}}}
@@ -55,35 +28,11 @@
 %\let\leq\leqslant \let\geq\geqslant
 \def\sfdiv{\mathsf{divide}}
 
-% \newcommand{\M}{\mathsf{M}}
-% \newcommand{\Z}{\mathbb{Z}}
-% \newcommand{\F}{\mathbb{F}}
-% \newcommand{\Q}{\mathbb{Q}}
-% \newcommand{\C}{\mathbb{C}}
-% \newcommand{\tildO}{\tilde{O}}
 \newcommand{\MM}{\cout{M}}
 \newcommand{\FF}{\cout{F}}
 \newcommand{\RR}{\cout{R}}
-% \DeclareMathOperator{\loglog}{loglog}
-
-% \makeatletter
-% \def\full@line{8pt}
-% \def\doublefull@line{12pt}
-% \def\@nprf{% nprf environment modified OT 12/11/02
-%   \list{}{\topsep 8pt \leftmargin 0pt
-%   \itemindent\parindent \labelsep .5em 
-%   \listparindent\parindent
-%   \settowidth\labelwidth{{\normalfont\rmfamily(iii)}}}%
-%   \item{\normalfont\itshape\proofname.}\advance\itemindent\labelsep%
-%   \advance\itemindent\labelwidth%
-%   \hskip 1em\normalfont\rmfamily\ignorespaces}
-% \makeatother
 
 \chapter[Explicit isogenies in any characteristic]{Explicit isogenies in quadratic time in any characteristic}
-
-% \title[Explicit isogenies in any characteristic]{Explicit isogenies in quadratic time in any characteristic}
-% \author[L. De Feo, C. Hugounenq, J. Plût, É. Schost]%
-%   {Luca De Feo, Cyril Hugounenq, Jérôme Plût, and Éric Schost}
 
 \begin{abstract}
   Consider two ordinary elliptic curves $E,E'$ defined over a finite field
@@ -100,25 +49,12 @@
   On the other hand, the cost of our algorithm is $\tildO(r^2) \log(q)^{O(1)}$,
   for a large class of inputs; this makes it an interesting alternative
   for the medium- and large-characteristic cases.
-%% The problem we will consider here is the computation of an isogeny between two elliptics curves with the knowledge of the domain and the codomain of the isogeny and it's degree $r$. Couveignes's algorithm is an algorithm which solves this problem in $O(r^2)$ operations using the $p$-torsion. We want to extend the method used by Couveignes  We try to adapt his method here to the case of the $2$ torsion and more generally to the $\ell$ torsion, thus we propose an alternative for medium characteristic with this algorithm.
 \end{abstract}
 
-% \section*{Proposed notation}
-
-% This section is for internal reference only: erase after the paper has
-% stabilized.
-
-% \begin{itemize}
-% \item $\mathbb{F}_q$ is the field we are working on
-% \item $\ell$ is for the $\ell$ torsion we are working on
-% \item $r$ is the degree of the isogeny we want to compute
-% \item $k$ is the integer such that $\ell^{2k}>4r+1$
-% \item we thus work with a tower which has for top level $F_{q^{\ell^k}}$
-% \item $E$ is for ordinary elliptic curves defined over the finite field $\mathbb{F}_q$
-% \item $\mathcal{O}$ (resp. $\mathcal{O}_x$) is the notation for the endomorphism ring associated (up to isomorphism) to $E$ (resp. $E_x$)
-% \item $K$ is the notation for the imaginary quadratic field in which $\mathcal{O}$ is defined
-% \item $d_K$ is the negative integer such that $K=\mathbb{Z}[d_K]$  
-% \end{itemize}
+{\small This article was authored with Cyril Hugounenq, Jérôme Plût
+  and Éric Schost. It originally appeared in the \textit{LMS Journal
+    of Computation and Mathematics} 19.A (2016),
+  \doi{10.1112/S146115701600036X}.}
 
 %%%%%%%%%%%%%%%
 

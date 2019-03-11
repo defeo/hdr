@@ -1,71 +1,23 @@
-% \usepackage{amsmath,amssymb,amsfonts,color,verbatim,tikz,pgflibraryplotmarks,url}
-% \usepackage[full-version]{optional}
-
-
-% \usepackage{algorithm}
-% \usepackage{algorithmic}
-% \renewcommand{\algorithmicrequire}{\textbf{Input:}}
-% \renewcommand{\algorithmicensure}{\textbf{Output:}}
-% \def\aa//{{\raise0.5pt\hbox{\tt/\kern-1.5pt/}}}
-
-
-% \usepackage{tikz}
-
-% \pgfkeys{/triangle/.code=\tikzset{x={(-0.5cm,-0.866cm)},y={(1cm,0cm)}}}
-
 \newcommand{\dottriangle}[2][\i-\j]{  \foreach \i in {0,...,#2} {    \foreach \j in {0,...,\i} {      \draw(\i,\j) node{#1};    }  }}
 
 
 \let\prop\proposition
 \let\endprop\endproposition
-% \theoremstyle{definition}
-% \newtheorem{protocol}[theorem]{Protocol}
-% \newtheorem{exercise}[theorem]{Exercise}
-% \newtheorem{application}[theorem]{Application}
-% \newtheorem{prop}[theorem]{Proposition}
 
 \newcommand{\QQ}{{\mathbb{Q}}}
 \newcommand{\ZZ}{{\mathbb{Z}}}
 \newcommand{\RR}{{\mathbb{R}}}
-% \newcommand{\CC}{{\mathbb{C}}}
 \newcommand{\FF}{{\mathbb{F}}}
-% \newcommand{\OO}{{\mathcal{O}}}
 \newcommand{\VV}{{\mathcal{V}}}
 \newcommand{\EE}{{\mathcal{E}}}
 \newcommand{\iso}{\cong}
 \newcommand{\id}{\operatorname{sID}}
 \newcommand{\cyc}[1]{{\langle #1 \rangle}}
 \def\abs#1{\left|#1\right|}
-% \newcommand{\End}{\operatorname{End}}
-
-% \newcommand{\fixme}[1]{{\color{blue} \sf $\clubsuit\clubsuit\clubsuit$ FIXME: [#1]}}
 
 
 \chapter{Towards quantum-resistant cryptosystems from supersingular elliptic
 curve isogenies}
-% \headlinetitle{Towards quantum-resistant cryptosystems from isogenies}
-
-% \lastnameone{De Feo}
-% \firstnameone{Luca}
-% \nameshortone{L.\,De Feo}
-% \addressone{Laboratoire PRiSM, Universit\'e de Versailles, 78035
-%   Versailles}
-% \countryone{France}
-% \emailone{Luca.De-Feo@prism.uvsq.fr}
-
-% \lastnametwo{Jao}
-% \firstnametwo{David}
-% \addresstwo{University of Waterloo, Waterloo, Ontario, N2L 3G1}
-% \countrytwo{Canada}
-% \emailtwo{djao@math.uwaterloo.ca}
-
-% \lastnamethree{Pl\^ut}
-% \firstnamethree{J\'er\^ome}
-% \addressthree{Laboratoire PRiSM, Universit\'e de Versailles, 78035
-%   Versailles}
-% \countrythree{France}
-% \emailthree{Jerome.Plut@prism.uvsq.fr}
-
 
 \begin{abstract}
 We present new candidates for quantum-resistant public-key
@@ -88,21 +40,11 @@ for key generation, a thorough study of its optimization, and new
 experimental data.
 \end{abstract}
 
-% \keywords{elliptic curves, isogenies, quantum-resistant cryptosystems}
+{\small This article was authored with David Jao and Jérôme Plût. It
+  originally appeared in the \textit{Journal of Mathematical
+    Cryptology}, 8.3 (2014), \doi{10.1515/jmc-2012-0015}.}
 
-% \acknowledgments{ We would like to thank Ga\"etan Bisson, Andrew
-%   M. Childs, Alfred Menezes, Vladimir Soukharev, and the anonymous
-%   reviewers for helpful comments and suggestions.  }
-
-% \classification{94A60, 14G50, 11Y16, 14K02}
-
-% \researchsupported{
-% This work is supported in part by NSERC CRD Grant CRDPJ
-% 405857-10 and by the French Agence Nationale de la Recherche through
-% the ECLIPSES project under Contract ANR-09-VERS-018.
-% }
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 

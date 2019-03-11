@@ -48,6 +48,7 @@
 
 \setlength{\epigraphwidth}{6cm}
 \setlength{\epigraphrule}{0pt}
+\setlength{\abstitleskip}{-1em}
 
 % theorem environments
 \RequirePackage{amsthm}
@@ -62,6 +63,9 @@
 \newtheorem{problem}[theorem]{Problem}
 \newtheorem{conjecture}[theorem]{Conjecture}
 \newtheorem{remark}[theorem]{Remark}
+
+%% Misc
+\def\doi#1{\textsc{doi:}~\href{https://doi.org/#1}{\nolinkurl{#1}}}
 
 %% Layout
 \newif\ifafour

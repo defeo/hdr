@@ -35,18 +35,18 @@
 }
 
 %% Used by included papers
-\usepackage{algorithmic,algorithm,stmaryrd} % explicit_isogenies
+\usepackage{algorithmic,stmaryrd} % explicit_isogenies
+\usepackage[chapter]{algorithm}
 \def\algorithmicrequire{\textbf{Input:}}
 \def\algorithmicensure{\textbf{Output:}}
 \usepackage{bm,mdwlist} % ff_compositum
 \usepackage{enumitem,subcaption} % ffisom
-\usepackage[ruled, vlined, linesnumbered, algo2e]{algorithm2e} % crs
+\usepackage[ruled, vlined, linesnumbered, algo2e, algochapter]{algorithm2e} % crs
 
 \include{preamble}
 \include{hyphenat}
 
 \title{Exploring Isogeny Graphs}
-%\subtitle{Around the volcano in $2^{80}$ days}
 \author{Luca De Feo}
 
 \begin{document}
@@ -2620,6 +2620,7 @@ according to these categories. %
 
 \begin{table}
   \centering
+  \small
   \begin{tabular}{l | c | c}
     & Irreducible polynomials
     & Isomorphisms\\

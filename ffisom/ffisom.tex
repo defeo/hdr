@@ -1,113 +1,15 @@
-% \usepackage{graphicx}              
-% \usepackage{amssymb}
-% \usepackage{mathrsfs}
-% \usepackage{url}
-% \usepackage{hyperref}
-% \usepackage{tikz}
-% \usetikzlibrary{positioning,calc,arrows}
-% \usepackage{algorithmic}
-% \usepackage{subcaption}
-% \usepackage{enumitem}
-
-% theorem environments
-% \theoremstyle{plain}
-% \newtheorem{theorem}{Theorem}
-% \newtheorem{lemma}[theorem]{Lemma}
-% \newtheorem{corollary}[theorem]{Corollary}
-% \newtheorem{proposition}[theorem]{Proposition}
-% \theoremstyle{definition}
-% \newtheorem{definition}[theorem]{Definition}
-% \newtheorem{conjecture}[theorem]{Conjecture}
-% \newtheorem*{problem}{Problem}
-% \newtheorem{example}[theorem]{Example}
-% \newtheorem*{remark}{Remark}
-% \newtheorem{note}[theorem]{Note}
-
-% \newcommand{\wrt}{\vdash} 
-% \newcommand{\ang}[1]{\langle#1\rangle}
 \newcommand{\abs}[1]{\left\vert#1\right\vert}
-% \newcommand{\dual}[1]{\overline{#1}}
-% \newcommand{\mapsfrom}{\ensuremath{\reflectbox{$\mapsto$}}}
-% \newcommand{\tildO}{\tilde{O}}
-% % roman numerals
-% \newcommand{\romnum}[1]{\romannumeral #1}
-% \newcommand{\Romnum}[1]{\uppercase\expandafter{\romannumeral #1}}
-
-% \newcommand{\todo}[1]{\textcolor{red}{TODO: #1}}
-% \newcommand{\comment}[2][Note]{\textcolor{green}{(#1): #2}}
-
-% \DeclareMathOperator{\fieldchar}{char} % characteristic of a field
-% \DeclareMathOperator{\ringofend}{End} % endomorphism ring
 \let\trace\Tr
-% \DeclareMathOperator{\trace}{Tr} % finite field trace
 \let\gal\Gal % Galois group
 \let\order\ord % order of an element
-% \DeclareMathOperator{\lcm}{lcm} % least common multiple
-% \DeclareMathOperator{\divisor}{div} % divisor on a curve
-% \DeclareMathOperator{\supp}{supp} % support of a divisor
-% \DeclareMathOperator{\norm}{N} % norm
-% \DeclareMathOperator{\Res}{Res}
-% \DeclareMathOperator{\Aut}{Aut}
-% \DeclareMathOperator{\minpoly}{minpoly}
-% \DeclareMathOperator{\loglog}{loglog}
-% \DeclareMathOperator{\rev}{rev}
 
 \newcommand{\Q}{\ensuremath{\mathbb{Q}}}
-% \newcommand{\N}{\ensuremath{\mathbb{N}}}
-% \newcommand{\R}{\ensuremath{\mathbb{R}}}
 \newcommand{\Z}{\ensuremath{\mathbb{Z}}}
-% \newcommand{\F}{\ensuremath{\mathbb{F}}}
 \newcommand{\MM}{\ensuremath{\mathsf{M}}}
-% \newcommand{\euler}{\ensuremath{\varphi}}
-
-% allow algorithms to split over multiple pages
-% \makeatletter
-% \newcounter{algorithm}
-% \setcounter{algorithm}{0}
-% \renewcommand{\thealgorithm}{\arabic{algorithm}}
-% \def\algorithm{\@ifnextchar[{\@algorithma}{\@algorithmb}}
-% \def\@algorithma[#1]{%
-% 	\refstepcounter{algorithm}
-% 	\trivlist
-% 	\leftmargin\z@
-% 	\itemindent\z@
-% 	\labelsep\z@
-% 	\item[\parbox{\columnwidth}{%
-% 		\hrule
-% 		\hrule
-% 		\noindent\strut\textbf{Algorithm \thealgorithm} #1
-% 		\hrule
-% 	}]\hfil\vskip0em%
-% }
-% \def\@algorithmb{\@algorithma[]}
-% \def\endalgorithm{\hfil\vskip-1em\hrule\endtrivlist}
-% \makeatother
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Computing isomorphisms and embeddings of finite fields}
-
-% \author[L. Brieulle]{Ludovic Brieulle}
-% \address{Laboratoire de Math\'ematiques de Versailles,
-%   UVSQ, CNRS, Universit\'e Paris-Saclay}
-
-% \author[L. De Feo]{Luca De Feo}
-% \address{Laboratoire de Math\'ematiques de Versailles,
-%   UVSQ, CNRS
-%   \& Inria, Universit\'e Paris-Saclay}
-% \email{luca.de-feo@uvsq.fr}
-% \email{http://orcid.org/0000-0002-9321-0773}
-
-% \author[J. Doliskani]{Javad Doliskani}
-% \address{Institute for Quantum Computing, University of Waterloo}
-% \email{javad.doliskani@uwaterloo.ca}
-
-% \author[J.-P. Flori]{Jean-Pierre Flori}
-% \address{Agence nationale de la s\'ecurit\'e des syst\`emes d'information}
-
-% \author[\'E. Schost]{\'Eric Schost}
-% \address{Cheriton School of Computer Science, University of Waterloo}
-
 
 \begin{abstract}
   Let $\F_q$ be a finite field. %
@@ -133,6 +35,10 @@
   available software.
 \end{abstract}
 
+{\small This article was authored with Ludovic Brieulle, Javad
+  Doliskani, Jean-Pierre Flori and Éric Schost. It originally appeared
+  in \textit{Mathematics of Computation}, 88 (2019),
+  \doi{10.1090/mcom/3363}.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

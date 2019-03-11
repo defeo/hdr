@@ -1,12 +1,3 @@
-% \usepackage{amssymb, amsmath}
-% \usepackage[utf8]{inputenc}
-% \usepackage[T1]{fontenc}
-% \usepackage{unicode}
-% \usepackage{tikz}
-% \usepackage{hyperref}
-% \usepackage{multirow}
-% \usepackage{bigdelim}
-% \usepackage[ruled, vlined, linesnumbered]{algorithm2e}
 \renewenvironment{algorithm}{\begin{algorithm2e}}{\end{algorithm2e}}
 \SetEndCharOfAlgoLine{}
 \SetKwInput{Params}{Public parameters}
@@ -23,52 +14,19 @@
 \SetKwFunction{DH}{DH}
 
 %Shortcuts
-% \newcommand{\F}{\mathbb{F}}
 \newcommand{\Fbar}{\overline{\mathbb{F}}}
-% \newcommand{\Q}{\mathbb{Q}}
 \newcommand{\Z}{\mathbb{Z}}
-% \newcommand{\C}{\mathbb{C}}
-% \newcommand{\Cl}{\mathcal{C}}
 \newcommand{\Graph}{\mathcal{G}}
-% \renewcommand{\O}{\mathcal{O}}
 \newcommand{\softO}{\tilde{O}}
-% \newcommand{\isom}{\overset{\sim}{\longrightarrow}}
-% \newcommand{\from}{\ensuremath{\,:\ }}
 \newcommand{\set}[1]{\left\{#1\right\}}
 \newcommand{\suchthat}{\,\middle\vert\,}
 \newcommand{\algstyle}[1]{\textsc{#1}}
-% \renewcommand{\v}{\vspace{5mm}}
 \renewcommand{\frak}{\mathfrak}
 \newcommand{\rand}[1]{\overset{#1}{∈}}
 \newcommand{\uni}{\rand{R}}
 \newcommand{\Adv}[2][]{\mathsf{Adv}^{#1}_{\text{\rm #2}}}
 
-% \DeclareMathOperator{\End}{End}
-% \DeclareMathOperator{\Ker}{Ker}
-% \DeclareMathOperator{\Card}{Card}
-% \DeclareMathOperator{\Ell}{Ell}
-
 \chapter{Towards practical key exchange from ordinary isogeny graphs}
-% \author{
-%  Luca De Feo\inst{1,3}\orcidID{0000-0002-9321-0773} \and
-%  Jean Kieffer\inst{2,3,4} \and
-%  Benjamin Smith\inst{3}
-% }
-% \institute{
-%  Université Paris Saclay, UVSQ, LMV, Versailles, France
-%  \\
-%  \email{luca.de-feo@uvsq.fr}
-%  \and
-%  École Normale Supérieure, Paris, France
-%  \\
-%  \email{jean.kieffer.14@normalesup.org}
-%  \and
-%  Inria and École polytechnique, Université Paris Saclay, Palaiseau, France
-%  \\
-%  \email{smith@lix.polytechnique.fr}
-%  \and
-%  IMB - Institut de Mathématiques de Bordeaux, Inria Bordeaux - Sud-Ouest, Talence, France
-% }
 
 \begin{abstract}
     We revisit the ordinary isogeny-graph based cryptosystems
@@ -88,6 +46,12 @@
     thus providing an important step towards
     efficient post-quantum non-interactive key exchange (NIKE).
 \end{abstract}
+
+{\small This article was authored with Jean Kieffer and Benjamin
+  Smith. It originally appeared in \textit{Advances in Cryptology --
+    AsiaCrypt 2018}, \doi{10.1007/978-3-030-03332-3_14}.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Introduction}
 \label{crs:sec:introduction}
